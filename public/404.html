@@ -6,7 +6,7 @@
     <script>
       // SPA redirect for GitHub Pages
       // Converts path to query param so index.html can handle it via React Router
-      var pathSegmentsToKeep = 1; // /dev-toolbox/ is one segment
+      var pathSegmentsToKeep = 0; // custom domain serves from root
       var l = window.location;
       l.replace(
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +

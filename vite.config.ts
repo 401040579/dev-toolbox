@@ -4,8 +4,10 @@ import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import { resolve } from 'path';
 
+const basePath = process.env.BASE_PATH || '/';
+
 export default defineConfig({
-  base: process.env.BASE_PATH || '/dev-toolbox/',
+  base: basePath,
   plugins: [
     react(),
     tailwindcss(),
@@ -19,8 +21,8 @@ export default defineConfig({
         theme_color: '#0f1117',
         background_color: '#0f1117',
         display: 'standalone',
-        scope: '/dev-toolbox/',
-        start_url: '/dev-toolbox/',
+        scope: basePath,
+        start_url: basePath,
         icons: [
           {
             src: 'icons/icon-192.png',
@@ -42,15 +44,15 @@ export default defineConfig({
         shortcuts: [
           {
             name: 'Base64 Encode/Decode',
-            url: '/dev-toolbox/tools/encoding/base64',
+            url: `${basePath}tools/encoding/base64`,
           },
           {
             name: 'Epoch Converter',
-            url: '/dev-toolbox/tools/time/epoch-converter',
+            url: `${basePath}tools/time/epoch-converter`,
           },
           {
             name: 'Pipeline',
-            url: '/dev-toolbox/pipeline',
+            url: `${basePath}pipeline`,
           },
         ],
       },
