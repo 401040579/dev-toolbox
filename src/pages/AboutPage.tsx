@@ -1,38 +1,40 @@
+import { useTranslation } from 'react-i18next';
 import { Shield, Github, Globe, Lock } from 'lucide-react';
 
 export default function AboutPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-8">
       <div className="space-y-2">
         <h1 className="text-2xl font-bold text-text-primary font-mono">
-          <span className="text-accent">&gt;</span> About
+          <span className="text-accent">&gt;</span> {t('about.title')}
         </h1>
         <p className="text-text-secondary text-sm">
-          Dev Toolbox is a collection of offline-first developer utilities built
-          with modern web technologies.
+          {t('about.description')}
         </p>
       </div>
 
       <div className="grid gap-4">
         <InfoCard
           icon={<Globe size={20} />}
-          title="Offline-First"
-          description="All tools run entirely in your browser. No server requests, no data uploads. Works offline as a PWA."
+          title={t('about.offlineFirst')}
+          description={t('about.offlineDesc')}
         />
         <InfoCard
           icon={<Lock size={20} />}
-          title="Privacy"
-          description="Your data never leaves your device. All processing happens client-side using Web APIs. No analytics, no tracking, no cookies."
+          title={t('about.privacy')}
+          description={t('about.privacyDesc')}
         />
         <InfoCard
           icon={<Shield size={20} />}
-          title="Security"
-          description="Cryptographic operations use the Web Crypto API — the same secure primitives used by browsers for TLS. No third-party crypto libraries."
+          title={t('about.security')}
+          description={t('about.securityDesc')}
         />
       </div>
 
       <div className="rounded-lg border border-border bg-surface p-5 space-y-3">
-        <h2 className="text-sm font-semibold text-text-primary">Tech Stack</h2>
+        <h2 className="text-sm font-semibold text-text-primary">{t('about.techStack')}</h2>
         <div className="grid grid-cols-2 gap-2 text-sm">
           {[
             'React 19',
@@ -53,10 +55,9 @@ export default function AboutPage() {
       </div>
 
       <div className="rounded-lg border border-border bg-surface p-5 space-y-3">
-        <h2 className="text-sm font-semibold text-text-primary">Open Source</h2>
+        <h2 className="text-sm font-semibold text-text-primary">{t('about.openSource')}</h2>
         <p className="text-sm text-text-secondary">
-          Dev Toolbox is open source. Contributions, bug reports, and feature
-          requests are welcome.
+          {t('about.openSourceDesc')}
         </p>
         <a
           href="https://github.com/401040579/dev-toolbox"
@@ -65,7 +66,7 @@ export default function AboutPage() {
           className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border border-border text-text-primary hover:border-accent hover:text-accent transition-colors"
         >
           <Github size={16} />
-          View on GitHub
+          {t('about.viewOnGithub')}
         </a>
       </div>
     </div>

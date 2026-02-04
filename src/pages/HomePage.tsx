@@ -63,7 +63,7 @@ export default function HomePage() {
         <div className="flex-1">
           <div className="font-medium text-text-primary text-sm">{t('pipeline.title')}</div>
           <div className="text-xs text-text-secondary">
-            Chain transforms together — Base64 → JSON → Hash
+            {t('home.pipelineDesc')}
           </div>
         </div>
         <ArrowRight
@@ -118,7 +118,7 @@ export default function HomePage() {
                 <div>
                   <div className="font-medium text-text-primary text-sm">{t(`categories.${cat}`)}</div>
                   <div className="text-xs text-text-muted mt-0.5">
-                    {toolCount} tool{toolCount !== 1 ? 's' : ''}
+                    {toolCount === 1 ? t('home.toolCount', { count: toolCount }) : t('home.toolCountPlural', { count: toolCount })}
                   </div>
                 </div>
               </Link>
@@ -141,6 +141,7 @@ export default function HomePage() {
 }
 
 function ToolCard({ tool }: { tool: { id: string; name: string; description: string; category: ToolCategory } }) {
+  const { t } = useTranslation();
   const { favorites, toggleFavorite } = useAppStore();
   const isFav = favorites.includes(tool.id);
 
@@ -153,7 +154,7 @@ function ToolCard({ tool }: { tool: { id: string; name: string; description: str
       <button
         onClick={(e) => { e.preventDefault(); toggleFavorite(tool.id); }}
         className="shrink-0 p-1 rounded text-text-muted hover:text-warning transition-colors"
-        aria-label={isFav ? 'Remove from favorites' : 'Add to favorites'}
+        aria-label={isFav ? t('toolLayout.removeFromFavorites') : t('toolLayout.addToFavorites')}
       >
         <Star size={14} fill={isFav ? 'currentColor' : 'none'} className={isFav ? 'text-warning' : ''} />
       </button>

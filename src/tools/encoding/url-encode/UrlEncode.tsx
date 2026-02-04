@@ -1,10 +1,12 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ToolLayout } from '@/components/tool-layout/ToolLayout';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 type Mode = 'encode' | 'decode';
 
 export default function UrlEncode() {
+  const { t } = useTranslation();
   const [input, setInput] = useState('');
   const [mode, setMode] = useState<Mode>('encode');
   const [fullUrl, setFullUrl] = useState(false);
@@ -24,15 +26,15 @@ export default function UrlEncode() {
         };
       }
     } catch {
-      return { output: '', error: `Invalid input for ${mode === 'encode' ? 'encoding' : 'decoding'}` };
+      return { output: '', error: t('tools.base64.invalidInput') };
     }
-  }, [input, mode, fullUrl]);
+  }, [input, mode, fullUrl, t]);
 
   return (
     <ToolLayout
       toolId="url-encode"
-      title="URL Encode/Decode"
-      description="Encode or decode URL components and full URLs"
+      title={t('tools.urlEncode.title')}
+      description={t('tools.urlEncode.description')}
       actions={
         <div className="flex items-center gap-3">
           <label className="flex items-center gap-1.5 text-xs text-text-secondary cursor-pointer">
@@ -42,7 +44,7 @@ export default function UrlEncode() {
               onChange={(e) => setFullUrl(e.target.checked)}
               className="rounded"
             />
-            Full URL mode
+            {t('tools.urlEncode.fullUrlMode')}
           </label>
           <div className="flex items-center rounded-md border border-border overflow-hidden">
             <button
@@ -53,7 +55,7 @@ export default function UrlEncode() {
                   : 'text-text-secondary hover:text-text-primary'
               }`}
             >
-              Encode
+              {t('tools.urlEncode.encode')}
             </button>
             <button
               onClick={() => setMode('decode')}
@@ -63,7 +65,7 @@ export default function UrlEncode() {
                   : 'text-text-secondary hover:text-text-primary'
               }`}
             >
-              Decode
+              {t('tools.urlEncode.decode')}
             </button>
           </div>
         </div>
@@ -72,7 +74,7 @@ export default function UrlEncode() {
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={mode === 'encode' ? 'Enter text to encode...' : 'Enter URL-encoded text...'}
+          placeholder={mode === 'encode' ? t('tools.urlEncode.encodePlaceholder') : t('tools.urlEncode.decodePlaceholder')}
           className="w-full h-full min-h-[200px] resize-none bg-transparent font-mono text-sm outline-none"
           spellCheck={false}
         />
@@ -89,7 +91,7 @@ export default function UrlEncode() {
               <pre className="font-mono text-sm whitespace-pre-wrap break-all pr-10">{output}</pre>
             </>
           ) : (
-            <p className="text-text-muted text-sm">Output will appear here</p>
+            <p className="text-text-muted text-sm">{t('common.outputPlaceholder')}</p>
           )}
         </div>
       }

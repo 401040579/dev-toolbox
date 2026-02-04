@@ -51,7 +51,7 @@ export function Sidebar() {
         <button
           onClick={toggleSidebar}
           className="p-1.5 rounded-md text-text-secondary hover:text-text-primary hover:bg-surface-hover transition-colors ml-auto"
-          aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          aria-label={sidebarCollapsed ? t('sidebar.expandSidebar') : t('sidebar.collapseSidebar')}
         >
           {sidebarCollapsed ? <PanelLeft size={16} /> : <PanelLeftClose size={16} />}
         </button>
@@ -65,7 +65,7 @@ export function Sidebar() {
         <div className="pt-3 pb-1">
           {!sidebarCollapsed && (
             <span className="px-2 text-xs font-medium text-text-muted uppercase tracking-wider">
-              Tools
+              {t('nav.tools')}
             </span>
           )}
         </div>
@@ -83,7 +83,7 @@ export function Sidebar() {
 
       {/* Footer */}
       <div className="border-t border-border p-2 flex items-center justify-center gap-2">
-        <SidebarLink to="/about" icon={Info} label="About" collapsed={sidebarCollapsed} />
+        <SidebarLink to="/about" icon={Info} label={t('nav.about')} collapsed={sidebarCollapsed} />
         <ThemeToggle />
       </div>
     </aside>

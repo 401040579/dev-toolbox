@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Minimal QR code via Google Charts API (no external lib needed)
 function getQrUrl(text: string, size: number): string {
@@ -7,6 +8,7 @@ function getQrUrl(text: string, size: number): string {
 }
 
 export default function QrCodeGenerator() {
+  const { t } = useTranslation();
   const [input, setInput] = useState('');
   const [size, setSize] = useState(256);
 
@@ -35,26 +37,26 @@ export default function QrCodeGenerator() {
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
-        <h1 className="text-lg font-semibold text-text-primary">QR Code Generator</h1>
-        <p className="text-sm text-text-secondary mt-0.5">Generate QR codes from text or URLs</p>
+        <h1 className="text-lg font-semibold text-text-primary">{t('tools.qrcode.title')}</h1>
+        <p className="text-sm text-text-secondary mt-0.5">{t('tools.qrcode.description')}</p>
       </div>
 
       <div className="flex-1 overflow-auto p-6 space-y-6">
         <div>
           <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
-            Content
+            {t('tools.qrcode.contentLabel')}
           </label>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Enter text or URL..."
+            placeholder={t('tools.qrcode.placeholder')}
             className="w-full min-h-[80px] resize-y"
             spellCheck={false}
           />
         </div>
 
         <div className="flex items-center gap-4">
-          <label className="text-xs font-medium text-text-muted">Size</label>
+          <label className="text-xs font-medium text-text-muted">{t('tools.qrcode.sizeLabel')}</label>
           <select
             value={size}
             onChange={(e) => setSize(Number(e.target.value))}
@@ -69,7 +71,7 @@ export default function QrCodeGenerator() {
               onClick={handleDownload}
               className="px-3 py-1.5 text-xs font-medium rounded-md bg-accent text-background hover:bg-accent-hover transition-colors"
             >
-              Download SVG
+              {t('tools.qrcode.downloadSvg')}
             </button>
           )}
         </div>
@@ -79,7 +81,7 @@ export default function QrCodeGenerator() {
             <div className="rounded-lg border border-border bg-white p-4">
               <img
                 src={qrUrl}
-                alt="QR Code"
+                alt={t('tools.qrcode.imageAlt')}
                 width={size}
                 height={size}
                 className="block"
@@ -89,7 +91,7 @@ export default function QrCodeGenerator() {
         )}
 
         {!input.trim() && (
-          <p className="text-center text-text-muted text-sm">Enter text above to generate a QR code</p>
+          <p className="text-center text-text-muted text-sm">{t('tools.qrcode.emptyState')}</p>
         )}
       </div>
     </div>

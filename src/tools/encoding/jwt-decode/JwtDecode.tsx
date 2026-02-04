@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 function decodeBase64Url(str: string): string {
@@ -19,6 +20,7 @@ interface DecodedJwt {
 }
 
 export default function JwtDecode() {
+  const { t } = useTranslation();
   const [input, setInput] = useState('');
 
   const result = useMemo((): { decoded: DecodedJwt; error: null } | { decoded: null; error: string } | null => {
@@ -26,7 +28,7 @@ export default function JwtDecode() {
     if (!token) return null;
     try {
       const parts = token.split('.');
-      if (parts.length !== 3) return { decoded: null, error: 'Invalid JWT: expected 3 parts separated by dots' };
+      if (parts.length !== 3) return { decoded: null, error: t('tools.jwt.invalidJwt') };
 
       const header = JSON.parse(decodeBase64Url(parts[0]!));
       const payload = JSON.parse(decodeBase64Url(parts[1]!));
@@ -50,21 +52,21 @@ export default function JwtDecode() {
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
-        <h1 className="text-lg font-semibold text-text-primary">JWT Decode</h1>
+        <h1 className="text-lg font-semibold text-text-primary">{t('tools.jwt.title')}</h1>
         <p className="text-sm text-text-secondary mt-0.5">
-          Decode and inspect JSON Web Tokens (no verification)
+          {t('tools.jwt.description')}
         </p>
       </div>
 
       <div className="flex-1 overflow-auto p-6 space-y-6">
         <div>
           <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
-            JWT Token
+            {t('tools.jwt.tokenLabel')}
           </label>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Paste JWT token here (eyJhbGciOiJ...)"
+            placeholder={t('tools.jwt.placeholder')}
             className="w-full min-h-[100px] resize-y"
             spellCheck={false}
           />
@@ -84,22 +86,22 @@ export default function JwtDecode() {
                     ? 'bg-error/10 text-error border border-error/20'
                     : 'bg-success/10 text-success border border-success/20'
                 }`}>
-                  {expInfo.isExpired ? 'Expired' : 'Valid'} — {expInfo.date}
+                  {expInfo.isExpired ? t('tools.jwt.expired') : t('tools.jwt.valid')} — {expInfo.date}
                 </div>
               )}
 
               {result.decoded && (
                 <>
                   {/* Header */}
-                  <Section title="Header" data={result.decoded.header} />
+                  <Section title={t('tools.jwt.header')} data={result.decoded.header} />
 
                   {/* Payload */}
-                  <Section title="Payload" data={result.decoded.payload} />
+                  <Section title={t('tools.jwt.payload')} data={result.decoded.payload} />
 
                   {/* Signature */}
                   <div className="rounded-lg border border-border bg-surface p-4">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-medium text-text-muted uppercase tracking-wider">Signature</span>
+                      <span className="text-xs font-medium text-text-muted uppercase tracking-wider">{t('tools.jwt.signature')}</span>
                       <CopyButton text={result.decoded.signature} size={14} />
                     </div>
                     <code className="font-mono text-xs text-text-secondary break-all">{result.decoded.signature}</code>

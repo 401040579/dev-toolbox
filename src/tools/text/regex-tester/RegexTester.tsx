@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface MatchResult {
   full: string;
@@ -9,6 +10,7 @@ interface MatchResult {
 const WORKER_THRESHOLD = 10240; // 10KB
 
 export default function RegexTester() {
+  const { t } = useTranslation();
   const [pattern, setPattern] = useState('');
   const [flags, setFlags] = useState('g');
   const [testString, setTestString] = useState('');
@@ -108,9 +110,9 @@ export default function RegexTester() {
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
-        <h1 className="text-lg font-semibold text-text-primary">Regex Tester</h1>
+        <h1 className="text-lg font-semibold text-text-primary">{t('tools.regex.title')}</h1>
         <p className="text-sm text-text-secondary mt-0.5">
-          Test regular expressions with real-time matching
+          {t('tools.regex.description')}
         </p>
       </div>
 
@@ -122,7 +124,7 @@ export default function RegexTester() {
             type="text"
             value={pattern}
             onChange={(e) => setPattern(e.target.value)}
-            placeholder="pattern"
+            placeholder={t('tools.regex.patternPlaceholder')}
             className="flex-1 font-mono"
             spellCheck={false}
           />
@@ -132,7 +134,7 @@ export default function RegexTester() {
             value={flags}
             onChange={(e) => setFlags(e.target.value)}
             className="w-16 text-center font-mono"
-            placeholder="flags"
+            placeholder={t('tools.regex.flagsPlaceholder')}
           />
         </div>
 
@@ -162,12 +164,12 @@ export default function RegexTester() {
         {/* Test string */}
         <div>
           <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
-            Test String
+            {t('tools.regex.testStringLabel')}
           </label>
           <textarea
             value={testString}
             onChange={(e) => setTestString(e.target.value)}
-            placeholder="Enter text to test against..."
+            placeholder={t('tools.regex.testPlaceholder')}
             className="w-full min-h-[120px] resize-y"
             spellCheck={false}
           />
@@ -175,13 +177,13 @@ export default function RegexTester() {
 
         {/* Results */}
         {loading && (
-          <p className="text-accent text-sm">Matching…</p>
+          <p className="text-accent text-sm">{t('tools.regex.matching')}</p>
         )}
 
         {!loading && result.matches.length > 0 && (
           <div>
             <div className="text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
-              {result.matches.length} match{result.matches.length !== 1 ? 'es' : ''}
+              {result.matches.length === 1 ? t('tools.regex.matches', { count: 1 }) : t('tools.regex.matchesPlural', { count: result.matches.length })}
             </div>
             <div className="space-y-2">
               {result.matches.map((m, i) => (
@@ -189,7 +191,7 @@ export default function RegexTester() {
                   <div className="flex items-center gap-3 text-sm">
                     <span className="text-text-muted text-xs font-mono">#{i + 1}</span>
                     <code className="font-mono text-accent">{m.full}</code>
-                    <span className="text-text-muted text-xs">at index {m.index}</span>
+                    <span className="text-text-muted text-xs">{t('tools.regex.atIndex', { index: m.index })}</span>
                   </div>
                   {m.groups.length > 0 && (
                     <div className="mt-2 flex flex-wrap gap-2">
@@ -207,7 +209,7 @@ export default function RegexTester() {
         )}
 
         {!loading && pattern && testString && !result.error && result.matches.length === 0 && (
-          <p className="text-text-muted text-sm">No matches found</p>
+          <p className="text-text-muted text-sm">{t('tools.regex.noMatches')}</p>
         )}
       </div>
     </div>

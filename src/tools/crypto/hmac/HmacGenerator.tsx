@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 type Algorithm = 'SHA-256' | 'SHA-384' | 'SHA-512';
@@ -24,6 +25,7 @@ async function computeHmac(message: string, key: string, algorithm: Algorithm): 
 }
 
 export default function HmacGenerator() {
+  const { t } = useTranslation();
   const [message, setMessage] = useState('');
   const [key, setKey] = useState('');
   const [algorithm, setAlgorithm] = useState<Algorithm>('SHA-256');
@@ -58,16 +60,16 @@ export default function HmacGenerator() {
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
-        <h1 className="text-lg font-semibold text-text-primary">HMAC Generator</h1>
+        <h1 className="text-lg font-semibold text-text-primary">{t('tools.hmac.title')}</h1>
         <p className="text-sm text-text-secondary mt-0.5">
-          Generate HMAC signatures using Web Crypto API
+          {t('tools.hmac.description')}
         </p>
       </div>
 
       <div className="flex-1 overflow-auto p-6 space-y-6">
         <div>
           <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
-            Algorithm
+            {t('tools.hmac.algorithm')}
           </label>
           <div className="flex items-center rounded-md border border-border overflow-hidden w-fit">
             {ALGORITHMS.map((algo) => (
@@ -88,13 +90,13 @@ export default function HmacGenerator() {
 
         <div>
           <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
-            Secret Key
+            {t('tools.hmac.secretKey')}
           </label>
           <input
             type="text"
             value={key}
             onChange={(e) => setKey(e.target.value)}
-            placeholder="Enter secret key..."
+            placeholder={t('tools.hmac.keyPlaceholder')}
             className="w-full max-w-lg"
             spellCheck={false}
           />
@@ -102,12 +104,12 @@ export default function HmacGenerator() {
 
         <div>
           <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
-            Message
+            {t('tools.hmac.message')}
           </label>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Enter message to sign..."
+            placeholder={t('tools.hmac.messagePlaceholder')}
             className="w-full min-h-[100px] resize-y"
             spellCheck={false}
           />

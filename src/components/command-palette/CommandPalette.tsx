@@ -1,8 +1,8 @@
 import { Command } from 'cmdk';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getToolList } from '@/tools/registry';
-import { CATEGORY_META } from '@/lib/constants';
 import type { ToolCategory } from '@/tools/types';
 
 interface CommandPaletteProps {
@@ -11,6 +11,7 @@ interface CommandPaletteProps {
 }
 
 export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const tools = getToolList();
 
@@ -45,20 +46,20 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
       <div className="absolute top-[10%] sm:top-[20%] left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] sm:w-full max-w-lg">
         <Command
           className="rounded-xl border border-border bg-surface shadow-lg overflow-hidden"
-          label="Search tools"
+          label={t('common.search')}
         >
           <Command.Input
-            placeholder="Search tools..."
+            placeholder={t('common.searchPlaceholder')}
             className="w-full px-4 py-3 text-sm bg-transparent text-text-primary placeholder:text-text-muted border-b border-border outline-none font-mono"
             autoFocus
           />
           <Command.List className="max-h-80 overflow-y-auto p-2">
             <Command.Empty className="px-4 py-8 text-center text-sm text-text-muted">
-              No tools found.
+              {t('common.toolNotFound')}
             </Command.Empty>
 
             <Command.Group
-              heading="Navigation"
+              heading={t('common.navigation')}
               className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-text-muted"
             >
               <Command.Item
@@ -68,7 +69,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                 }}
                 className="flex items-center justify-between px-2 py-2 rounded-md text-sm text-text-secondary cursor-pointer data-[selected=true]:bg-surface-hover data-[selected=true]:text-text-primary"
               >
-                <span>Home</span>
+                <span>{t('nav.home')}</span>
                 <kbd className="hidden sm:inline text-xs font-mono text-text-muted">⇧⌘H</kbd>
               </Command.Item>
               <Command.Item
@@ -78,14 +79,14 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                 }}
                 className="flex items-center justify-between px-2 py-2 rounded-md text-sm text-text-secondary cursor-pointer data-[selected=true]:bg-surface-hover data-[selected=true]:text-text-primary"
               >
-                <span>Pipeline Builder</span>
+                <span>{t('pipeline.title')}</span>
                 <kbd className="hidden sm:inline text-xs font-mono text-text-muted">⇧⌘P</kbd>
               </Command.Item>
             </Command.Group>
 
             {tools.length > 0 && (
               <Command.Group
-                heading="Tools"
+                heading={t('common.toolsSection')}
                 className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-text-muted"
               >
                 {tools.map((tool) => (
@@ -97,7 +98,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                   >
                     <span>{tool.name}</span>
                     <span className="text-xs text-text-muted">
-                      {CATEGORY_META[tool.category].label}
+                      {t(`categories.${tool.category}`)}
                     </span>
                   </Command.Item>
                 ))}

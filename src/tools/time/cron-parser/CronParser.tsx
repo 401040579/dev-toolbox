@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const FIELD_NAMES = ['Minute', 'Hour', 'Day of Month', 'Month', 'Day of Week'] as const;
 const FIELD_RANGES = [
@@ -12,13 +13,13 @@ const FIELD_RANGES = [
 const MONTH_NAMES = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-const PRESETS = [
-  { label: 'Every minute', value: '* * * * *' },
-  { label: 'Every hour', value: '0 * * * *' },
-  { label: 'Every day at midnight', value: '0 0 * * *' },
-  { label: 'Every Monday', value: '0 0 * * 1' },
-  { label: 'Every 5 minutes', value: '*/5 * * * *' },
-  { label: '1st of each month', value: '0 0 1 * *' },
+const PRESET_KEYS = [
+  { key: 'everyMinute', value: '* * * * *' },
+  { key: 'everyHour', value: '0 * * * *' },
+  { key: 'everyDayMidnight', value: '0 0 * * *' },
+  { key: 'everyMonday', value: '0 0 * * 1' },
+  { key: 'every5Minutes', value: '*/5 * * * *' },
+  { key: 'firstOfMonth', value: '0 0 1 * *' },
 ];
 
 function explainField(field: string, index: number): string {
@@ -98,27 +99,28 @@ function matchField(field: string, value: number, _range: { min: number; max: nu
 }
 
 export default function CronParser() {
+  const { t } = useTranslation();
   const [expression, setExpression] = useState('0 0 * * *');
 
   const result = useMemo(() => {
     const parts = expression.trim().split(/\s+/);
-    if (parts.length !== 5) return { error: 'Cron expression must have exactly 5 fields', explanations: [], nextRuns: [] };
+    if (parts.length !== 5) return { error: t('tools.cron.invalidFields'), explanations: [], nextRuns: [] };
 
     try {
       const explanations = parts.map((p, i) => explainField(p, i));
       const nextRuns = getNextRuns(expression, 5);
       return { error: null, explanations, nextRuns };
     } catch {
-      return { error: 'Invalid cron expression', explanations: [], nextRuns: [] };
+      return { error: t('tools.cron.invalidExpression'), explanations: [], nextRuns: [] };
     }
-  }, [expression]);
+  }, [expression, t]);
 
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
-        <h1 className="text-lg font-semibold text-text-primary">Cron Parser</h1>
+        <h1 className="text-lg font-semibold text-text-primary">{t('tools.cron.title')}</h1>
         <p className="text-sm text-text-secondary mt-0.5">
-          Parse cron expressions and see next run times
+          {t('tools.cron.description')}
         </p>
       </div>
 
@@ -126,13 +128,13 @@ export default function CronParser() {
         {/* Input */}
         <div>
           <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
-            Cron Expression
+            {t('tools.cron.label')}
           </label>
           <input
             type="text"
             value={expression}
             onChange={(e) => setExpression(e.target.value)}
-            placeholder="* * * * *"
+            placeholder={t('tools.cron.placeholder')}
             className="w-full max-w-lg font-mono text-lg"
             spellCheck={false}
           />
@@ -145,7 +147,7 @@ export default function CronParser() {
 
         {/* Presets */}
         <div className="flex flex-wrap gap-2">
-          {PRESETS.map((p) => (
+          {PRESET_KEYS.map((p) => (
             <button
               key={p.value}
               onClick={() => setExpression(p.value)}
@@ -155,7 +157,7 @@ export default function CronParser() {
                   : 'border-border text-text-secondary hover:text-text-primary'
               }`}
             >
-              {p.label}
+              {t(`tools.cron.presets.${p.key}`)}
             </button>
           ))}
         </div>
@@ -167,7 +169,7 @@ export default function CronParser() {
             {/* Explanation */}
             <div className="rounded-lg border border-border bg-surface p-4">
               <div className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">
-                Explanation
+                {t('tools.cron.explanation')}
               </div>
               <div className="space-y-1.5">
                 {result.explanations.map((exp, i) => (
@@ -185,7 +187,7 @@ export default function CronParser() {
             {result.nextRuns.length > 0 && (
               <div className="rounded-lg border border-border bg-surface p-4">
                 <div className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">
-                  Next {result.nextRuns.length} Runs
+                  {t('tools.cron.nextRuns', { count: result.nextRuns.length })}
                 </div>
                 <div className="space-y-1.5">
                   {result.nextRuns.map((date, i) => (

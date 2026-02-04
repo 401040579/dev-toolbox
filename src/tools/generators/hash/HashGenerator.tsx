@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 type Algorithm = 'SHA-1' | 'SHA-256' | 'SHA-512';
@@ -16,6 +17,7 @@ async function computeHash(input: string, algorithm: string): Promise<string> {
 }
 
 export default function HashGenerator() {
+  const { t } = useTranslation();
   const [input, setInput] = useState('');
   const [hashes, setHashes] = useState<Record<Algorithm, string>>({
     'SHA-1': '',
@@ -94,9 +96,9 @@ export default function HashGenerator() {
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
-        <h1 className="text-lg font-semibold text-text-primary">Hash Generator</h1>
+        <h1 className="text-lg font-semibold text-text-primary">{t('tools.hash.title')}</h1>
         <p className="text-sm text-text-secondary mt-0.5">
-          Generate SHA-1, SHA-256, and SHA-512 hashes using Web Crypto API
+          {t('tools.hash.description')}
         </p>
       </div>
 
@@ -104,12 +106,12 @@ export default function HashGenerator() {
         {/* Input */}
         <div>
           <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
-            Input Text
+            {t('tools.hash.inputLabel')}
           </label>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Enter text to hash..."
+            placeholder={t('tools.hash.placeholder')}
             className="w-full min-h-[120px] resize-y"
             spellCheck={false}
           />

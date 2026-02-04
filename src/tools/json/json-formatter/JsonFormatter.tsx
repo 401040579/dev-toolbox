@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ToolLayout } from '@/components/tool-layout/ToolLayout';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
@@ -25,6 +26,7 @@ function formatBytes(bytes: number): string {
 }
 
 export default function JsonFormatter() {
+  const { t } = useTranslation();
   const [input, setInput] = useState('');
   const [indent, setIndent] = useState<IndentType>('2');
   const [workerResult, setWorkerResult] = useState<{ data: JsonResult | null; error: string | null; loading: boolean }>({
@@ -107,8 +109,8 @@ export default function JsonFormatter() {
   return (
     <ToolLayout
       toolId="json-formatter"
-      title="JSON Formatter"
-      description="Format, minify, and validate JSON data"
+      title={t('tools.jsonFormatter.title')}
+      description={t('tools.jsonFormatter.description')}
       actions={
         <div className="flex items-center gap-2">
           <select
@@ -116,9 +118,9 @@ export default function JsonFormatter() {
             onChange={(e) => setIndent(e.target.value as IndentType)}
             className="px-2 py-1 text-xs rounded-md border border-border bg-surface text-text-secondary"
           >
-            <option value="2">2 spaces</option>
-            <option value="4">4 spaces</option>
-            <option value="tab">Tab</option>
+            <option value="2">{t('tools.jsonFormatter.twoSpaces')}</option>
+            <option value="4">{t('tools.jsonFormatter.fourSpaces')}</option>
+            <option value="tab">{t('tools.jsonFormatter.tab')}</option>
           </select>
           {input.trim() && !error && (
             <button
@@ -129,7 +131,7 @@ export default function JsonFormatter() {
               }}
               className="px-3 py-1 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
             >
-              Minify
+              {t('tools.jsonFormatter.minify')}
             </button>
           )}
         </div>
@@ -138,7 +140,7 @@ export default function JsonFormatter() {
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder='Paste JSON here...\n\n{"key": "value"}'
+          placeholder={t('tools.jsonFormatter.placeholder')}
           className="w-full h-full min-h-[200px] resize-none bg-transparent font-mono text-sm outline-none"
           spellCheck={false}
         />
@@ -146,10 +148,10 @@ export default function JsonFormatter() {
       output={
         <div className="relative h-full">
           {loading ? (
-            <p className="text-accent text-sm">Processing…</p>
+            <p className="text-accent text-sm">{t('tools.jsonFormatter.processing')}</p>
           ) : error ? (
             <div className="space-y-2">
-              <p className="text-error text-sm font-medium">Invalid JSON</p>
+              <p className="text-error text-sm font-medium">{t('tools.jsonFormatter.invalidJson')}</p>
               <p className="text-error/80 text-xs font-mono">{error}</p>
             </div>
           ) : output ? (
@@ -159,8 +161,8 @@ export default function JsonFormatter() {
               </div>
               {stats && (
                 <div className="flex items-center gap-4 mb-3 text-xs text-text-muted">
-                  <span>{stats.keys} keys</span>
-                  <span>{formatBytes(stats.minifiedSize)} minified</span>
+                  <span>{t('tools.jsonFormatter.keys', { count: stats.keys })}</span>
+                  <span>{t('tools.jsonFormatter.minified', { size: formatBytes(stats.minifiedSize) })}</span>
                 </div>
               )}
               <pre className="font-mono text-sm whitespace-pre overflow-x-auto pr-10">
@@ -168,7 +170,7 @@ export default function JsonFormatter() {
               </pre>
             </>
           ) : (
-            <p className="text-text-muted text-sm">Formatted JSON will appear here</p>
+            <p className="text-text-muted text-sm">{t('tools.jsonFormatter.outputPlaceholder')}</p>
           )}
         </div>
       }

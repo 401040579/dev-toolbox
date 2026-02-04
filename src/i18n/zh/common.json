@@ -9,7 +9,9 @@
     "favorites": "收藏",
     "recent": "最近使用",
     "categories": "分类",
-    "allTools": "所有工具"
+    "allTools": "所有工具",
+    "about": "关于",
+    "tools": "工具"
   },
   "categories": {
     "time": "时间",
@@ -19,49 +21,308 @@
     "generators": "生成器",
     "crypto": "加密"
   },
+  "categoryDesc": {
+    "time": "日期、时间和定时任务工具",
+    "encoding": "编码、解码和格式转换",
+    "text": "文本处理和分析",
+    "json": "格式化、验证和转换结构化数据",
+    "generators": "生成 UUID、密码、哈希等",
+    "crypto": "哈希和加密工具"
+  },
   "tools": {
-    "base64": "Base64 编码/解码",
-    "url-encode": "URL 编码/解码",
-    "jwt-decode": "JWT 解码",
-    "epoch-converter": "时间戳转换",
-    "cron-parser": "Cron 解析器",
-    "json-formatter": "JSON 格式化",
-    "json-yaml": "JSON ↔ YAML",
-    "uuid": "UUID 生成器",
-    "hash": "哈希生成器",
-    "password": "密码生成器",
-    "qrcode": "二维码生成器",
-    "hmac": "HMAC 生成器",
-    "regex-tester": "正则表达式测试",
-    "case-converter": "大小写转换",
-    "diff-viewer": "差异对比",
-    "line-tools": "行处理工具"
+    "base64": {
+      "title": "Base64 编码/解码",
+      "description": "支持 UTF-8 的 Base64 编码和解码",
+      "encode": "编码",
+      "decode": "解码",
+      "encodePlaceholder": "输入要编码的文本...",
+      "decodePlaceholder": "输入要解码的 Base64...",
+      "invalidInput": "无效的编码输入",
+      "invalidBase64": "无效的 Base64 字符串"
+    },
+    "urlEncode": {
+      "title": "URL 编码/解码",
+      "description": "URL 组件和完整 URL 的编码解码",
+      "encode": "编码",
+      "decode": "解码",
+      "fullUrlMode": "完整 URL 模式",
+      "encodePlaceholder": "输入要编码的文本...",
+      "decodePlaceholder": "输入 URL 编码的文本..."
+    },
+    "jwt": {
+      "title": "JWT 解码",
+      "description": "解码和查看 JSON Web Token（不验证签名）",
+      "tokenLabel": "JWT Token",
+      "placeholder": "粘贴 JWT token (eyJhbGciOiJ...)",
+      "invalidJwt": "无效的 JWT：需要由点分隔的 3 个部分",
+      "expired": "已过期",
+      "valid": "有效",
+      "header": "头部",
+      "payload": "载荷",
+      "signature": "签名"
+    },
+    "epoch": {
+      "title": "时间戳转换",
+      "description": "Unix 时间戳与可读日期格式互转",
+      "currentEpoch": "当前时间戳",
+      "epochToDate": "时间戳 → 日期",
+      "dateToEpoch": "日期 → 时间戳",
+      "timestampLabel": "Unix 时间戳",
+      "dateLabel": "日期字符串",
+      "timestampPlaceholder": "如 1704067200 或 1704067200000",
+      "datePlaceholder": "如 2024-01-01T00:00:00Z",
+      "invalidNumber": "无效的数字",
+      "invalidTimestamp": "无效的时间戳",
+      "invalidDate": "无效的日期字符串",
+      "parseFailed": "解析输入失败",
+      "iso8601": "ISO 8601",
+      "utc": "UTC 时间",
+      "local": "本地时间",
+      "relative": "相对时间",
+      "seconds": "秒",
+      "milliseconds": "毫秒",
+      "ago": "前",
+      "fromNow": "后",
+      "secondsAgo": "{count} 秒{dir}",
+      "minutesAgo": "{count} 分钟{dir}",
+      "hoursAgo": "{count} 小时{dir}",
+      "daysAgo": "{count} 天{dir}",
+      "monthsAgo": "{count} 个月{dir}",
+      "yearsAgo": "{count} 年{dir}"
+    },
+    "cron": {
+      "title": "Cron 解析器",
+      "description": "解析 Cron 表达式并查看下次执行时间",
+      "label": "Cron 表达式",
+      "placeholder": "* * * * *",
+      "presets": {
+        "everyMinute": "每分钟",
+        "everyHour": "每小时",
+        "everyDayMidnight": "每天午夜",
+        "everyMonday": "每周一",
+        "every5Minutes": "每 5 分钟",
+        "firstOfMonth": "每月 1 号"
+      },
+      "invalidFields": "Cron 表达式必须包含 5 个字段",
+      "invalidExpression": "无效的 Cron 表达式",
+      "explanation": "说明",
+      "nextRuns": "接下来 {count} 次执行"
+    },
+    "jsonFormatter": {
+      "title": "JSON 格式化",
+      "description": "格式化、压缩和验证 JSON 数据",
+      "twoSpaces": "2 空格",
+      "fourSpaces": "4 空格",
+      "tab": "制表符",
+      "minify": "压缩",
+      "placeholder": "粘贴 JSON...\n\n{\"key\": \"value\"}",
+      "processing": "处理中...",
+      "invalidJson": "无效的 JSON",
+      "keys": "{count} 个键",
+      "minified": "压缩后 {size}",
+      "outputPlaceholder": "格式化后的 JSON 将显示在这里"
+    },
+    "jsonYaml": {
+      "title": "JSON ↔ YAML",
+      "description": "JSON 和 YAML 格式互转",
+      "jsonToYaml": "JSON → YAML",
+      "yamlToJson": "YAML → JSON",
+      "jsonPlaceholder": "粘贴 JSON...",
+      "yamlPlaceholder": "粘贴 YAML..."
+    },
+    "uuid": {
+      "title": "UUID 生成器",
+      "description": "生成随机 UUID v4 标识符",
+      "count": "数量",
+      "uppercase": "大写",
+      "noDashes": "无短横线",
+      "generate": "生成"
+    },
+    "hash": {
+      "title": "哈希生成器",
+      "description": "使用 Web Crypto API 生成 SHA-1、SHA-256 和 SHA-512 哈希",
+      "inputLabel": "输入文本",
+      "placeholder": "输入要哈希的文本..."
+    },
+    "password": {
+      "title": "密码生成器",
+      "description": "生成安全的随机密码",
+      "length": "长度",
+      "count": "数量",
+      "lowercase": "小写字母",
+      "uppercase": "大写字母",
+      "numbers": "数字",
+      "symbols": "符号",
+      "generate": "生成",
+      "strength": {
+        "weak": "弱",
+        "fair": "一般",
+        "strong": "强",
+        "veryStrong": "非常强"
+      }
+    },
+    "qrcode": {
+      "title": "二维码生成器",
+      "description": "从文本或 URL 生成二维码",
+      "contentLabel": "内容",
+      "placeholder": "输入文本或 URL...",
+      "sizeLabel": "尺寸",
+      "downloadSvg": "下载 SVG",
+      "imageAlt": "二维码",
+      "emptyState": "在上方输入内容以生成二维码"
+    },
+    "hmac": {
+      "title": "HMAC 生成器",
+      "description": "使用 Web Crypto API 生成 HMAC 签名",
+      "algorithm": "算法",
+      "secretKey": "密钥",
+      "keyPlaceholder": "输入密钥...",
+      "message": "消息",
+      "messagePlaceholder": "输入要签名的消息..."
+    },
+    "regex": {
+      "title": "正则表达式测试",
+      "description": "实时测试正则表达式匹配",
+      "patternPlaceholder": "正则模式",
+      "flagsPlaceholder": "标志",
+      "testStringLabel": "测试字符串",
+      "testPlaceholder": "输入要测试的文本...",
+      "matching": "匹配中...",
+      "matches": "{count} 个匹配",
+      "matchesPlural": "{count} 个匹配",
+      "atIndex": "位置 {index}",
+      "noMatches": "未找到匹配"
+    },
+    "caseConverter": {
+      "title": "大小写转换",
+      "description": "在不同大小写样式之间转换文本",
+      "inputLabel": "输入文本",
+      "placeholder": "输入要转换的文本...",
+      "cases": {
+        "uppercase": "大写",
+        "lowercase": "小写",
+        "titleCase": "首字母大写",
+        "camelCase": "驼峰命名",
+        "pascalCase": "帕斯卡命名",
+        "snakeCase": "下划线命名",
+        "kebabCase": "短横线命名",
+        "constantCase": "常量命名"
+      }
+    },
+    "diff": {
+      "title": "差异对比",
+      "description": "比较两段文本并查看差异",
+      "original": "原始文本",
+      "modified": "修改后",
+      "originalPlaceholder": "粘贴原始文本...",
+      "modifiedPlaceholder": "粘贴修改后的文本...",
+      "computing": "计算差异中...",
+      "added": "+{count} 新增",
+      "removed": "-{count} 删除"
+    },
+    "lineTools": {
+      "title": "行处理工具",
+      "description": "排序、去重、反转和处理文本行",
+      "sortAZ": "正序排序",
+      "sortZA": "倒序排序",
+      "unique": "去重",
+      "reverse": "反转",
+      "shuffle": "打乱",
+      "trim": "去空白",
+      "removeEmpty": "删除空行",
+      "numberLines": "添加行号",
+      "placeholder": "输入多行文本...",
+      "lines": "行",
+      "uniqueCount": "不重复",
+      "chars": "字符"
+    }
   },
   "pipeline": {
     "title": "管道构建器",
     "description": "将多个转换链接在一起处理数据",
     "input": "输入",
     "output": "输出",
-    "nodes": "管道",
+    "inputPlaceholder": "输入数据...",
+    "outputPlaceholder": "管道输出将显示在这里",
+    "nodes": "管道 ({count} 个节点)",
     "addTransform": "添加转换",
     "run": "运行",
     "share": "分享",
+    "copied": "已复制！",
     "save": "保存",
     "saved": "已保存",
     "clear": "清除",
     "templates": "模板",
     "noTransforms": "没有可用的转换",
     "saveName": "管道名称...",
-    "noSaved": "暂无保存的管道"
+    "noSaved": "暂无保存的管道",
+    "savedPipelines": "已保存的管道：",
+    "quickStart": "快速开始模板：",
+    "nodesInfo": "{count} 个节点",
+    "outputPreview": "输出预览："
+  },
+  "pipelineTemplates": {
+    "base64Json": {
+      "name": "Base64 → JSON 格式化",
+      "description": "解码 Base64，然后格式化为 JSON"
+    },
+    "jsonBase64": {
+      "name": "JSON 压缩 → Base64",
+      "description": "压缩 JSON 然后编码为 Base64"
+    },
+    "textSha256": {
+      "name": "文本 → SHA-256",
+      "description": "用 SHA-256 哈希文本"
+    }
   },
   "common": {
     "input": "输入",
     "output": "输出",
     "copy": "复制",
     "copied": "已复制！",
+    "copyToClipboard": "复制到剪贴板",
     "error": "错误",
-    "search": "搜索工具...",
+    "search": "搜索",
+    "searchPlaceholder": "搜索工具...",
     "toolNotFound": "未找到工具",
-    "outputPlaceholder": "输出将显示在这里"
+    "outputPlaceholder": "输出将显示在这里",
+    "navigation": "导航",
+    "toolsSection": "工具",
+    "loading": "加载中...",
+    "tryAgain": "重试"
+  },
+  "about": {
+    "title": "关于",
+    "description": "Dev Toolbox 是一个使用现代 Web 技术构建的离线优先开发者工具集。",
+    "offlineFirst": "离线优先",
+    "offlineDesc": "所有工具完全在浏览器中运行。无服务器请求，无数据上传。支持 PWA 离线使用。",
+    "privacy": "隐私保护",
+    "privacyDesc": "您的数据永远不会离开设备。所有处理都在客户端使用 Web API 完成。无分析、无追踪、无 Cookie。",
+    "security": "安全可靠",
+    "securityDesc": "加密操作使用 Web Crypto API —— 与浏览器 TLS 使用的相同安全原语。不依赖第三方加密库。",
+    "techStack": "技术栈",
+    "openSource": "开源项目",
+    "openSourceDesc": "Dev Toolbox 是开源项目。欢迎贡献代码、报告问题和提出功能建议。",
+    "viewOnGithub": "在 GitHub 上查看"
+  },
+  "errorBoundary": {
+    "title": "出错了",
+    "message": "发生了意外错误。",
+    "tryAgain": "重试"
+  },
+  "sidebar": {
+    "expandSidebar": "展开侧边栏",
+    "collapseSidebar": "收起侧边栏"
+  },
+  "toolLayout": {
+    "removeFromFavorites": "取消收藏",
+    "addToFavorites": "添加到收藏",
+    "switchToHorizontal": "切换为水平布局",
+    "switchToVertical": "切换为垂直布局"
+  },
+  "home": {
+    "pipelineDesc": "将转换链接在一起 — Base64 → JSON → 哈希",
+    "toolCount": "{count} 个工具",
+    "toolCountPlural": "{count} 个工具"
   }
 }

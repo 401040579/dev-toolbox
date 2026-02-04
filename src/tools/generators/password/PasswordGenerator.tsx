@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 import { RefreshCw } from 'lucide-react';
 
@@ -22,7 +23,7 @@ function generatePassword(length: number, options: Record<string, boolean>): str
   return Array.from(array, (n) => chars[n % chars.length]).join('');
 }
 
-function calcStrength(password: string): { label: string; color: string; percent: number } {
+function calcStrength(password: string): { labelKey: string; color: string; percent: number } {
   let score = 0;
   if (password.length >= 8) score++;
   if (password.length >= 12) score++;
@@ -32,13 +33,14 @@ function calcStrength(password: string): { label: string; color: string; percent
   if (/[0-9]/.test(password)) score++;
   if (/[^a-zA-Z0-9]/.test(password)) score++;
 
-  if (score <= 2) return { label: 'Weak', color: 'text-error', percent: 25 };
-  if (score <= 4) return { label: 'Fair', color: 'text-warning', percent: 50 };
-  if (score <= 5) return { label: 'Strong', color: 'text-info', percent: 75 };
-  return { label: 'Very Strong', color: 'text-success', percent: 100 };
+  if (score <= 2) return { labelKey: 'weak', color: 'text-error', percent: 25 };
+  if (score <= 4) return { labelKey: 'fair', color: 'text-warning', percent: 50 };
+  if (score <= 5) return { labelKey: 'strong', color: 'text-info', percent: 75 };
+  return { labelKey: 'veryStrong', color: 'text-success', percent: 100 };
 }
 
 export default function PasswordGenerator() {
+  const { t } = useTranslation();
   const [length, setLength] = useState(16);
   const [options, setOptions] = useState({
     lowercase: true,
@@ -57,18 +59,25 @@ export default function PasswordGenerator() {
 
   const strength = passwords[0] ? calcStrength(passwords[0]) : null;
 
+  const optionLabels: Record<string, string> = {
+    lowercase: t('tools.password.lowercase'),
+    uppercase: t('tools.password.uppercase'),
+    numbers: t('tools.password.numbers'),
+    symbols: t('tools.password.symbols'),
+  };
+
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
-        <h1 className="text-lg font-semibold text-text-primary">Password Generator</h1>
-        <p className="text-sm text-text-secondary mt-0.5">Generate secure random passwords</p>
+        <h1 className="text-lg font-semibold text-text-primary">{t('tools.password.title')}</h1>
+        <p className="text-sm text-text-secondary mt-0.5">{t('tools.password.description')}</p>
       </div>
 
       <div className="flex-1 overflow-auto p-6 space-y-6">
         {/* Controls */}
         <div className="space-y-4">
           <div className="flex items-center gap-4">
-            <label className="text-xs font-medium text-text-muted w-16">Length</label>
+            <label className="text-xs font-medium text-text-muted w-16">{t('tools.password.length')}</label>
             <input
               type="range"
               min={4}
@@ -88,7 +97,7 @@ export default function PasswordGenerator() {
           </div>
 
           <div className="flex items-center gap-4">
-            <label className="text-xs font-medium text-text-muted w-16">Count</label>
+            <label className="text-xs font-medium text-text-muted w-16">{t('tools.password.count')}</label>
             <input
               type="number"
               min={1}
@@ -108,7 +117,7 @@ export default function PasswordGenerator() {
                   onChange={(e) => setOptions((o) => ({ ...o, [key]: e.target.checked }))}
                   className="rounded"
                 />
-                {key.charAt(0).toUpperCase() + key.slice(1)}
+                {optionLabels[key]}
               </label>
             ))}
           </div>
@@ -118,7 +127,7 @@ export default function PasswordGenerator() {
             className="flex items-center gap-2 px-4 py-2 rounded-md bg-accent text-background text-sm font-medium hover:bg-accent-hover transition-colors"
           >
             <RefreshCw size={14} />
-            Generate
+            {t('tools.password.generate')}
           </button>
         </div>
 
@@ -131,7 +140,7 @@ export default function PasswordGenerator() {
                 style={{ width: `${strength.percent}%` }}
               />
             </div>
-            <span className={`text-xs font-medium ${strength.color}`}>{strength.label}</span>
+            <span className={`text-xs font-medium ${strength.color}`}>{t(`tools.password.strength.${strength.labelKey}`)}</span>
           </div>
         )}
 

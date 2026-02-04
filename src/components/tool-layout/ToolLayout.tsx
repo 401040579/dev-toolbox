@@ -1,7 +1,7 @@
-import { type ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { ArrowLeftRight, ArrowUpDown, Star } from 'lucide-react';
-import { useState } from 'react';
 import { useAppStore } from '@/store/app';
 
 interface ToolLayoutProps {
@@ -14,6 +14,7 @@ interface ToolLayoutProps {
 }
 
 export function ToolLayout({ title, description, toolId, input, output, actions }: ToolLayoutProps) {
+  const { t } = useTranslation();
   const [vertical, setVertical] = useState(false);
   const { favorites, toggleFavorite } = useAppStore();
   const isFav = toolId ? favorites.includes(toolId) : false;
@@ -32,7 +33,7 @@ export function ToolLayout({ title, description, toolId, input, output, actions 
             <button
               onClick={() => toggleFavorite(toolId)}
               className="p-1.5 rounded-md text-text-muted hover:text-warning transition-colors shrink-0"
-              aria-label={isFav ? 'Remove from favorites' : 'Add to favorites'}
+              aria-label={isFav ? t('toolLayout.removeFromFavorites') : t('toolLayout.addToFavorites')}
             >
               <Star size={16} fill={isFav ? 'currentColor' : 'none'} className={isFav ? 'text-warning' : ''} />
             </button>
@@ -43,7 +44,7 @@ export function ToolLayout({ title, description, toolId, input, output, actions 
           <button
             onClick={() => setVertical((v) => !v)}
             className="hidden sm:flex p-2 rounded-md text-text-secondary hover:text-text-primary hover:bg-surface-hover transition-colors"
-            aria-label={vertical ? 'Switch to horizontal layout' : 'Switch to vertical layout'}
+            aria-label={vertical ? t('toolLayout.switchToHorizontal') : t('toolLayout.switchToVertical')}
           >
             {vertical ? <ArrowLeftRight size={16} /> : <ArrowUpDown size={16} />}
           </button>
@@ -58,14 +59,14 @@ export function ToolLayout({ title, description, toolId, input, output, actions 
       >
         <div className={cn('flex flex-col', vertical ? 'flex-1 min-h-0' : 'flex-1 min-h-0 md:min-w-0')}>
           <div className="px-4 py-2 text-xs font-medium text-text-muted uppercase tracking-wider border-b border-border">
-            Input
+            {t('common.input')}
           </div>
           <div className="flex-1 min-h-0 p-4 overflow-auto">{input}</div>
         </div>
         <div className={cn(vertical ? 'border-t' : 'border-t md:border-t-0 md:border-l', 'border-border')} />
         <div className={cn('flex flex-col', vertical ? 'flex-1 min-h-0' : 'flex-1 min-h-0 md:min-w-0')}>
           <div className="px-4 py-2 text-xs font-medium text-text-muted uppercase tracking-wider border-b border-border">
-            Output
+            {t('common.output')}
           </div>
           <div className="flex-1 min-h-0 p-4 overflow-auto">{output}</div>
         </div>

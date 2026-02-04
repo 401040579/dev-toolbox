@@ -1,18 +1,19 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ToolLayout } from '@/components/tool-layout/ToolLayout';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 type Operation = 'sort' | 'sort-desc' | 'unique' | 'reverse' | 'shuffle' | 'trim' | 'number' | 'remove-empty';
 
-const OPERATIONS: { id: Operation; label: string }[] = [
-  { id: 'sort', label: 'Sort A→Z' },
-  { id: 'sort-desc', label: 'Sort Z→A' },
-  { id: 'unique', label: 'Unique' },
-  { id: 'reverse', label: 'Reverse' },
-  { id: 'shuffle', label: 'Shuffle' },
-  { id: 'trim', label: 'Trim' },
-  { id: 'remove-empty', label: 'Remove empty' },
-  { id: 'number', label: 'Number lines' },
+const OPERATION_KEYS: { id: Operation; key: string }[] = [
+  { id: 'sort', key: 'sortAZ' },
+  { id: 'sort-desc', key: 'sortZA' },
+  { id: 'unique', key: 'unique' },
+  { id: 'reverse', key: 'reverse' },
+  { id: 'shuffle', key: 'shuffle' },
+  { id: 'trim', key: 'trim' },
+  { id: 'remove-empty', key: 'removeEmpty' },
+  { id: 'number', key: 'numberLines' },
 ];
 
 function applyOperation(input: string, op: Operation): string {
@@ -30,6 +31,7 @@ function applyOperation(input: string, op: Operation): string {
 }
 
 export default function LineTools() {
+  const { t } = useTranslation();
   const [input, setInput] = useState('');
   const [operation, setOperation] = useState<Operation>('sort');
   // Use a key to force re-computation on shuffle
@@ -54,11 +56,11 @@ export default function LineTools() {
   return (
     <ToolLayout
       toolId="line-tools"
-      title="Line Tools"
-      description="Sort, deduplicate, reverse, and manipulate lines"
+      title={t('tools.lineTools.title')}
+      description={t('tools.lineTools.description')}
       actions={
         <div className="flex flex-wrap items-center gap-1.5">
-          {OPERATIONS.map((op) => (
+          {OPERATION_KEYS.map((op) => (
             <button
               key={op.id}
               onClick={() => {
@@ -71,7 +73,7 @@ export default function LineTools() {
                   : 'border-border text-text-secondary hover:text-text-primary'
               }`}
             >
-              {op.label}
+              {t(`tools.lineTools.${op.key}`)}
             </button>
           ))}
         </div>
@@ -80,15 +82,15 @@ export default function LineTools() {
         <>
           {stats && (
             <div className="flex items-center gap-4 mb-2 text-xs text-text-muted">
-              <span>{stats.lines} lines</span>
-              <span>{stats.unique} unique</span>
-              <span>{stats.chars} chars</span>
+              <span>{stats.lines} {t('tools.lineTools.lines')}</span>
+              <span>{stats.unique} {t('tools.lineTools.uniqueCount')}</span>
+              <span>{stats.chars} {t('tools.lineTools.chars')}</span>
             </div>
           )}
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Enter lines of text..."
+            placeholder={t('tools.lineTools.placeholder')}
             className="w-full h-full min-h-[200px] resize-none bg-transparent font-mono text-sm outline-none"
             spellCheck={false}
           />
@@ -104,7 +106,7 @@ export default function LineTools() {
               <pre className="font-mono text-sm whitespace-pre-wrap pr-10">{output}</pre>
             </>
           ) : (
-            <p className="text-text-muted text-sm">Output will appear here</p>
+            <p className="text-text-muted text-sm">{t('common.outputPlaceholder')}</p>
           )}
         </div>
       }

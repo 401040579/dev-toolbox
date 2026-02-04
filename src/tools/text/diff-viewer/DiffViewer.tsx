@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface DiffLine {
   type: 'equal' | 'added' | 'removed';
@@ -47,6 +48,7 @@ function computeDiff(a: string, b: string): DiffLine[] {
 const WORKER_THRESHOLD = 5000; // characters
 
 export default function DiffViewer() {
+  const { t } = useTranslation();
   const [left, setLeft] = useState('');
   const [right, setRight] = useState('');
   const [workerDiff, setWorkerDiff] = useState<DiffLine[] | null>(null);
@@ -116,9 +118,9 @@ export default function DiffViewer() {
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
-        <h1 className="text-lg font-semibold text-text-primary">Diff Viewer</h1>
+        <h1 className="text-lg font-semibold text-text-primary">{t('tools.diff.title')}</h1>
         <p className="text-sm text-text-secondary mt-0.5">
-          Compare two texts and see differences
+          {t('tools.diff.description')}
         </p>
       </div>
 
@@ -126,24 +128,24 @@ export default function DiffViewer() {
       <div className="flex flex-col md:flex-row border-b border-border">
         <div className="flex-1 flex flex-col border-b md:border-b-0 md:border-r border-border">
           <div className="px-4 py-2 text-xs font-medium text-text-muted uppercase tracking-wider border-b border-border">
-            Original
+            {t('tools.diff.original')}
           </div>
           <textarea
             value={left}
             onChange={(e) => setLeft(e.target.value)}
-            placeholder="Paste original text..."
+            placeholder={t('tools.diff.originalPlaceholder')}
             className="flex-1 p-4 resize-none bg-transparent font-mono text-sm outline-none min-h-[120px]"
             spellCheck={false}
           />
         </div>
         <div className="flex-1 flex flex-col">
           <div className="px-4 py-2 text-xs font-medium text-text-muted uppercase tracking-wider border-b border-border">
-            Modified
+            {t('tools.diff.modified')}
           </div>
           <textarea
             value={right}
             onChange={(e) => setRight(e.target.value)}
-            placeholder="Paste modified text..."
+            placeholder={t('tools.diff.modifiedPlaceholder')}
             className="flex-1 p-4 resize-none bg-transparent font-mono text-sm outline-none min-h-[120px]"
             spellCheck={false}
           />
@@ -155,11 +157,11 @@ export default function DiffViewer() {
         {(diff.length > 0 || workerLoading) && (
           <div className="px-4 py-2 text-xs text-text-muted border-b border-border flex items-center gap-4">
             {workerLoading ? (
-              <span className="text-accent">Computing diff…</span>
+              <span className="text-accent">{t('tools.diff.computing')}</span>
             ) : (
               <>
-                <span className="text-success">+{stats.added} added</span>
-                <span className="text-error">-{stats.removed} removed</span>
+                <span className="text-success">{t('tools.diff.added', { count: stats.added })}</span>
+                <span className="text-error">{t('tools.diff.removed', { count: stats.removed })}</span>
               </>
             )}
           </div>

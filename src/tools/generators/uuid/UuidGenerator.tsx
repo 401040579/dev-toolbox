@@ -1,8 +1,10 @@
 import { useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 import { RefreshCw } from 'lucide-react';
 
 export default function UuidGenerator() {
+  const { t } = useTranslation();
   const [count, setCount] = useState(1);
   const [uppercase, setUppercase] = useState(false);
   const [noDashes, setNoDashes] = useState(false);
@@ -23,9 +25,9 @@ export default function UuidGenerator() {
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
-        <h1 className="text-lg font-semibold text-text-primary">UUID Generator</h1>
+        <h1 className="text-lg font-semibold text-text-primary">{t('tools.uuid.title')}</h1>
         <p className="text-sm text-text-secondary mt-0.5">
-          Generate random UUID v4 identifiers
+          {t('tools.uuid.description')}
         </p>
       </div>
 
@@ -33,7 +35,7 @@ export default function UuidGenerator() {
         {/* Options */}
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-2">
-            <label className="text-xs font-medium text-text-muted">Count</label>
+            <label className="text-xs font-medium text-text-muted">{t('tools.uuid.count')}</label>
             <input
               type="number"
               min={1}
@@ -51,7 +53,7 @@ export default function UuidGenerator() {
               onChange={(e) => setUppercase(e.target.checked)}
               className="rounded"
             />
-            Uppercase
+            {t('tools.uuid.uppercase')}
           </label>
 
           <label className="flex items-center gap-2 text-sm text-text-secondary cursor-pointer">
@@ -61,7 +63,7 @@ export default function UuidGenerator() {
               onChange={(e) => setNoDashes(e.target.checked)}
               className="rounded"
             />
-            No dashes
+            {t('tools.uuid.noDashes')}
           </label>
 
           <button
@@ -69,7 +71,7 @@ export default function UuidGenerator() {
             className="flex items-center gap-2 px-4 py-2 rounded-md bg-accent text-background text-sm font-medium hover:bg-accent-hover transition-colors"
           >
             <RefreshCw size={14} />
-            Generate
+            {t('tools.uuid.generate')}
           </button>
         </div>
 

@@ -1,7 +1,9 @@
 import { useState, useMemo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function EpochConverter() {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<'epoch-to-date' | 'date-to-epoch'>('epoch-to-date');
   const [input, setInput] = useState('');
   const [now, setNow] = useState(Date.now());
@@ -18,25 +20,39 @@ export default function EpochConverter() {
   type ErrorResult = { type: 'error'; error: string };
   type Result = DateResult | EpochResult | ErrorResult;
 
+  const getRelativeTimeLocalized = (date: Date): string => {
+    const now = Date.now();
+    const diff = now - date.getTime();
+    const abs = Math.abs(diff);
+    const dir = diff > 0 ? t('tools.epoch.ago') : t('tools.epoch.fromNow');
+
+    if (abs < 60000) return t('tools.epoch.secondsAgo', { count: Math.floor(abs / 1000), dir });
+    if (abs < 3600000) return t('tools.epoch.minutesAgo', { count: Math.floor(abs / 60000), dir });
+    if (abs < 86400000) return t('tools.epoch.hoursAgo', { count: Math.floor(abs / 3600000), dir });
+    if (abs < 2592000000) return t('tools.epoch.daysAgo', { count: Math.floor(abs / 86400000), dir });
+    if (abs < 31536000000) return t('tools.epoch.monthsAgo', { count: Math.floor(abs / 2592000000), dir });
+    return t('tools.epoch.yearsAgo', { count: Math.floor(abs / 31536000000), dir });
+  };
+
   const result = useMemo((): Result | null => {
     if (!input.trim()) return null;
     try {
       if (mode === 'epoch-to-date') {
         const num = Number(input.trim());
-        if (isNaN(num)) return { type: 'error', error: 'Invalid number' };
+        if (isNaN(num)) return { type: 'error', error: t('tools.epoch.invalidNumber') };
         const ms = num > 1e12 ? num : num * 1000;
         const d = new Date(ms);
-        if (isNaN(d.getTime())) return { type: 'error', error: 'Invalid timestamp' };
+        if (isNaN(d.getTime())) return { type: 'error', error: t('tools.epoch.invalidTimestamp') };
         return {
           type: 'date',
           iso: d.toISOString(),
           utc: d.toUTCString(),
           local: d.toLocaleString(),
-          relative: getRelativeTime(d),
+          relative: getRelativeTimeLocalized(d),
         };
       } else {
         const d = new Date(input.trim());
-        if (isNaN(d.getTime())) return { type: 'error', error: 'Invalid date string' };
+        if (isNaN(d.getTime())) return { type: 'error', error: t('tools.epoch.invalidDate') };
         return {
           type: 'epoch',
           seconds: Math.floor(d.getTime() / 1000),
@@ -44,16 +60,16 @@ export default function EpochConverter() {
         };
       }
     } catch {
-      return { type: 'error', error: 'Failed to parse input' };
+      return { type: 'error', error: t('tools.epoch.parseFailed') };
     }
-  }, [input, mode]);
+  }, [input, mode, t]);
 
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
-        <h1 className="text-lg font-semibold text-text-primary">Epoch Converter</h1>
+        <h1 className="text-lg font-semibold text-text-primary">{t('tools.epoch.title')}</h1>
         <p className="text-sm text-text-secondary mt-0.5">
-          Convert between Unix timestamps and human-readable dates
+          {t('tools.epoch.description')}
         </p>
       </div>
 
@@ -61,7 +77,7 @@ export default function EpochConverter() {
         {/* Current time */}
         <div className="rounded-lg border border-border bg-surface p-4">
           <div className="text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
-            Current Epoch
+            {t('tools.epoch.currentEpoch')}
           </div>
           <div className="flex items-center gap-2">
             <code className="text-2xl font-mono text-accent">{currentEpoch}</code>
@@ -79,7 +95,7 @@ export default function EpochConverter() {
                 : 'text-text-secondary hover:text-text-primary'
             }`}
           >
-            Epoch → Date
+            {t('tools.epoch.epochToDate')}
           </button>
           <button
             onClick={() => setMode('date-to-epoch')}
@@ -89,14 +105,14 @@ export default function EpochConverter() {
                 : 'text-text-secondary hover:text-text-primary'
             }`}
           >
-            Date → Epoch
+            {t('tools.epoch.dateToEpoch')}
           </button>
         </div>
 
         {/* Input */}
         <div>
           <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
-            {mode === 'epoch-to-date' ? 'Unix Timestamp' : 'Date String'}
+            {mode === 'epoch-to-date' ? t('tools.epoch.timestampLabel') : t('tools.epoch.dateLabel')}
           </label>
           <input
             type="text"
@@ -104,8 +120,8 @@ export default function EpochConverter() {
             onChange={(e) => setInput(e.target.value)}
             placeholder={
               mode === 'epoch-to-date'
-                ? 'e.g., 1704067200 or 1704067200000'
-                : 'e.g., 2024-01-01T00:00:00Z'
+                ? t('tools.epoch.timestampPlaceholder')
+                : t('tools.epoch.datePlaceholder')
             }
             className="w-full max-w-lg"
           />
@@ -118,15 +134,15 @@ export default function EpochConverter() {
               <p className="text-error text-sm">{result.error}</p>
             ) : result.type === 'date' ? (
               <div className="space-y-3">
-                <ResultRow label="ISO 8601" value={result.iso} />
-                <ResultRow label="UTC" value={result.utc} />
-                <ResultRow label="Local" value={result.local} />
-                <ResultRow label="Relative" value={result.relative} />
+                <ResultRow label={t('tools.epoch.iso8601')} value={result.iso} />
+                <ResultRow label={t('tools.epoch.utc')} value={result.utc} />
+                <ResultRow label={t('tools.epoch.local')} value={result.local} />
+                <ResultRow label={t('tools.epoch.relative')} value={result.relative} />
               </div>
             ) : (
               <div className="space-y-3">
-                <ResultRow label="Seconds" value={String(result.seconds)} />
-                <ResultRow label="Milliseconds" value={String(result.milliseconds)} />
+                <ResultRow label={t('tools.epoch.seconds')} value={String(result.seconds)} />
+                <ResultRow label={t('tools.epoch.milliseconds')} value={String(result.milliseconds)} />
               </div>
             )}
           </div>
@@ -146,16 +162,3 @@ function ResultRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-function getRelativeTime(date: Date): string {
-  const now = Date.now();
-  const diff = now - date.getTime();
-  const abs = Math.abs(diff);
-  const sign = diff > 0 ? 'ago' : 'from now';
-
-  if (abs < 60000) return `${Math.floor(abs / 1000)} seconds ${sign}`;
-  if (abs < 3600000) return `${Math.floor(abs / 60000)} minutes ${sign}`;
-  if (abs < 86400000) return `${Math.floor(abs / 3600000)} hours ${sign}`;
-  if (abs < 2592000000) return `${Math.floor(abs / 86400000)} days ${sign}`;
-  if (abs < 31536000000) return `${Math.floor(abs / 2592000000)} months ${sign}`;
-  return `${Math.floor(abs / 31536000000)} years ${sign}`;
-}

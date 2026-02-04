@@ -9,7 +9,9 @@
     "favorites": "Favorites",
     "recent": "Recent",
     "categories": "Categories",
-    "allTools": "All Tools"
+    "allTools": "All Tools",
+    "about": "About",
+    "tools": "Tools"
   },
   "categories": {
     "time": "Time",
@@ -19,49 +21,308 @@
     "generators": "Generators",
     "crypto": "Crypto"
   },
+  "categoryDesc": {
+    "time": "Date, time, and scheduling utilities",
+    "encoding": "Encode, decode, and convert data formats",
+    "text": "Text manipulation and analysis",
+    "json": "Format, validate, and convert structured data",
+    "generators": "Generate UUIDs, passwords, hashes, and more",
+    "crypto": "Hashing and cryptographic utilities"
+  },
   "tools": {
-    "base64": "Base64 Encode/Decode",
-    "url-encode": "URL Encode/Decode",
-    "jwt-decode": "JWT Decode",
-    "epoch-converter": "Epoch Converter",
-    "cron-parser": "Cron Parser",
-    "json-formatter": "JSON Formatter",
-    "json-yaml": "JSON ↔ YAML",
-    "uuid": "UUID Generator",
-    "hash": "Hash Generator",
-    "password": "Password Generator",
-    "qrcode": "QR Code Generator",
-    "hmac": "HMAC Generator",
-    "regex-tester": "Regex Tester",
-    "case-converter": "Case Converter",
-    "diff-viewer": "Diff Viewer",
-    "line-tools": "Line Tools"
+    "base64": {
+      "title": "Base64 Encode/Decode",
+      "description": "Encode or decode Base64 strings with UTF-8 support",
+      "encode": "Encode",
+      "decode": "Decode",
+      "encodePlaceholder": "Enter text to encode...",
+      "decodePlaceholder": "Enter Base64 to decode...",
+      "invalidInput": "Invalid input for encoding",
+      "invalidBase64": "Invalid Base64 string"
+    },
+    "urlEncode": {
+      "title": "URL Encode/Decode",
+      "description": "Encode or decode URL components and full URLs",
+      "encode": "Encode",
+      "decode": "Decode",
+      "fullUrlMode": "Full URL mode",
+      "encodePlaceholder": "Enter text to encode...",
+      "decodePlaceholder": "Enter URL-encoded text..."
+    },
+    "jwt": {
+      "title": "JWT Decode",
+      "description": "Decode and inspect JSON Web Tokens (no verification)",
+      "tokenLabel": "JWT Token",
+      "placeholder": "Paste JWT token here (eyJhbGciOiJ...)",
+      "invalidJwt": "Invalid JWT: expected 3 parts separated by dots",
+      "expired": "Expired",
+      "valid": "Valid",
+      "header": "Header",
+      "payload": "Payload",
+      "signature": "Signature"
+    },
+    "epoch": {
+      "title": "Epoch Converter",
+      "description": "Convert between Unix timestamps and human-readable dates",
+      "currentEpoch": "Current Epoch",
+      "epochToDate": "Epoch → Date",
+      "dateToEpoch": "Date → Epoch",
+      "timestampLabel": "Unix Timestamp",
+      "dateLabel": "Date String",
+      "timestampPlaceholder": "e.g., 1704067200 or 1704067200000",
+      "datePlaceholder": "e.g., 2024-01-01T00:00:00Z",
+      "invalidNumber": "Invalid number",
+      "invalidTimestamp": "Invalid timestamp",
+      "invalidDate": "Invalid date string",
+      "parseFailed": "Failed to parse input",
+      "iso8601": "ISO 8601",
+      "utc": "UTC",
+      "local": "Local",
+      "relative": "Relative",
+      "seconds": "Seconds",
+      "milliseconds": "Milliseconds",
+      "ago": "ago",
+      "fromNow": "from now",
+      "secondsAgo": "{count} seconds {dir}",
+      "minutesAgo": "{count} minutes {dir}",
+      "hoursAgo": "{count} hours {dir}",
+      "daysAgo": "{count} days {dir}",
+      "monthsAgo": "{count} months {dir}",
+      "yearsAgo": "{count} years {dir}"
+    },
+    "cron": {
+      "title": "Cron Parser",
+      "description": "Parse cron expressions and see next run times",
+      "label": "Cron Expression",
+      "placeholder": "* * * * *",
+      "presets": {
+        "everyMinute": "Every minute",
+        "everyHour": "Every hour",
+        "everyDayMidnight": "Every day at midnight",
+        "everyMonday": "Every Monday",
+        "every5Minutes": "Every 5 minutes",
+        "firstOfMonth": "1st of each month"
+      },
+      "invalidFields": "Cron expression must have exactly 5 fields",
+      "invalidExpression": "Invalid cron expression",
+      "explanation": "Explanation",
+      "nextRuns": "Next {count} Runs"
+    },
+    "jsonFormatter": {
+      "title": "JSON Formatter",
+      "description": "Format, minify, and validate JSON data",
+      "twoSpaces": "2 spaces",
+      "fourSpaces": "4 spaces",
+      "tab": "Tab",
+      "minify": "Minify",
+      "placeholder": "Paste JSON here...\n\n{\"key\": \"value\"}",
+      "processing": "Processing...",
+      "invalidJson": "Invalid JSON",
+      "keys": "{count} keys",
+      "minified": "{size} minified",
+      "outputPlaceholder": "Formatted JSON will appear here"
+    },
+    "jsonYaml": {
+      "title": "JSON ↔ YAML",
+      "description": "Convert between JSON and YAML formats",
+      "jsonToYaml": "JSON → YAML",
+      "yamlToJson": "YAML → JSON",
+      "jsonPlaceholder": "Paste JSON here...",
+      "yamlPlaceholder": "Paste YAML here..."
+    },
+    "uuid": {
+      "title": "UUID Generator",
+      "description": "Generate random UUID v4 identifiers",
+      "count": "Count",
+      "uppercase": "Uppercase",
+      "noDashes": "No dashes",
+      "generate": "Generate"
+    },
+    "hash": {
+      "title": "Hash Generator",
+      "description": "Generate SHA-1, SHA-256, and SHA-512 hashes using Web Crypto API",
+      "inputLabel": "Input Text",
+      "placeholder": "Enter text to hash..."
+    },
+    "password": {
+      "title": "Password Generator",
+      "description": "Generate secure random passwords",
+      "length": "Length",
+      "count": "Count",
+      "lowercase": "Lowercase",
+      "uppercase": "Uppercase",
+      "numbers": "Numbers",
+      "symbols": "Symbols",
+      "generate": "Generate",
+      "strength": {
+        "weak": "Weak",
+        "fair": "Fair",
+        "strong": "Strong",
+        "veryStrong": "Very Strong"
+      }
+    },
+    "qrcode": {
+      "title": "QR Code Generator",
+      "description": "Generate QR codes from text or URLs",
+      "contentLabel": "Content",
+      "placeholder": "Enter text or URL...",
+      "sizeLabel": "Size",
+      "downloadSvg": "Download SVG",
+      "imageAlt": "QR Code",
+      "emptyState": "Enter text above to generate a QR code"
+    },
+    "hmac": {
+      "title": "HMAC Generator",
+      "description": "Generate HMAC signatures using Web Crypto API",
+      "algorithm": "Algorithm",
+      "secretKey": "Secret Key",
+      "keyPlaceholder": "Enter secret key...",
+      "message": "Message",
+      "messagePlaceholder": "Enter message to sign..."
+    },
+    "regex": {
+      "title": "Regex Tester",
+      "description": "Test regular expressions with real-time matching",
+      "patternPlaceholder": "pattern",
+      "flagsPlaceholder": "flags",
+      "testStringLabel": "Test String",
+      "testPlaceholder": "Enter text to test against...",
+      "matching": "Matching...",
+      "matches": "{count} match",
+      "matchesPlural": "{count} matches",
+      "atIndex": "at index {index}",
+      "noMatches": "No matches found"
+    },
+    "caseConverter": {
+      "title": "Case Converter",
+      "description": "Convert text between different casing styles",
+      "inputLabel": "Input Text",
+      "placeholder": "Enter text to convert...",
+      "cases": {
+        "uppercase": "UPPERCASE",
+        "lowercase": "lowercase",
+        "titleCase": "Title Case",
+        "camelCase": "camelCase",
+        "pascalCase": "PascalCase",
+        "snakeCase": "snake_case",
+        "kebabCase": "kebab-case",
+        "constantCase": "CONSTANT_CASE"
+      }
+    },
+    "diff": {
+      "title": "Diff Viewer",
+      "description": "Compare two texts and see differences",
+      "original": "Original",
+      "modified": "Modified",
+      "originalPlaceholder": "Paste original text...",
+      "modifiedPlaceholder": "Paste modified text...",
+      "computing": "Computing diff...",
+      "added": "+{count} added",
+      "removed": "-{count} removed"
+    },
+    "lineTools": {
+      "title": "Line Tools",
+      "description": "Sort, deduplicate, reverse, and manipulate lines",
+      "sortAZ": "Sort A→Z",
+      "sortZA": "Sort Z→A",
+      "unique": "Unique",
+      "reverse": "Reverse",
+      "shuffle": "Shuffle",
+      "trim": "Trim",
+      "removeEmpty": "Remove empty",
+      "numberLines": "Number lines",
+      "placeholder": "Enter lines of text...",
+      "lines": "lines",
+      "uniqueCount": "unique",
+      "chars": "chars"
+    }
   },
   "pipeline": {
     "title": "Pipeline Builder",
     "description": "Chain transforms together to process data",
     "input": "Input",
     "output": "Output",
-    "nodes": "Pipeline",
+    "inputPlaceholder": "Enter input data...",
+    "outputPlaceholder": "Pipeline output will appear here",
+    "nodes": "Pipeline ({count} nodes)",
     "addTransform": "Add transform",
     "run": "Run",
     "share": "Share",
+    "copied": "Copied!",
     "save": "Save",
     "saved": "Saved",
     "clear": "Clear",
     "templates": "Templates",
     "noTransforms": "No transforms available",
     "saveName": "Pipeline name...",
-    "noSaved": "No saved pipelines yet"
+    "noSaved": "No saved pipelines yet",
+    "savedPipelines": "Saved pipelines:",
+    "quickStart": "Quick start templates:",
+    "nodesInfo": "{count} nodes",
+    "outputPreview": "Output preview:"
+  },
+  "pipelineTemplates": {
+    "base64Json": {
+      "name": "Base64 → JSON Pretty",
+      "description": "Decode Base64, then format as pretty JSON"
+    },
+    "jsonBase64": {
+      "name": "JSON Minify → Base64",
+      "description": "Minify JSON then encode to Base64"
+    },
+    "textSha256": {
+      "name": "Text → SHA-256",
+      "description": "Hash text input with SHA-256"
+    }
   },
   "common": {
     "input": "Input",
     "output": "Output",
     "copy": "Copy",
     "copied": "Copied!",
+    "copyToClipboard": "Copy to clipboard",
     "error": "Error",
-    "search": "Search tools...",
+    "search": "Search",
+    "searchPlaceholder": "Search tools...",
     "toolNotFound": "Tool not found",
-    "outputPlaceholder": "Output will appear here"
+    "outputPlaceholder": "Output will appear here",
+    "navigation": "Navigation",
+    "toolsSection": "Tools",
+    "loading": "Loading...",
+    "tryAgain": "Try again"
+  },
+  "about": {
+    "title": "About",
+    "description": "Dev Toolbox is a collection of offline-first developer utilities built with modern web technologies.",
+    "offlineFirst": "Offline-First",
+    "offlineDesc": "All tools run entirely in your browser. No server requests, no data uploads. Works offline as a PWA.",
+    "privacy": "Privacy",
+    "privacyDesc": "Your data never leaves your device. All processing happens client-side using Web APIs. No analytics, no tracking, no cookies.",
+    "security": "Security",
+    "securityDesc": "Cryptographic operations use the Web Crypto API — the same secure primitives used by browsers for TLS. No third-party crypto libraries.",
+    "techStack": "Tech Stack",
+    "openSource": "Open Source",
+    "openSourceDesc": "Dev Toolbox is open source. Contributions, bug reports, and feature requests are welcome.",
+    "viewOnGithub": "View on GitHub"
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "message": "An unexpected error occurred.",
+    "tryAgain": "Try again"
+  },
+  "sidebar": {
+    "expandSidebar": "Expand sidebar",
+    "collapseSidebar": "Collapse sidebar"
+  },
+  "toolLayout": {
+    "removeFromFavorites": "Remove from favorites",
+    "addToFavorites": "Add to favorites",
+    "switchToHorizontal": "Switch to horizontal layout",
+    "switchToVertical": "Switch to vertical layout"
+  },
+  "home": {
+    "pipelineDesc": "Chain transforms together — Base64 → JSON → Hash",
+    "toolCount": "{count} tool",
+    "toolCountPlural": "{count} tools"
   }
 }

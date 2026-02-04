@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ToolLayout } from '@/components/tool-layout/ToolLayout';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 import { jsonToYaml } from './index';
@@ -65,6 +66,7 @@ function parseYamlValue(value: string): unknown {
 }
 
 export default function JsonYaml() {
+  const { t } = useTranslation();
   const [input, setInput] = useState('');
   const [mode, setMode] = useState<Mode>('json-to-yaml');
 
@@ -85,8 +87,8 @@ export default function JsonYaml() {
   return (
     <ToolLayout
       toolId="json-yaml"
-      title="JSON ↔ YAML"
-      description="Convert between JSON and YAML formats"
+      title={t('tools.jsonYaml.title')}
+      description={t('tools.jsonYaml.description')}
       actions={
         <div className="flex items-center rounded-md border border-border overflow-hidden">
           <button
@@ -97,7 +99,7 @@ export default function JsonYaml() {
                 : 'text-text-secondary hover:text-text-primary'
             }`}
           >
-            JSON → YAML
+            {t('tools.jsonYaml.jsonToYaml')}
           </button>
           <button
             onClick={() => setMode('yaml-to-json')}
@@ -107,7 +109,7 @@ export default function JsonYaml() {
                 : 'text-text-secondary hover:text-text-primary'
             }`}
           >
-            YAML → JSON
+            {t('tools.jsonYaml.yamlToJson')}
           </button>
         </div>
       }
@@ -115,7 +117,7 @@ export default function JsonYaml() {
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={mode === 'json-to-yaml' ? 'Paste JSON here...' : 'Paste YAML here...'}
+          placeholder={mode === 'json-to-yaml' ? t('tools.jsonYaml.jsonPlaceholder') : t('tools.jsonYaml.yamlPlaceholder')}
           className="w-full h-full min-h-[200px] resize-none bg-transparent font-mono text-sm outline-none"
           spellCheck={false}
         />
@@ -132,7 +134,7 @@ export default function JsonYaml() {
               <pre className="font-mono text-sm whitespace-pre overflow-x-auto pr-10">{output}</pre>
             </>
           ) : (
-            <p className="text-text-muted text-sm">Output will appear here</p>
+            <p className="text-text-muted text-sm">{t('common.outputPlaceholder')}</p>
           )}
         </div>
       }
