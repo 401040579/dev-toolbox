@@ -3,17 +3,39 @@ import type { ToolDefinition, TransformDefinition, ToolCategory } from './types'
 // Import tool definitions directly — no circular dependency since
 // tool files no longer import from this module.
 import base64Tool from './encoding/base64';
+import urlEncodeTool from './encoding/url-encode';
+import jwtDecodeTool from './encoding/jwt-decode';
 import epochTool from './time/epoch-converter';
+import cronParserTool from './time/cron-parser';
 import jsonFormatterTool from './json/json-formatter';
+import jsonYamlTool from './json/json-yaml';
 import uuidTool from './generators/uuid';
 import hashTool from './generators/hash';
+import passwordTool from './generators/password';
+import qrcodeTool from './generators/qrcode';
+import hmacTool from './crypto/hmac';
+import regexTesterTool from './text/regex-tester';
+import caseConverterTool from './text/case-converter';
+import diffViewerTool from './text/diff-viewer';
+import lineToolsTool from './text/line-tools';
 
 const ALL_TOOLS: ToolDefinition[] = [
   base64Tool,
+  urlEncodeTool,
+  jwtDecodeTool,
   epochTool,
+  cronParserTool,
   jsonFormatterTool,
+  jsonYamlTool,
   uuidTool,
   hashTool,
+  passwordTool,
+  qrcodeTool,
+  hmacTool,
+  regexTesterTool,
+  caseConverterTool,
+  diffViewerTool,
+  lineToolsTool,
 ];
 
 const toolRegistry = new Map<string, ToolDefinition>();
