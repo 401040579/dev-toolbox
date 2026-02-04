@@ -6,6 +6,7 @@ const HomePage = lazy(() => import('@/pages/HomePage'));
 const CategoryPage = lazy(() => import('@/pages/CategoryPage'));
 const ToolPage = lazy(() => import('@/pages/ToolPage'));
 const PipelinePage = lazy(() => import('@/pipeline/PipelinePage'));
+const AboutPage = lazy(() => import('@/pages/AboutPage'));
 
 export const routes: RouteObject[] = [
   {
@@ -16,6 +17,7 @@ export const routes: RouteObject[] = [
       { path: 'tools/:category', element: <CategoryPage /> },
       { path: 'tools/:category/:toolId', element: <ToolPage /> },
       { path: 'pipeline', element: <PipelinePage /> },
+      { path: 'about', element: <AboutPage /> },
     ],
   },
 ];

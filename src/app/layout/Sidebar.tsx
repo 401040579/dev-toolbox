@@ -8,12 +8,14 @@ import {
   Shield,
   Home,
   GitBranch,
+  Info,
   PanelLeftClose,
   PanelLeft,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/app';
 import { ThemeToggle } from '@/components/theme-toggle/ThemeToggle';
+import { useTranslation } from 'react-i18next';
 import type { ToolCategory } from '@/tools/types';
 import type { LucideIcon } from 'lucide-react';
 
@@ -26,19 +28,11 @@ const CATEGORY_ICONS: Record<ToolCategory, LucideIcon> = {
   crypto: Shield,
 };
 
-const CATEGORY_LABELS: Record<ToolCategory, string> = {
-  time: 'Time',
-  encoding: 'Encoding',
-  text: 'Text',
-  json: 'JSON / Data',
-  generators: 'Generators',
-  crypto: 'Crypto',
-};
-
 const categories: ToolCategory[] = ['time', 'encoding', 'text', 'json', 'generators', 'crypto'];
 
 export function Sidebar() {
   const { sidebarCollapsed, toggleSidebar } = useAppStore();
+  const { t } = useTranslation();
 
   return (
     <aside
@@ -65,8 +59,8 @@ export function Sidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto py-2 px-2 space-y-0.5">
-        <SidebarLink to="/" icon={Home} label="Home" collapsed={sidebarCollapsed} end />
-        <SidebarLink to="/pipeline" icon={GitBranch} label="Pipeline" collapsed={sidebarCollapsed} />
+        <SidebarLink to="/" icon={Home} label={t('nav.home')} collapsed={sidebarCollapsed} end />
+        <SidebarLink to="/pipeline" icon={GitBranch} label={t('nav.pipeline')} collapsed={sidebarCollapsed} />
 
         <div className="pt-3 pb-1">
           {!sidebarCollapsed && (
@@ -81,14 +75,15 @@ export function Sidebar() {
             key={cat}
             to={`/tools/${cat}`}
             icon={CATEGORY_ICONS[cat]}
-            label={CATEGORY_LABELS[cat]}
+            label={t(`categories.${cat}`)}
             collapsed={sidebarCollapsed}
           />
         ))}
       </nav>
 
       {/* Footer */}
-      <div className="border-t border-border p-2 flex items-center justify-center">
+      <div className="border-t border-border p-2 flex items-center justify-center gap-2">
+        <SidebarLink to="/about" icon={Info} label="About" collapsed={sidebarCollapsed} />
         <ThemeToggle />
       </div>
     </aside>

@@ -12,7 +12,8 @@ import {
 } from 'lucide-react';
 import { useAppStore } from '@/store/app';
 import { getToolList, getTool } from '@/tools/registry';
-import { CATEGORY_META, CATEGORIES } from '@/lib/constants';
+import { CATEGORIES } from '@/lib/constants';
+import { useTranslation } from 'react-i18next';
 import type { ToolCategory } from '@/tools/types';
 import type { LucideIcon } from 'lucide-react';
 
@@ -27,6 +28,7 @@ const CATEGORY_ICONS: Record<ToolCategory, LucideIcon> = {
 
 export default function HomePage() {
   const { recentTools, favorites } = useAppStore();
+  const { t } = useTranslation();
   const allTools = getToolList();
 
   const favoriteTools = favorites
@@ -43,10 +45,10 @@ export default function HomePage() {
       {/* Hero */}
       <div className="space-y-2">
         <h1 className="text-2xl font-bold text-text-primary font-mono">
-          <span className="text-accent">&gt;</span> Dev Toolbox
+          <span className="text-accent">&gt;</span> {t('app.title')}
         </h1>
         <p className="text-text-secondary text-sm">
-          Offline-first developer utilities. All processing happens in your browser.
+          {t('app.tagline')}
         </p>
       </div>
 
@@ -59,7 +61,7 @@ export default function HomePage() {
           <GitBranch size={20} />
         </div>
         <div className="flex-1">
-          <div className="font-medium text-text-primary text-sm">Pipeline Builder</div>
+          <div className="font-medium text-text-primary text-sm">{t('pipeline.title')}</div>
           <div className="text-xs text-text-secondary">
             Chain transforms together — Base64 → JSON → Hash
           </div>
@@ -75,7 +77,7 @@ export default function HomePage() {
         <section>
           <h2 className="flex items-center gap-2 text-sm font-medium text-text-secondary mb-3">
             <Star size={14} />
-            Favorites
+            {t('nav.favorites')}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {favoriteTools.map((tool) => (
@@ -88,7 +90,7 @@ export default function HomePage() {
       {/* Recent */}
       {recentToolDefs.length > 0 && (
         <section>
-          <h2 className="text-sm font-medium text-text-secondary mb-3">Recent</h2>
+          <h2 className="text-sm font-medium text-text-secondary mb-3">{t('nav.recent')}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {recentToolDefs.map((tool) => (
               <ToolCard key={tool.id} tool={tool} />
@@ -99,12 +101,11 @@ export default function HomePage() {
 
       {/* Categories */}
       <section>
-        <h2 className="text-sm font-medium text-text-secondary mb-3">Categories</h2>
+        <h2 className="text-sm font-medium text-text-secondary mb-3">{t('nav.categories')}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {CATEGORIES.map((cat) => {
-            const meta = CATEGORY_META[cat];
             const Icon = CATEGORY_ICONS[cat];
-            const toolCount = allTools.filter((t) => t.category === cat).length;
+            const toolCount = allTools.filter((tool) => tool.category === cat).length;
             return (
               <Link
                 key={cat}
@@ -115,7 +116,7 @@ export default function HomePage() {
                   <Icon size={18} />
                 </div>
                 <div>
-                  <div className="font-medium text-text-primary text-sm">{meta.label}</div>
+                  <div className="font-medium text-text-primary text-sm">{t(`categories.${cat}`)}</div>
                   <div className="text-xs text-text-muted mt-0.5">
                     {toolCount} tool{toolCount !== 1 ? 's' : ''}
                   </div>
@@ -128,7 +129,7 @@ export default function HomePage() {
 
       {/* All tools */}
       <section>
-        <h2 className="text-sm font-medium text-text-secondary mb-3">All Tools</h2>
+        <h2 className="text-sm font-medium text-text-secondary mb-3">{t('nav.allTools')}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {allTools.map((tool) => (
             <ToolCard key={tool.id} tool={tool} />
