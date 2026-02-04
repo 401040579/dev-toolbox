@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 
 interface MatchResult {
   full: string;
@@ -6,12 +6,24 @@ interface MatchResult {
   groups: string[];
 }
 
+const WORKER_THRESHOLD = 10240; // 10KB
+
 export default function RegexTester() {
   const [pattern, setPattern] = useState('');
   const [flags, setFlags] = useState('g');
   const [testString, setTestString] = useState('');
+  const [workerResult, setWorkerResult] = useState<{
+    matches: MatchResult[];
+    error: string | null;
+    loading: boolean;
+  }>({ matches: [], error: null, loading: false });
+  const workerRef = useRef<Worker | null>(null);
 
-  const result = useMemo((): { matches: MatchResult[]; error: string | null } => {
+  const isLargeInput = testString.length > WORKER_THRESHOLD;
+
+  // Inline for small inputs
+  const inlineResult = useMemo((): { matches: MatchResult[]; error: string | null } => {
+    if (isLargeInput) return { matches: [], error: null };
     if (!pattern || !testString) return { matches: [], error: null };
     try {
       const regex = new RegExp(pattern, flags);
@@ -43,11 +55,59 @@ export default function RegexTester() {
     } catch (e) {
       return { matches: [], error: (e as Error).message };
     }
-  }, [pattern, flags, testString]);
+  }, [pattern, flags, testString, isLargeInput]);
+
+  // Worker for large inputs
+  useEffect(() => {
+    if (!isLargeInput) {
+      setWorkerResult({ matches: [], error: null, loading: false });
+      return;
+    }
+    if (!pattern || !testString) {
+      setWorkerResult({ matches: [], error: null, loading: false });
+      return;
+    }
+
+    setWorkerResult((prev) => ({ ...prev, loading: true }));
+
+    if (!workerRef.current) {
+      workerRef.current = new Worker(
+        new URL('@/workers/regex.worker.ts', import.meta.url),
+        { type: 'module' },
+      );
+    }
+
+    const worker = workerRef.current;
+    const handler = (e: MessageEvent) => {
+      setWorkerResult({
+        matches: e.data.result?.matches ?? [],
+        error: e.data.result?.error ?? null,
+        loading: false,
+      });
+    };
+
+    worker.addEventListener('message', handler);
+    worker.postMessage({ pattern, flags, testString });
+
+    return () => {
+      worker.removeEventListener('message', handler);
+    };
+  }, [pattern, flags, testString, isLargeInput]);
+
+  const cleanup = useCallback(() => {
+    workerRef.current?.terminate();
+    workerRef.current = null;
+  }, []);
+  useEffect(() => cleanup, [cleanup]);
+
+  const result = isLargeInput
+    ? { matches: workerResult.matches, error: workerResult.error }
+    : inlineResult;
+  const loading = isLargeInput && workerResult.loading;
 
   return (
     <div className="flex flex-col h-full">
-      <div className="px-6 py-4 border-b border-border">
+      <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
         <h1 className="text-lg font-semibold text-text-primary">Regex Tester</h1>
         <p className="text-sm text-text-secondary mt-0.5">
           Test regular expressions with real-time matching
@@ -114,7 +174,11 @@ export default function RegexTester() {
         </div>
 
         {/* Results */}
-        {result.matches.length > 0 && (
+        {loading && (
+          <p className="text-accent text-sm">Matching…</p>
+        )}
+
+        {!loading && result.matches.length > 0 && (
           <div>
             <div className="text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
               {result.matches.length} match{result.matches.length !== 1 ? 'es' : ''}
@@ -142,7 +206,7 @@ export default function RegexTester() {
           </div>
         )}
 
-        {pattern && testString && !result.error && result.matches.length === 0 && (
+        {!loading && pattern && testString && !result.error && result.matches.length === 0 && (
           <p className="text-text-muted text-sm">No matches found</p>
         )}
       </div>

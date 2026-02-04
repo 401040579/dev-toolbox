@@ -34,7 +34,7 @@ export default function QrCodeGenerator() {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="px-6 py-4 border-b border-border">
+      <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
         <h1 className="text-lg font-semibold text-text-primary">QR Code Generator</h1>
         <p className="text-sm text-text-secondary mt-0.5">Generate QR codes from text or URLs</p>
       </div>

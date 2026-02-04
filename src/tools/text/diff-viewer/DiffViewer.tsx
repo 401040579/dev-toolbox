@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 
 interface DiffLine {
   type: 'equal' | 'added' | 'removed';
@@ -11,7 +11,6 @@ function computeDiff(a: string, b: string): DiffLine[] {
   const linesB = b.split('\n');
   const result: DiffLine[] = [];
 
-  // Simple LCS-based diff
   const m = linesA.length;
   const n = linesB.length;
   const dp: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0) as number[]);
@@ -26,7 +25,6 @@ function computeDiff(a: string, b: string): DiffLine[] {
     }
   }
 
-  // Backtrack
   let i = m, j = n;
   const stack: DiffLine[] = [];
   while (i > 0 || j > 0) {
@@ -46,14 +44,68 @@ function computeDiff(a: string, b: string): DiffLine[] {
   return result;
 }
 
+const WORKER_THRESHOLD = 5000; // characters
+
 export default function DiffViewer() {
   const [left, setLeft] = useState('');
   const [right, setRight] = useState('');
+  const [workerDiff, setWorkerDiff] = useState<DiffLine[] | null>(null);
+  const [workerLoading, setWorkerLoading] = useState(false);
+  const workerRef = useRef<Worker | null>(null);
 
-  const diff = useMemo(() => {
+  const isLargeInput = left.length + right.length > WORKER_THRESHOLD;
+
+  // Inline computation for small inputs
+  const inlineDiff = useMemo(() => {
+    if (isLargeInput) return [];
     if (!left && !right) return [];
     return computeDiff(left, right);
-  }, [left, right]);
+  }, [left, right, isLargeInput]);
+
+  // Worker computation for large inputs
+  useEffect(() => {
+    if (!isLargeInput) {
+      setWorkerDiff(null);
+      return;
+    }
+    if (!left && !right) {
+      setWorkerDiff([]);
+      return;
+    }
+
+    setWorkerLoading(true);
+
+    if (!workerRef.current) {
+      workerRef.current = new Worker(
+        new URL('@/workers/diff.worker.ts', import.meta.url),
+        { type: 'module' },
+      );
+    }
+
+    const worker = workerRef.current;
+    const handler = (e: MessageEvent) => {
+      if (e.data.result) {
+        setWorkerDiff(e.data.result);
+      }
+      setWorkerLoading(false);
+    };
+
+    worker.addEventListener('message', handler);
+    worker.postMessage({ left, right });
+
+    return () => {
+      worker.removeEventListener('message', handler);
+    };
+  }, [left, right, isLargeInput]);
+
+  // Cleanup worker on unmount
+  const cleanup = useCallback(() => {
+    workerRef.current?.terminate();
+    workerRef.current = null;
+  }, []);
+  useEffect(() => cleanup, [cleanup]);
+
+  const diff = isLargeInput ? (workerDiff ?? []) : inlineDiff;
 
   const stats = useMemo(() => {
     const added = diff.filter((d) => d.type === 'added').length;
@@ -63,7 +115,7 @@ export default function DiffViewer() {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="px-6 py-4 border-b border-border">
+      <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
         <h1 className="text-lg font-semibold text-text-primary">Diff Viewer</h1>
         <p className="text-sm text-text-secondary mt-0.5">
           Compare two texts and see differences
@@ -100,10 +152,16 @@ export default function DiffViewer() {
 
       {/* Diff output */}
       <div className="flex-1 min-h-0 flex flex-col">
-        {diff.length > 0 && (
+        {(diff.length > 0 || workerLoading) && (
           <div className="px-4 py-2 text-xs text-text-muted border-b border-border flex items-center gap-4">
-            <span className="text-success">+{stats.added} added</span>
-            <span className="text-error">-{stats.removed} removed</span>
+            {workerLoading ? (
+              <span className="text-accent">Computing diff…</span>
+            ) : (
+              <>
+                <span className="text-success">+{stats.added} added</span>
+                <span className="text-error">-{stats.removed} removed</span>
+              </>
+            )}
           </div>
         )}
         <div className="flex-1 overflow-auto font-mono text-sm">

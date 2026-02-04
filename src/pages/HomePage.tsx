@@ -41,7 +41,7 @@ export default function HomePage() {
     .slice(0, 5);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-8">
+    <div className="max-w-4xl mx-auto px-4 sm:p-6 py-4 sm:py-6 space-y-6 sm:space-y-8">
       {/* Hero */}
       <div className="space-y-2">
         <h1 className="text-2xl font-bold text-text-primary font-mono">

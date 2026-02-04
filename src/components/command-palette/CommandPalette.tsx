@@ -42,7 +42,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={() => onOpenChange(false)}
       />
-      <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-full max-w-lg">
+      <div className="absolute top-[10%] sm:top-[20%] left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] sm:w-full max-w-lg">
         <Command
           className="rounded-xl border border-border bg-surface shadow-lg overflow-hidden"
           label="Search tools"
@@ -66,18 +66,20 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                   navigate('/');
                   onOpenChange(false);
                 }}
-                className="flex items-center gap-2 px-2 py-2 rounded-md text-sm text-text-secondary cursor-pointer data-[selected=true]:bg-surface-hover data-[selected=true]:text-text-primary"
+                className="flex items-center justify-between px-2 py-2 rounded-md text-sm text-text-secondary cursor-pointer data-[selected=true]:bg-surface-hover data-[selected=true]:text-text-primary"
               >
-                Home
+                <span>Home</span>
+                <kbd className="hidden sm:inline text-xs font-mono text-text-muted">⇧⌘H</kbd>
               </Command.Item>
               <Command.Item
                 onSelect={() => {
                   navigate('/pipeline');
                   onOpenChange(false);
                 }}
-                className="flex items-center gap-2 px-2 py-2 rounded-md text-sm text-text-secondary cursor-pointer data-[selected=true]:bg-surface-hover data-[selected=true]:text-text-primary"
+                className="flex items-center justify-between px-2 py-2 rounded-md text-sm text-text-secondary cursor-pointer data-[selected=true]:bg-surface-hover data-[selected=true]:text-text-primary"
               >
-                Pipeline Builder
+                <span>Pipeline Builder</span>
+                <kbd className="hidden sm:inline text-xs font-mono text-text-muted">⇧⌘P</kbd>
               </Command.Item>
             </Command.Group>
 

@@ -59,51 +59,56 @@ export default function PipelinePage() {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-border gap-2">
         <div>
           <h1 className="text-lg font-semibold text-text-primary">Pipeline Builder</h1>
-          <p className="text-sm text-text-secondary mt-0.5">
+          <p className="text-sm text-text-secondary mt-0.5 hidden sm:block">
             Chain transforms together to process data
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto">
           <button
             onClick={() => setShowTemplates((v) => !v)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
+            className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors shrink-0"
+            title="Templates"
           >
             <BookTemplate size={14} />
-            Templates
+            <span className="hidden sm:inline">Templates</span>
           </button>
           <button
             onClick={() => setShowSaved((v) => !v)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
+            className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors shrink-0"
+            title="Saved"
           >
             <FolderOpen size={14} />
-            Saved{saved.length > 0 ? ` (${saved.length})` : ''}
+            <span className="hidden sm:inline">Saved{saved.length > 0 ? ` (${saved.length})` : ''}</span>
           </button>
           <button
             onClick={() => { setSaveName(''); setShowSaveDialog(true); }}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
+            className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors shrink-0"
             disabled={nodes.length === 0}
+            title="Save"
           >
             <Save size={14} />
-            Save
+            <span className="hidden sm:inline">Save</span>
           </button>
           <button
             onClick={handleShare}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
+            className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors shrink-0"
             disabled={nodes.length === 0}
+            title="Share"
           >
             <Share2 size={14} />
-            {urlCopied ? 'Copied!' : 'Share'}
+            <span className="hidden sm:inline">{urlCopied ? 'Copied!' : 'Share'}</span>
           </button>
           <button
             onClick={clearPipeline}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-error hover:border-error/30 transition-colors"
+            className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-error hover:border-error/30 transition-colors shrink-0"
             disabled={nodes.length === 0}
+            title="Clear"
           >
             <Trash2 size={14} />
-            Clear
+            <span className="hidden sm:inline">Clear</span>
           </button>
         </div>
       </div>

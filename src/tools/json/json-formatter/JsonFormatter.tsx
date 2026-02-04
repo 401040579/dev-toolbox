@@ -1,14 +1,42 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { ToolLayout } from '@/components/tool-layout/ToolLayout';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 type IndentType = '2' | '4' | 'tab';
 
+interface JsonResult {
+  output: string;
+  keys: number;
+  minifiedSize: number;
+  formattedSize: number;
+}
+
+const WORKER_THRESHOLD = 102400; // 100KB
+
+function countKeys(obj: unknown): number {
+  if (typeof obj !== 'object' || obj === null) return 0;
+  if (Array.isArray(obj)) return obj.reduce((sum: number, item) => sum + countKeys(item), 0);
+  return Object.keys(obj).length + Object.values(obj).reduce((sum: number, val) => sum + countKeys(val), 0);
+}
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  return `${(bytes / 1024).toFixed(1)} KB`;
+}
+
 export default function JsonFormatter() {
   const [input, setInput] = useState('');
   const [indent, setIndent] = useState<IndentType>('2');
+  const [workerResult, setWorkerResult] = useState<{ data: JsonResult | null; error: string | null; loading: boolean }>({
+    data: null, error: null, loading: false,
+  });
+  const workerRef = useRef<Worker | null>(null);
 
-  const { output, error, stats } = useMemo(() => {
+  const isLargeInput = input.length > WORKER_THRESHOLD;
+
+  // Inline for small inputs
+  const inlineResult = useMemo(() => {
+    if (isLargeInput) return { output: '', error: null, stats: null };
     if (!input.trim()) return { output: '', error: null, stats: null };
     try {
       const parsed = JSON.parse(input);
@@ -27,7 +55,54 @@ export default function JsonFormatter() {
     } catch (e) {
       return { output: '', error: (e as Error).message, stats: null };
     }
-  }, [input, indent]);
+  }, [input, indent, isLargeInput]);
+
+  // Worker for large inputs
+  useEffect(() => {
+    if (!isLargeInput) {
+      setWorkerResult({ data: null, error: null, loading: false });
+      return;
+    }
+
+    setWorkerResult((prev) => ({ ...prev, loading: true }));
+
+    if (!workerRef.current) {
+      workerRef.current = new Worker(
+        new URL('@/workers/json.worker.ts', import.meta.url),
+        { type: 'module' },
+      );
+    }
+
+    const worker = workerRef.current;
+    const handler = (e: MessageEvent) => {
+      if (e.data.error) {
+        setWorkerResult({ data: null, error: e.data.error, loading: false });
+      } else {
+        setWorkerResult({ data: e.data.result, error: null, loading: false });
+      }
+    };
+
+    worker.addEventListener('message', handler);
+    worker.postMessage({ input, indent });
+
+    return () => {
+      worker.removeEventListener('message', handler);
+    };
+  }, [input, indent, isLargeInput]);
+
+  const cleanup = useCallback(() => {
+    workerRef.current?.terminate();
+    workerRef.current = null;
+  }, []);
+  useEffect(() => cleanup, [cleanup]);
+
+  // Unified values
+  const output = isLargeInput ? (workerResult.data?.output ?? '') : inlineResult.output;
+  const error = isLargeInput ? workerResult.error : inlineResult.error;
+  const stats = isLargeInput
+    ? workerResult.data ? { keys: workerResult.data.keys, minifiedSize: workerResult.data.minifiedSize, formattedSize: workerResult.data.formattedSize } : null
+    : inlineResult.stats;
+  const loading = isLargeInput && workerResult.loading;
 
   return (
     <ToolLayout
@@ -70,7 +145,9 @@ export default function JsonFormatter() {
       }
       output={
         <div className="relative h-full">
-          {error ? (
+          {loading ? (
+            <p className="text-accent text-sm">Processing…</p>
+          ) : error ? (
             <div className="space-y-2">
               <p className="text-error text-sm font-medium">Invalid JSON</p>
               <p className="text-error/80 text-xs font-mono">{error}</p>
@@ -97,15 +174,4 @@ export default function JsonFormatter() {
       }
     />
   );
-}
-
-function countKeys(obj: unknown): number {
-  if (typeof obj !== 'object' || obj === null) return 0;
-  if (Array.isArray(obj)) return obj.reduce((sum: number, item) => sum + countKeys(item), 0);
-  return Object.keys(obj).length + Object.values(obj).reduce((sum: number, val) => sum + countKeys(val), 0);
-}
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  return `${(bytes / 1024).toFixed(1)} KB`;
 }

@@ -1,13 +1,22 @@
-import { Outlet } from 'react-router-dom';
-import { Suspense, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { Suspense, useState, useCallback } from 'react';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { MobileNav } from './MobileNav';
 import { CommandPalette } from '@/components/command-palette/CommandPalette';
 import { ErrorBoundary } from '@/components/error-boundary/ErrorBoundary';
+import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
+import { useAppStore } from '@/store/app';
 
 export function RootLayout() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+  const navigate = useNavigate();
+  const toggleSidebar = useAppStore((s) => s.toggleSidebar);
+
+  // Global keyboard shortcuts
+  useKeyboardShortcut({ key: '/', meta: true }, useCallback(() => toggleSidebar(), [toggleSidebar]));
+  useKeyboardShortcut({ key: 'h', meta: true, shift: true }, useCallback(() => navigate('/'), [navigate]));
+  useKeyboardShortcut({ key: 'p', meta: true, shift: true }, useCallback(() => navigate('/pipeline'), [navigate]));
 
   return (
     <div className="flex h-dvh overflow-hidden bg-background">
