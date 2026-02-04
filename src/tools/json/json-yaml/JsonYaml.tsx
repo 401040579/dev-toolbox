@@ -84,6 +84,7 @@ export default function JsonYaml() {
 
   return (
     <ToolLayout
+      toolId="json-yaml"
       title="JSON ↔ YAML"
       description="Convert between JSON and YAML formats"
       actions={

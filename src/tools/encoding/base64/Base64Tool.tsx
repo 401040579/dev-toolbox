@@ -26,6 +26,7 @@ export default function Base64Tool() {
 
   return (
     <ToolLayout
+      toolId="base64"
       title="Base64 Encode/Decode"
       description="Encode or decode Base64 strings with UTF-8 support"
       actions={

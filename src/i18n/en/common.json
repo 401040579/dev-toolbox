@@ -1,0 +1,67 @@
+{
+  "app": {
+    "title": "Dev Toolbox",
+    "tagline": "Offline-first developer utilities. All processing happens in your browser."
+  },
+  "nav": {
+    "home": "Home",
+    "pipeline": "Pipeline",
+    "favorites": "Favorites",
+    "recent": "Recent",
+    "categories": "Categories",
+    "allTools": "All Tools"
+  },
+  "categories": {
+    "time": "Time",
+    "encoding": "Encoding",
+    "text": "Text",
+    "json": "JSON / Data",
+    "generators": "Generators",
+    "crypto": "Crypto"
+  },
+  "tools": {
+    "base64": "Base64 Encode/Decode",
+    "url-encode": "URL Encode/Decode",
+    "jwt-decode": "JWT Decode",
+    "epoch-converter": "Epoch Converter",
+    "cron-parser": "Cron Parser",
+    "json-formatter": "JSON Formatter",
+    "json-yaml": "JSON ↔ YAML",
+    "uuid": "UUID Generator",
+    "hash": "Hash Generator",
+    "password": "Password Generator",
+    "qrcode": "QR Code Generator",
+    "hmac": "HMAC Generator",
+    "regex-tester": "Regex Tester",
+    "case-converter": "Case Converter",
+    "diff-viewer": "Diff Viewer",
+    "line-tools": "Line Tools"
+  },
+  "pipeline": {
+    "title": "Pipeline Builder",
+    "description": "Chain transforms together to process data",
+    "input": "Input",
+    "output": "Output",
+    "nodes": "Pipeline",
+    "addTransform": "Add transform",
+    "run": "Run",
+    "share": "Share",
+    "save": "Save",
+    "saved": "Saved",
+    "clear": "Clear",
+    "templates": "Templates",
+    "noTransforms": "No transforms available",
+    "saveName": "Pipeline name...",
+    "noSaved": "No saved pipelines yet"
+  },
+  "common": {
+    "input": "Input",
+    "output": "Output",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "error": "Error",
+    "search": "Search tools...",
+    "toolNotFound": "Tool not found",
+    "outputPlaceholder": "Output will appear here"
+  }
+}

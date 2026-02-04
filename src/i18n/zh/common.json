@@ -1,0 +1,67 @@
+{
+  "app": {
+    "title": "开发工具箱",
+    "tagline": "离线优先的开发者工具。所有处理均在浏览器中完成。"
+  },
+  "nav": {
+    "home": "首页",
+    "pipeline": "管道",
+    "favorites": "收藏",
+    "recent": "最近使用",
+    "categories": "分类",
+    "allTools": "所有工具"
+  },
+  "categories": {
+    "time": "时间",
+    "encoding": "编码",
+    "text": "文本",
+    "json": "JSON / 数据",
+    "generators": "生成器",
+    "crypto": "加密"
+  },
+  "tools": {
+    "base64": "Base64 编码/解码",
+    "url-encode": "URL 编码/解码",
+    "jwt-decode": "JWT 解码",
+    "epoch-converter": "时间戳转换",
+    "cron-parser": "Cron 解析器",
+    "json-formatter": "JSON 格式化",
+    "json-yaml": "JSON ↔ YAML",
+    "uuid": "UUID 生成器",
+    "hash": "哈希生成器",
+    "password": "密码生成器",
+    "qrcode": "二维码生成器",
+    "hmac": "HMAC 生成器",
+    "regex-tester": "正则表达式测试",
+    "case-converter": "大小写转换",
+    "diff-viewer": "差异对比",
+    "line-tools": "行处理工具"
+  },
+  "pipeline": {
+    "title": "管道构建器",
+    "description": "将多个转换链接在一起处理数据",
+    "input": "输入",
+    "output": "输出",
+    "nodes": "管道",
+    "addTransform": "添加转换",
+    "run": "运行",
+    "share": "分享",
+    "save": "保存",
+    "saved": "已保存",
+    "clear": "清除",
+    "templates": "模板",
+    "noTransforms": "没有可用的转换",
+    "saveName": "管道名称...",
+    "noSaved": "暂无保存的管道"
+  },
+  "common": {
+    "input": "输入",
+    "output": "输出",
+    "copy": "复制",
+    "copied": "已复制！",
+    "error": "错误",
+    "search": "搜索工具...",
+    "toolNotFound": "未找到工具",
+    "outputPlaceholder": "输出将显示在这里"
+  }
+}

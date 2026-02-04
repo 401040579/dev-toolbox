@@ -31,6 +31,7 @@ export default function JsonFormatter() {
 
   return (
     <ToolLayout
+      toolId="json-formatter"
       title="JSON Formatter"
       description="Format, minify, and validate JSON data"
       actions={

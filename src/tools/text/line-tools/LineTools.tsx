@@ -53,6 +53,7 @@ export default function LineTools() {
 
   return (
     <ToolLayout
+      toolId="line-tools"
       title="Line Tools"
       description="Sort, deduplicate, reverse, and manipulate lines"
       actions={

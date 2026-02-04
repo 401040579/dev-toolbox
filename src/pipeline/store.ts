@@ -1,5 +1,44 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import type { PipelineNode } from './types';
+
+export interface SavedPipeline {
+  id: string;
+  name: string;
+  nodes: Array<{ transformId: string; options: Record<string, unknown> }>;
+  input: string;
+  savedAt: number;
+}
+
+interface SavedPipelinesStore {
+  saved: SavedPipeline[];
+  savePipeline: (name: string, nodes: PipelineNode[], input: string) => void;
+  deleteSavedPipeline: (id: string) => void;
+}
+
+export const useSavedPipelinesStore = create<SavedPipelinesStore>()(
+  persist(
+    (set) => ({
+      saved: [],
+      savePipeline: (name, nodes, input) =>
+        set((s) => ({
+          saved: [
+            {
+              id: `saved-${Date.now()}`,
+              name,
+              nodes: nodes.map((n) => ({ transformId: n.transformId, options: n.options })),
+              input,
+              savedAt: Date.now(),
+            },
+            ...s.saved,
+          ],
+        })),
+      deleteSavedPipeline: (id) =>
+        set((s) => ({ saved: s.saved.filter((p) => p.id !== id) })),
+    }),
+    { name: 'dev-toolbox-pipelines' },
+  ),
+);
 
 interface PipelineStore {
   nodes: PipelineNode[];

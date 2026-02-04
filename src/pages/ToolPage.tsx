@@ -39,3 +39,5 @@ export default function ToolPage() {
     </Suspense>
   );
 }
+
+export { ToolPage };

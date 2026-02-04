@@ -30,6 +30,7 @@ export default function UrlEncode() {
 
   return (
     <ToolLayout
+      toolId="url-encode"
       title="URL Encode/Decode"
       description="Encode or decode URL components and full URLs"
       actions={

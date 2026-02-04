@@ -1,26 +1,41 @@
 import { type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
-import { ArrowLeftRight, ArrowUpDown } from 'lucide-react';
+import { ArrowLeftRight, ArrowUpDown, Star } from 'lucide-react';
 import { useState } from 'react';
+import { useAppStore } from '@/store/app';
 
 interface ToolLayoutProps {
   title: string;
   description?: string;
+  toolId?: string;
   input: ReactNode;
   output: ReactNode;
   actions?: ReactNode;
 }
 
-export function ToolLayout({ title, description, input, output, actions }: ToolLayoutProps) {
+export function ToolLayout({ title, description, toolId, input, output, actions }: ToolLayoutProps) {
   const [vertical, setVertical] = useState(false);
+  const { favorites, toggleFavorite } = useAppStore();
+  const isFav = toolId ? favorites.includes(toolId) : false;
 
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-        <div>
-          <h1 className="text-lg font-semibold text-text-primary">{title}</h1>
-          {description && (
-            <p className="text-sm text-text-secondary mt-0.5">{description}</p>
+        <div className="flex items-center gap-2">
+          <div>
+            <h1 className="text-lg font-semibold text-text-primary">{title}</h1>
+            {description && (
+              <p className="text-sm text-text-secondary mt-0.5">{description}</p>
+            )}
+          </div>
+          {toolId && (
+            <button
+              onClick={() => toggleFavorite(toolId)}
+              className="p-1.5 rounded-md text-text-muted hover:text-warning transition-colors"
+              aria-label={isFav ? 'Remove from favorites' : 'Add to favorites'}
+            >
+              <Star size={16} fill={isFav ? 'currentColor' : 'none'} className={isFav ? 'text-warning' : ''} />
+            </button>
           )}
         </div>
         <div className="flex items-center gap-2">

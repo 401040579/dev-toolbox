@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useRef } from 'react';
-import { Plus, Play, Share2, Trash2, BookTemplate } from 'lucide-react';
-import { usePipelineStore } from './store';
+import { Plus, Play, Share2, Trash2, BookTemplate, Save, FolderOpen, X } from 'lucide-react';
+import { usePipelineStore, useSavedPipelinesStore } from './store';
 import { executePipeline } from './engine';
 import { getPipelineShareUrl, deserializePipeline } from './serializer';
 import { PipelineNodeCard } from './PipelineNode';
@@ -13,8 +13,12 @@ import { useState } from 'react';
 export default function PipelinePage() {
   const { nodes, input, setInput, addNode, clearPipeline, loadPipeline } = usePipelineStore();
   const allTransforms = getAllTransforms();
+  const { saved, savePipeline, deleteSavedPipeline } = useSavedPipelinesStore();
   const [showTemplates, setShowTemplates] = useState(false);
   const [showAddMenu, setShowAddMenu] = useState(false);
+  const [showSaved, setShowSaved] = useState(false);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [saveName, setSaveName] = useState('');
   const { copy: copyUrl, copied: urlCopied } = useCopyToClipboard();
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -71,6 +75,21 @@ export default function PipelinePage() {
             Templates
           </button>
           <button
+            onClick={() => setShowSaved((v) => !v)}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
+          >
+            <FolderOpen size={14} />
+            Saved{saved.length > 0 ? ` (${saved.length})` : ''}
+          </button>
+          <button
+            onClick={() => { setSaveName(''); setShowSaveDialog(true); }}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
+            disabled={nodes.length === 0}
+          >
+            <Save size={14} />
+            Save
+          </button>
+          <button
             onClick={handleShare}
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
             disabled={nodes.length === 0}
@@ -119,6 +138,83 @@ export default function PipelinePage() {
               </button>
             </div>
           </div>
+
+          {/* Save dialog */}
+          {showSaveDialog && (
+            <div className="border-b border-border p-3 bg-surface">
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={saveName}
+                  onChange={(e) => setSaveName(e.target.value)}
+                  placeholder="Pipeline name..."
+                  className="flex-1 px-2 py-1.5 text-sm rounded-md border border-border bg-background"
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && saveName.trim()) {
+                      savePipeline(saveName.trim(), nodes, input);
+                      setShowSaveDialog(false);
+                    }
+                    if (e.key === 'Escape') setShowSaveDialog(false);
+                  }}
+                />
+                <button
+                  onClick={() => {
+                    if (saveName.trim()) {
+                      savePipeline(saveName.trim(), nodes, input);
+                      setShowSaveDialog(false);
+                    }
+                  }}
+                  disabled={!saveName.trim()}
+                  className="px-3 py-1.5 text-xs font-medium rounded-md bg-accent text-background hover:bg-accent-hover transition-colors disabled:opacity-50"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => setShowSaveDialog(false)}
+                  className="p-1.5 rounded-md text-text-muted hover:text-text-primary transition-colors"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Saved pipelines dropdown */}
+          {showSaved && (
+            <div className="border-b border-border p-3 bg-surface space-y-2">
+              <div className="text-xs font-medium text-text-muted">Saved pipelines:</div>
+              {saved.length === 0 ? (
+                <div className="text-xs text-text-muted py-2 text-center">No saved pipelines yet</div>
+              ) : (
+                saved.map((p) => (
+                  <div
+                    key={p.id}
+                    className="flex items-center gap-2 px-3 py-2 rounded-md border border-border hover:border-border-strong hover:bg-surface-hover transition-colors"
+                  >
+                    <button
+                      onClick={() => {
+                        loadPipeline(p.nodes, p.input);
+                        setShowSaved(false);
+                      }}
+                      className="flex-1 text-left"
+                    >
+                      <div className="text-sm font-medium text-text-primary">{p.name}</div>
+                      <div className="text-xs text-text-muted">
+                        {p.nodes.length} nodes · {new Date(p.savedAt).toLocaleDateString()}
+                      </div>
+                    </button>
+                    <button
+                      onClick={() => deleteSavedPipeline(p.id)}
+                      className="p-1 rounded text-text-muted hover:text-error transition-colors"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
 
           {/* Templates dropdown */}
           {showTemplates && (

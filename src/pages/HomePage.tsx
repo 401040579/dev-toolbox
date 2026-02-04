@@ -140,15 +140,22 @@ export default function HomePage() {
 }
 
 function ToolCard({ tool }: { tool: { id: string; name: string; description: string; category: ToolCategory } }) {
+  const { favorites, toggleFavorite } = useAppStore();
+  const isFav = favorites.includes(tool.id);
+
   return (
-    <Link
-      to={`/tools/${tool.category}/${tool.id}`}
-      className="flex items-center gap-3 px-3 py-2.5 rounded-md border border-border hover:border-border-strong hover:bg-surface-hover transition-colors"
-    >
-      <div>
+    <div className="flex items-center gap-3 px-3 py-2.5 rounded-md border border-border hover:border-border-strong hover:bg-surface-hover transition-colors">
+      <Link to={`/tools/${tool.category}/${tool.id}`} className="flex-1 min-w-0">
         <div className="text-sm font-medium text-text-primary">{tool.name}</div>
         <div className="text-xs text-text-muted">{tool.description}</div>
-      </div>
-    </Link>
+      </Link>
+      <button
+        onClick={(e) => { e.preventDefault(); toggleFavorite(tool.id); }}
+        className="shrink-0 p-1 rounded text-text-muted hover:text-warning transition-colors"
+        aria-label={isFav ? 'Remove from favorites' : 'Add to favorites'}
+      >
+        <Star size={14} fill={isFav ? 'currentColor' : 'none'} className={isFav ? 'text-warning' : ''} />
+      </button>
+    </div>
   );
 }
