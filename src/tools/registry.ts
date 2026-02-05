@@ -32,6 +32,13 @@ import regexTesterTool from './text/regex-tester';
 import caseConverterTool from './text/case-converter';
 import diffViewerTool from './text/diff-viewer';
 import lineToolsTool from './text/line-tools';
+import urlParserTool from './network/url-parser';
+import queryStringTool from './network/query-string';
+import ipConverterTool from './network/ip-converter';
+import cidrTool from './network/cidr';
+import userAgentTool from './network/user-agent';
+import httpHeadersTool from './network/http-headers';
+import dataUrlTool from './network/data-url';
 
 const ALL_TOOLS: ToolDefinition[] = [
   base64Tool,
@@ -64,6 +71,13 @@ const ALL_TOOLS: ToolDefinition[] = [
   caseConverterTool,
   diffViewerTool,
   lineToolsTool,
+  urlParserTool,
+  queryStringTool,
+  ipConverterTool,
+  cidrTool,
+  userAgentTool,
+  httpHeadersTool,
+  dataUrlTool,
 ];
 
 const toolRegistry = new Map<string, ToolDefinition>();

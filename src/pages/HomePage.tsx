@@ -6,6 +6,7 @@ import {
   Braces,
   Sparkles,
   Shield,
+  Network,
   GitBranch,
   Star,
   ArrowRight,
@@ -24,6 +25,7 @@ const CATEGORY_ICONS: Record<ToolCategory, LucideIcon> = {
   json: Braces,
   generators: Sparkles,
   crypto: Shield,
+  network: Network,
 };
 
 export default function HomePage() {

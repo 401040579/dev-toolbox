@@ -202,8 +202,8 @@
 
 ## 统计
 
-- 已实现: **29** 个工具 (Phase 1 + Phase 2 完成)
-- 待开发: **~66** 个工具
+- 已实现: **36** 个工具 (Phase 1-3 完成)
+- 待开发: **~59** 个工具
 - 总计: **~95** 个工具
 
 ---
@@ -227,5 +227,14 @@
 - [x] Hash File
 - [x] Checksum Calculator
 - [x] Token Generator
+
+### Phase 3 进度
+- [x] URL Parser
+- [x] Query String Parser
+- [x] IPv4/IPv6 Converter
+- [x] CIDR Calculator
+- [x] User Agent Parser
+- [x] HTTP Header Parser
+- [x] Data URL Generator
 
 *(更多阶段待更新)*

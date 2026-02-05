@@ -31,6 +31,11 @@ export const CATEGORY_META: Record<ToolCategory, { label: string; description: s
     description: 'Hashing and cryptographic utilities',
     icon: 'Shield',
   },
+  network: {
+    label: 'Network',
+    description: 'URL, IP, and network utilities',
+    icon: 'Network',
+  },
 };
 
 export const CATEGORIES = Object.keys(CATEGORY_META) as ToolCategory[];

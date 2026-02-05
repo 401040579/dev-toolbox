@@ -6,6 +6,7 @@ import {
   Braces,
   Sparkles,
   Shield,
+  Network,
   Home,
   GitBranch,
   Info,
@@ -26,9 +27,10 @@ const CATEGORY_ICONS: Record<ToolCategory, LucideIcon> = {
   json: Braces,
   generators: Sparkles,
   crypto: Shield,
+  network: Network,
 };
 
-const categories: ToolCategory[] = ['time', 'encoding', 'text', 'json', 'generators', 'crypto'];
+const categories: ToolCategory[] = ['time', 'encoding', 'text', 'json', 'generators', 'crypto', 'network'];
 
 export function Sidebar() {
   const { sidebarCollapsed, toggleSidebar } = useAppStore();
