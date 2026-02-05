@@ -281,6 +281,86 @@
       "lines": "lines",
       "uniqueCount": "unique",
       "chars": "chars"
+    },
+    "htmlEntity": {
+      "title": "HTML Entity Encode/Decode",
+      "description": "Encode or decode HTML entities",
+      "encode": "Encode",
+      "decode": "Decode",
+      "encodeAll": "Encode all characters",
+      "encodePlaceholder": "Enter text with special characters... <script>alert('xss')</script>",
+      "decodePlaceholder": "Enter HTML entities... &lt;script&gt;",
+      "error": "Failed to process input"
+    },
+    "unicodeEscape": {
+      "title": "Unicode Escape/Unescape",
+      "description": "Convert between Unicode escape sequences and characters",
+      "escape": "Escape",
+      "unescape": "Unescape",
+      "escapeAll": "Escape all characters",
+      "escapePlaceholder": "Enter text... 中文 日本語",
+      "unescapePlaceholder": "Enter Unicode escapes... \\u4e2d\\u6587",
+      "error": "Failed to process input"
+    },
+    "hexString": {
+      "title": "Hex ↔ String",
+      "description": "Convert between hexadecimal and text strings",
+      "toHex": "String → Hex",
+      "toString": "Hex → String",
+      "uppercase": "Uppercase",
+      "sepSpace": "Space",
+      "sepNone": "No separator",
+      "sepColon": "Colon (:)",
+      "sepDash": "Dash (-)",
+      "sep0x": "0x prefix",
+      "toHexPlaceholder": "Enter text to convert to hex...",
+      "toStringPlaceholder": "Enter hex values... 48 65 6c 6c 6f",
+      "invalidHexLength": "Hex string length must be even",
+      "error": "Failed to convert"
+    },
+    "numberBase": {
+      "title": "Number Base Converter",
+      "description": "Convert numbers between decimal, hexadecimal, binary, and octal",
+      "inputLabel": "Input Number",
+      "placeholder": "Enter a number...",
+      "decimal": "Decimal",
+      "hexadecimal": "Hexadecimal",
+      "binary": "Binary",
+      "octal": "Octal",
+      "invalidInput": "Invalid number for selected base",
+      "commonValues": "Common Values"
+    },
+    "asciiTable": {
+      "title": "ASCII / Character Converter",
+      "description": "Convert between characters and ASCII codes",
+      "tabConverter": "Converter",
+      "tabTable": "ASCII Table",
+      "charToCode": "Char → Code",
+      "codeToChar": "Code → Char",
+      "charLabel": "Characters",
+      "codeLabel": "ASCII Codes",
+      "charPlaceholder": "Enter characters... Hello",
+      "codePlaceholder": "Enter ASCII codes... 72 101 108 108 111",
+      "error": "Failed to convert"
+    },
+    "punycode": {
+      "title": "Punycode Encode/Decode",
+      "description": "Convert internationalized domain names (IDN) using Punycode",
+      "encode": "Unicode → Punycode",
+      "decode": "Punycode → Unicode",
+      "encodePlaceholder": "Enter Unicode domain... 中文.com",
+      "decodePlaceholder": "Enter Punycode domain... xn--fiq228c.com",
+      "examples": "Examples",
+      "error": "Failed to convert"
+    },
+    "caesarCipher": {
+      "title": "Caesar Cipher / ROT13",
+      "description": "Encode/decode text using Caesar cipher or ROT13",
+      "custom": "Custom",
+      "shift": "Shift",
+      "placeholder": "Enter text to encode/decode...",
+      "result": "Result",
+      "allShifts": "All Shifts (click to select)"
     }
   },
   "pipeline": {

@@ -281,6 +281,86 @@
       "lines": "行",
       "uniqueCount": "不重复",
       "chars": "字符"
+    },
+    "htmlEntity": {
+      "title": "HTML 实体编码/解码",
+      "description": "编码或解码 HTML 实体",
+      "encode": "编码",
+      "decode": "解码",
+      "encodeAll": "编码所有字符",
+      "encodePlaceholder": "输入包含特殊字符的文本... <script>alert('xss')</script>",
+      "decodePlaceholder": "输入 HTML 实体... &lt;script&gt;",
+      "error": "处理输入失败"
+    },
+    "unicodeEscape": {
+      "title": "Unicode 转义",
+      "description": "Unicode 转义序列与字符互转",
+      "escape": "转义",
+      "unescape": "还原",
+      "escapeAll": "转义所有字符",
+      "escapePlaceholder": "输入文本... 中文 日本語",
+      "unescapePlaceholder": "输入 Unicode 转义... \\u4e2d\\u6587",
+      "error": "处理输入失败"
+    },
+    "hexString": {
+      "title": "十六进制 ↔ 字符串",
+      "description": "十六进制与文本字符串互转",
+      "toHex": "字符串 → 十六进制",
+      "toString": "十六进制 → 字符串",
+      "uppercase": "大写",
+      "sepSpace": "空格分隔",
+      "sepNone": "无分隔符",
+      "sepColon": "冒号 (:)",
+      "sepDash": "短横线 (-)",
+      "sep0x": "0x 前缀",
+      "toHexPlaceholder": "输入要转换为十六进制的文本...",
+      "toStringPlaceholder": "输入十六进制值... 48 65 6c 6c 6f",
+      "invalidHexLength": "十六进制字符串长度必须为偶数",
+      "error": "转换失败"
+    },
+    "numberBase": {
+      "title": "进制转换器",
+      "description": "在十进制、十六进制、二进制和八进制之间转换",
+      "inputLabel": "输入数字",
+      "placeholder": "输入数字...",
+      "decimal": "十进制",
+      "hexadecimal": "十六进制",
+      "binary": "二进制",
+      "octal": "八进制",
+      "invalidInput": "所选进制的数字无效",
+      "commonValues": "常用值"
+    },
+    "asciiTable": {
+      "title": "ASCII / 字符转换",
+      "description": "字符与 ASCII 码互转",
+      "tabConverter": "转换器",
+      "tabTable": "ASCII 表",
+      "charToCode": "字符 → 编码",
+      "codeToChar": "编码 → 字符",
+      "charLabel": "字符",
+      "codeLabel": "ASCII 码",
+      "charPlaceholder": "输入字符... Hello",
+      "codePlaceholder": "输入 ASCII 码... 72 101 108 108 111",
+      "error": "转换失败"
+    },
+    "punycode": {
+      "title": "Punycode 编码/解码",
+      "description": "使用 Punycode 转换国际化域名 (IDN)",
+      "encode": "Unicode → Punycode",
+      "decode": "Punycode → Unicode",
+      "encodePlaceholder": "输入 Unicode 域名... 中文.com",
+      "decodePlaceholder": "输入 Punycode 域名... xn--fiq228c.com",
+      "examples": "示例",
+      "error": "转换失败"
+    },
+    "caesarCipher": {
+      "title": "凯撒密码 / ROT13",
+      "description": "使用凯撒密码或 ROT13 编码/解码文本",
+      "custom": "自定义",
+      "shift": "偏移量",
+      "placeholder": "输入要编码/解码的文本...",
+      "result": "结果",
+      "allShifts": "所有偏移量（点击选择）"
     }
   },
   "pipeline": {

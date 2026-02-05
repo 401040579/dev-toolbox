@@ -5,6 +5,13 @@ import type { ToolDefinition, TransformDefinition, ToolCategory } from './types'
 import base64Tool from './encoding/base64';
 import urlEncodeTool from './encoding/url-encode';
 import jwtDecodeTool from './encoding/jwt-decode';
+import htmlEntityTool from './encoding/html-entity';
+import unicodeEscapeTool from './encoding/unicode-escape';
+import hexStringTool from './encoding/hex-string';
+import numberBaseTool from './encoding/number-base';
+import asciiTableTool from './encoding/ascii-table';
+import punycodeTool from './encoding/punycode';
+import caesarCipherTool from './encoding/caesar-cipher';
 import epochTool from './time/epoch-converter';
 import cronParserTool from './time/cron-parser';
 import jsonFormatterTool from './json/json-formatter';
@@ -23,6 +30,13 @@ const ALL_TOOLS: ToolDefinition[] = [
   base64Tool,
   urlEncodeTool,
   jwtDecodeTool,
+  htmlEntityTool,
+  unicodeEscapeTool,
+  hexStringTool,
+  numberBaseTool,
+  asciiTableTool,
+  punycodeTool,
+  caesarCipherTool,
   epochTool,
   cronParserTool,
   jsonFormatterTool,
