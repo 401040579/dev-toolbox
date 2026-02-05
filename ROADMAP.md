@@ -202,8 +202,8 @@
 
 ## 统计
 
-- 已实现: **43** 个工具 (Phase 1-4 完成)
-- 待开发: **~52** 个工具
+- 已实现: **57** 个工具 (Phase 1-6 完成)
+- 待开发: **~38** 个工具
 - 总计: **~95** 个工具
 
 ---
@@ -245,5 +245,23 @@
 - [x] NATO Phonetic Alphabet
 - [x] Slugify
 - [x] Truncate Text
+
+### Phase 5 进度
+- [x] SQL Formatter
+- [x] HTML Formatter
+- [x] CSS Formatter/Minifier
+- [x] JavaScript Formatter/Minifier
+- [x] XML Formatter
+- [x] TOML ↔ JSON ↔ YAML
+- [x] CSV ↔ JSON
+
+### Phase 6 进度
+- [x] ULID Generator
+- [x] NanoID Generator
+- [x] Fake Data Generator
+- [x] Random Number Generator
+- [x] Random String Generator
+- [x] Credit Card Generator (Luhn)
+- [x] IBAN Generator/Validator
 
 *(更多阶段待更新)*

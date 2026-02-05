@@ -27,6 +27,13 @@ import uuidTool from './generators/uuid';
 import hashTool from './generators/hash';
 import passwordTool from './generators/password';
 import qrcodeTool from './generators/qrcode';
+import ulidTool from './generators/ulid';
+import nanoidTool from './generators/nanoid';
+import fakeDataTool from './generators/fake-data';
+import randomNumberTool from './generators/random-number';
+import randomStringTool from './generators/random-string';
+import creditCardTool from './generators/credit-card';
+import ibanTool from './generators/iban';
 import hmacTool from './crypto/hmac';
 import md5Tool from './crypto/md5';
 import checksumTool from './crypto/checksum';
@@ -80,6 +87,13 @@ const ALL_TOOLS: ToolDefinition[] = [
   hashTool,
   passwordTool,
   qrcodeTool,
+  ulidTool,
+  nanoidTool,
+  fakeDataTool,
+  randomNumberTool,
+  randomStringTool,
+  creditCardTool,
+  ibanTool,
   hmacTool,
   md5Tool,
   checksumTool,
