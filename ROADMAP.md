@@ -202,8 +202,8 @@
 
 ## 统计
 
-- 已实现: **36** 个工具 (Phase 1-3 完成)
-- 待开发: **~59** 个工具
+- 已实现: **43** 个工具 (Phase 1-4 完成)
+- 待开发: **~52** 个工具
 - 总计: **~95** 个工具
 
 ---
@@ -236,5 +236,14 @@
 - [x] User Agent Parser
 - [x] HTTP Header Parser
 - [x] Data URL Generator
+
+### Phase 4 进度
+- [x] Text Statistics
+- [x] Lorem Ipsum Generator
+- [x] String Escape/Unescape
+- [x] Markdown Preview
+- [x] NATO Phonetic Alphabet
+- [x] Slugify
+- [x] Truncate Text
 
 *(更多阶段待更新)*

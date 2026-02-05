@@ -16,6 +16,13 @@ import epochTool from './time/epoch-converter';
 import cronParserTool from './time/cron-parser';
 import jsonFormatterTool from './json/json-formatter';
 import jsonYamlTool from './json/json-yaml';
+import sqlFormatterTool from './json/sql-formatter';
+import htmlFormatterTool from './json/html-formatter';
+import cssFormatterTool from './json/css-formatter';
+import jsFormatterTool from './json/js-formatter';
+import xmlFormatterTool from './json/xml-formatter';
+import tomlConverterTool from './json/toml-converter';
+import csvJsonTool from './json/csv-json';
 import uuidTool from './generators/uuid';
 import hashTool from './generators/hash';
 import passwordTool from './generators/password';
@@ -62,6 +69,13 @@ const ALL_TOOLS: ToolDefinition[] = [
   cronParserTool,
   jsonFormatterTool,
   jsonYamlTool,
+  sqlFormatterTool,
+  htmlFormatterTool,
+  cssFormatterTool,
+  jsFormatterTool,
+  xmlFormatterTool,
+  tomlConverterTool,
+  csvJsonTool,
   uuidTool,
   hashTool,
   passwordTool,
