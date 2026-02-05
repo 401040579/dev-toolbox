@@ -32,6 +32,13 @@ import regexTesterTool from './text/regex-tester';
 import caseConverterTool from './text/case-converter';
 import diffViewerTool from './text/diff-viewer';
 import lineToolsTool from './text/line-tools';
+import textStatsTool from './text/text-stats';
+import loremIpsumTool from './text/lorem-ipsum';
+import stringEscapeTool from './text/string-escape';
+import slugifyTool from './text/slugify';
+import natoPhoneticTool from './text/nato-phonetic';
+import truncateTool from './text/truncate';
+import markdownPreviewTool from './text/markdown-preview';
 import urlParserTool from './network/url-parser';
 import queryStringTool from './network/query-string';
 import ipConverterTool from './network/ip-converter';
@@ -71,6 +78,13 @@ const ALL_TOOLS: ToolDefinition[] = [
   caseConverterTool,
   diffViewerTool,
   lineToolsTool,
+  textStatsTool,
+  loremIpsumTool,
+  stringEscapeTool,
+  slugifyTool,
+  natoPhoneticTool,
+  truncateTool,
+  markdownPreviewTool,
   urlParserTool,
   queryStringTool,
   ipConverterTool,
