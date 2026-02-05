@@ -202,8 +202,8 @@
 
 ## 统计
 
-- 已实现: **15** 个工具
-- 待开发: **~80** 个工具
+- 已实现: **29** 个工具 (Phase 1 + Phase 2 完成)
+- 待开发: **~66** 个工具
 - 总计: **~95** 个工具
 
 ---
@@ -211,21 +211,21 @@
 ## 开发进度追踪
 
 ### Phase 1 进度
-- [ ] HTML Entity Encode/Decode
-- [ ] Unicode Escape/Unescape
-- [ ] Hex ↔ String
-- [ ] Hex ↔ Decimal ↔ Binary
-- [ ] ASCII ↔ Hex ↔ Binary
-- [ ] Punycode Encode/Decode
-- [ ] ROT13 / Caesar Cipher
+- [x] HTML Entity Encode/Decode
+- [x] Unicode Escape/Unescape
+- [x] Hex ↔ String
+- [x] Hex ↔ Decimal ↔ Binary
+- [x] ASCII ↔ Hex ↔ Binary
+- [x] Punycode Encode/Decode
+- [x] ROT13 / Caesar Cipher
 
 ### Phase 2 进度
-- [ ] AES Encrypt/Decrypt
-- [ ] RSA Key Generator
-- [ ] Bcrypt Hash/Verify
-- [ ] MD5 Hash
-- [ ] Hash File
-- [ ] Checksum Calculator
-- [ ] Token Generator
+- [x] AES Encrypt/Decrypt
+- [x] RSA Key Generator
+- [x] Bcrypt Hash/Verify (PBKDF2)
+- [x] MD5 Hash
+- [x] Hash File
+- [x] Checksum Calculator
+- [x] Token Generator
 
 *(更多阶段待更新)*

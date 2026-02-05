@@ -21,6 +21,13 @@ import hashTool from './generators/hash';
 import passwordTool from './generators/password';
 import qrcodeTool from './generators/qrcode';
 import hmacTool from './crypto/hmac';
+import md5Tool from './crypto/md5';
+import checksumTool from './crypto/checksum';
+import tokenGeneratorTool from './crypto/token-generator';
+import aesTool from './crypto/aes';
+import rsaKeygenTool from './crypto/rsa-keygen';
+import hashFileTool from './crypto/hash-file';
+import bcryptTool from './crypto/bcrypt';
 import regexTesterTool from './text/regex-tester';
 import caseConverterTool from './text/case-converter';
 import diffViewerTool from './text/diff-viewer';
@@ -46,6 +53,13 @@ const ALL_TOOLS: ToolDefinition[] = [
   passwordTool,
   qrcodeTool,
   hmacTool,
+  md5Tool,
+  checksumTool,
+  tokenGeneratorTool,
+  aesTool,
+  rsaKeygenTool,
+  hashFileTool,
+  bcryptTool,
   regexTesterTool,
   caseConverterTool,
   diffViewerTool,
