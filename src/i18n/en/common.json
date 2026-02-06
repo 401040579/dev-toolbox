@@ -979,6 +979,69 @@
       "extract": "Extract Colors",
       "processing": "Extracting...",
       "extractedColors": "Extracted Colors"
+    },
+    "colorConverter": {
+      "title": "Color Converter",
+      "description": "Convert between HEX, RGB, HSL, and CMYK color formats",
+      "allFormats": "All Formats"
+    },
+    "colorPalette": {
+      "title": "Color Palette Generator",
+      "description": "Generate harmonious color palettes from a base color",
+      "baseColor": "Base Color",
+      "harmony": "Harmony",
+      "copyAll": "Copy all",
+      "types": {
+        "complementary": "Complementary",
+        "analogous": "Analogous",
+        "triadic": "Triadic",
+        "split-complementary": "Split Complementary",
+        "tetradic": "Tetradic"
+      }
+    },
+    "contrastChecker": {
+      "title": "Contrast Checker",
+      "description": "Check color contrast ratios for WCAG accessibility",
+      "foreground": "Foreground",
+      "background": "Background",
+      "swap": "Swap",
+      "ratio": "Contrast Ratio",
+      "normalText": "Normal text",
+      "largeText": "Large text",
+      "pass": "Pass",
+      "fail": "Fail",
+      "previewLarge": "Large Text Preview",
+      "previewNormal": "Normal text preview for readability.",
+      "previewSmall": "Small text for detailed content."
+    },
+    "colorBlindness": {
+      "title": "Color Blindness Simulator",
+      "description": "Simulate how colors appear to people with color vision deficiencies",
+      "inputColors": "Input Colors",
+      "normalVision": "Normal Vision",
+      "types": {
+        "protanopia": "Protanopia (Red-blind)",
+        "deuteranopia": "Deuteranopia (Green-blind)",
+        "tritanopia": "Tritanopia (Blue-blind)",
+        "achromatopsia": "Achromatopsia (Total)"
+      }
+    },
+    "gradientGenerator": {
+      "title": "Gradient Generator",
+      "description": "Create CSS gradients with live preview",
+      "type": "Gradient Type",
+      "angle": "Angle",
+      "colorStops": "Color Stops",
+      "addStop": "Add color stop"
+    },
+    "colorShades": {
+      "title": "Color Shades Generator",
+      "description": "Generate shades and tints from a base color",
+      "baseColor": "Base Color",
+      "steps": "Steps",
+      "shades": "Shades (Lightness)",
+      "tints": "Tints (Saturation)",
+      "tailwindConfig": "Tailwind Config"
     }
   },
   "pipeline": {

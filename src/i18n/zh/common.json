@@ -979,6 +979,69 @@
       "extract": "提取颜色",
       "processing": "提取中...",
       "extractedColors": "提取的颜色"
+    },
+    "colorConverter": {
+      "title": "颜色转换器",
+      "description": "在 HEX、RGB、HSL、CMYK 格式之间转换颜色",
+      "allFormats": "所有格式"
+    },
+    "colorPalette": {
+      "title": "调色板生成器",
+      "description": "从基础颜色生成和谐的调色板",
+      "baseColor": "基础颜色",
+      "harmony": "色彩和谐",
+      "copyAll": "复制全部",
+      "types": {
+        "complementary": "互补色",
+        "analogous": "类似色",
+        "triadic": "三色组",
+        "split-complementary": "分裂互补",
+        "tetradic": "四色组"
+      }
+    },
+    "contrastChecker": {
+      "title": "对比度检查器",
+      "description": "检查颜色对比度是否符合 WCAG 无障碍标准",
+      "foreground": "前景色",
+      "background": "背景色",
+      "swap": "交换",
+      "ratio": "对比度",
+      "normalText": "普通文本",
+      "largeText": "大号文本",
+      "pass": "通过",
+      "fail": "不通过",
+      "previewLarge": "大号文本预览",
+      "previewNormal": "普通文本预览，用于检查可读性。",
+      "previewSmall": "小号文本用于详细内容。"
+    },
+    "colorBlindness": {
+      "title": "色盲模拟器",
+      "description": "模拟色觉障碍人群看到的颜色效果",
+      "inputColors": "输入颜色",
+      "normalVision": "正常视觉",
+      "types": {
+        "protanopia": "红色盲",
+        "deuteranopia": "绿色盲",
+        "tritanopia": "蓝色盲",
+        "achromatopsia": "全色盲"
+      }
+    },
+    "gradientGenerator": {
+      "title": "渐变生成器",
+      "description": "创建 CSS 渐变并实时预览",
+      "type": "渐变类型",
+      "angle": "角度",
+      "colorStops": "颜色节点",
+      "addStop": "添加颜色节点"
+    },
+    "colorShades": {
+      "title": "色调生成器",
+      "description": "从基础颜色生成深浅色调",
+      "baseColor": "基础颜色",
+      "steps": "步数",
+      "shades": "明度变化",
+      "tints": "饱和度变化",
+      "tailwindConfig": "Tailwind 配置"
     }
   },
   "pipeline": {

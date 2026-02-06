@@ -67,6 +67,12 @@ import faviconGeneratorTool from './image/favicon-generator';
 import svgOptimizerTool from './image/svg-optimizer';
 import colorPickerTool from './image/color-picker';
 import imageColorExtractorTool from './image/image-color-extractor';
+import colorConverterTool from './color/color-converter';
+import colorPaletteTool from './color/color-palette';
+import contrastCheckerTool from './color/contrast-checker';
+import colorBlindnessTool from './color/color-blindness';
+import gradientGeneratorTool from './color/gradient-generator';
+import colorShadesTool from './color/color-shades';
 
 const ALL_TOOLS: ToolDefinition[] = [
   base64Tool,
@@ -134,6 +140,12 @@ const ALL_TOOLS: ToolDefinition[] = [
   svgOptimizerTool,
   colorPickerTool,
   imageColorExtractorTool,
+  colorConverterTool,
+  colorPaletteTool,
+  contrastCheckerTool,
+  colorBlindnessTool,
+  gradientGeneratorTool,
+  colorShadesTool,
 ];
 
 const toolRegistry = new Map<string, ToolDefinition>();
