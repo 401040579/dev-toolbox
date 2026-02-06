@@ -46,6 +46,16 @@ export const CATEGORY_META: Record<ToolCategory, { label: string; description: s
     description: 'Color conversion, palettes, and accessibility',
     icon: 'Palette',
   },
+  devtools: {
+    label: 'Dev Tools',
+    description: 'Developer utilities and helpers',
+    icon: 'Wrench',
+  },
+  math: {
+    label: 'Math',
+    description: 'Math, units, and number conversions',
+    icon: 'Calculator',
+  },
 };
 
 export const CATEGORIES = Object.keys(CATEGORY_META) as ToolCategory[];

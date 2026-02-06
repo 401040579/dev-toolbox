@@ -22,7 +22,9 @@
     "crypto": "Crypto",
     "network": "Network",
     "image": "Image",
-    "color": "Color"
+    "color": "Color",
+    "devtools": "Dev Tools",
+    "math": "Math"
   },
   "categoryDesc": {
     "time": "Date, time, and scheduling utilities",
@@ -33,7 +35,9 @@
     "crypto": "Hashing and cryptographic utilities",
     "network": "URL, IP, and network utilities",
     "image": "Image conversion, compression, and manipulation",
-    "color": "Color conversion, palettes, and accessibility"
+    "color": "Color conversion, palettes, and accessibility",
+    "devtools": "Developer utilities and helpers",
+    "math": "Math, units, and number conversions"
   },
   "tools": {
     "base64": {
@@ -1042,6 +1046,83 @@
       "shades": "Shades (Lightness)",
       "tints": "Tints (Saturation)",
       "tailwindConfig": "Tailwind Config"
+    },
+    "jwtGenerator": {
+      "title": "JWT Generator",
+      "description": "Generate JSON Web Tokens with custom claims",
+      "algorithm": "Algorithm",
+      "secret": "Secret",
+      "payload": "Payload (JSON)",
+      "generate": "Generate JWT",
+      "token": "Generated Token"
+    },
+    "basicAuth": {
+      "title": "Basic Auth Generator",
+      "description": "Generate and decode HTTP Basic Authentication headers",
+      "encode": "Generate",
+      "decode": "Decode",
+      "username": "Username",
+      "password": "Password",
+      "generate": "Generate Header"
+    },
+    "oauthParser": {
+      "title": "OAuth Token Parser",
+      "description": "Parse and inspect OAuth/Bearer tokens",
+      "input": "Token Input",
+      "placeholder": "Paste your OAuth/Bearer token here...",
+      "header": "Header",
+      "payload": "Payload",
+      "expired": "Expired",
+      "valid": "Valid"
+    },
+    "samlDecoder": {
+      "title": "SAML Decoder",
+      "description": "Decode and inspect SAML assertions and responses",
+      "input": "SAML Input",
+      "placeholder": "Paste Base64-encoded SAML assertion or XML...",
+      "issuer": "Issuer",
+      "nameId": "Name ID",
+      "sessionIndex": "Session Index",
+      "conditions": "Conditions",
+      "attributes": "Attributes",
+      "decodedXml": "Decoded XML"
+    },
+    "chmodCalculator": {
+      "title": "Chmod Calculator",
+      "description": "Calculate Unix file permissions in octal and symbolic notation",
+      "role": "Role",
+      "read": "Read",
+      "write": "Write",
+      "execute": "Execute",
+      "owner": "Owner",
+      "group": "Group",
+      "others": "Others",
+      "octalInput": "Enter Octal",
+      "octalLabel": "Octal",
+      "symbolicLabel": "Symbolic",
+      "command": "Command",
+      "commonPresets": "Common Presets"
+    },
+    "crontabGenerator": {
+      "title": "Crontab Generator",
+      "description": "Build and visualize cron expressions",
+      "minute": "Minute",
+      "hour": "Hour",
+      "dayOfMonth": "Day (Month)",
+      "month": "Month",
+      "dayOfWeek": "Day (Week)",
+      "parseExpression": "Parse Expression",
+      "presets": "Presets"
+    },
+    "gitCommand": {
+      "title": "Git Command Reference",
+      "description": "Quick reference for common git commands",
+      "searchPlaceholder": "Search git commands..."
+    },
+    "dockerCompose": {
+      "title": "Docker Compose Templates",
+      "description": "Common Docker Compose templates and snippets",
+      "selectTemplate": "Select Template"
     }
   },
   "pipeline": {

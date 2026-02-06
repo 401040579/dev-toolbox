@@ -73,6 +73,14 @@ import contrastCheckerTool from './color/contrast-checker';
 import colorBlindnessTool from './color/color-blindness';
 import gradientGeneratorTool from './color/gradient-generator';
 import colorShadesTool from './color/color-shades';
+import jwtGeneratorTool from './devtools/jwt-generator';
+import basicAuthTool from './devtools/basic-auth';
+import oauthParserTool from './devtools/oauth-parser';
+import samlDecoderTool from './devtools/saml-decoder';
+import chmodCalculatorTool from './devtools/chmod-calculator';
+import crontabGeneratorTool from './devtools/crontab-generator';
+import gitCommandTool from './devtools/git-command';
+import dockerComposeTool from './devtools/docker-compose';
 
 const ALL_TOOLS: ToolDefinition[] = [
   base64Tool,
@@ -146,6 +154,14 @@ const ALL_TOOLS: ToolDefinition[] = [
   colorBlindnessTool,
   gradientGeneratorTool,
   colorShadesTool,
+  jwtGeneratorTool,
+  basicAuthTool,
+  oauthParserTool,
+  samlDecoderTool,
+  chmodCalculatorTool,
+  crontabGeneratorTool,
+  gitCommandTool,
+  dockerComposeTool,
 ];
 
 const toolRegistry = new Map<string, ToolDefinition>();

@@ -9,6 +9,8 @@ import {
   Network,
   Image,
   Palette,
+  Wrench,
+  Calculator,
   GitBranch,
   Star,
   ArrowRight,
@@ -30,6 +32,8 @@ const CATEGORY_ICONS: Record<ToolCategory, LucideIcon> = {
   network: Network,
   image: Image,
   color: Palette,
+  devtools: Wrench,
+  math: Calculator,
 };
 
 export default function HomePage() {

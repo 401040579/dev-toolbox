@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react';
 
-export type ToolCategory = 'time' | 'encoding' | 'text' | 'json' | 'generators' | 'crypto' | 'network' | 'image' | 'color';
+export type ToolCategory = 'time' | 'encoding' | 'text' | 'json' | 'generators' | 'crypto' | 'network' | 'image' | 'color' | 'devtools' | 'math';
 
 export interface ToolDefinition {
   id: string;

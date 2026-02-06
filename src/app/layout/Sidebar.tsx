@@ -9,6 +9,8 @@ import {
   Network,
   Image,
   Palette,
+  Wrench,
+  Calculator,
   Home,
   GitBranch,
   Info,
@@ -32,9 +34,11 @@ const CATEGORY_ICONS: Record<ToolCategory, LucideIcon> = {
   network: Network,
   image: Image,
   color: Palette,
+  devtools: Wrench,
+  math: Calculator,
 };
 
-const categories: ToolCategory[] = ['time', 'encoding', 'text', 'json', 'generators', 'crypto', 'network', 'image', 'color'];
+const categories: ToolCategory[] = ['time', 'encoding', 'text', 'json', 'generators', 'crypto', 'network', 'image', 'color', 'devtools', 'math'];
 
 export function Sidebar() {
   const { sidebarCollapsed, toggleSidebar } = useAppStore();
