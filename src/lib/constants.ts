@@ -36,6 +36,16 @@ export const CATEGORY_META: Record<ToolCategory, { label: string; description: s
     description: 'URL, IP, and network utilities',
     icon: 'Network',
   },
+  image: {
+    label: 'Image',
+    description: 'Image conversion, compression, and manipulation',
+    icon: 'Image',
+  },
+  color: {
+    label: 'Color',
+    description: 'Color conversion, palettes, and accessibility',
+    icon: 'Palette',
+  },
 };
 
 export const CATEGORIES = Object.keys(CATEGORY_META) as ToolCategory[];

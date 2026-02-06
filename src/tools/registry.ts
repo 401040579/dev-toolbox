@@ -60,6 +60,13 @@ import cidrTool from './network/cidr';
 import userAgentTool from './network/user-agent';
 import httpHeadersTool from './network/http-headers';
 import dataUrlTool from './network/data-url';
+import imageBase64Tool from './image/image-base64';
+import imageCompressorTool from './image/image-compressor';
+import imageConverterTool from './image/image-converter';
+import faviconGeneratorTool from './image/favicon-generator';
+import svgOptimizerTool from './image/svg-optimizer';
+import colorPickerTool from './image/color-picker';
+import imageColorExtractorTool from './image/image-color-extractor';
 
 const ALL_TOOLS: ToolDefinition[] = [
   base64Tool,
@@ -120,6 +127,13 @@ const ALL_TOOLS: ToolDefinition[] = [
   userAgentTool,
   httpHeadersTool,
   dataUrlTool,
+  imageBase64Tool,
+  imageCompressorTool,
+  imageConverterTool,
+  faviconGeneratorTool,
+  svgOptimizerTool,
+  colorPickerTool,
+  imageColorExtractorTool,
 ];
 
 const toolRegistry = new Map<string, ToolDefinition>();

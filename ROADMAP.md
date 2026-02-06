@@ -111,18 +111,17 @@
 | Credit Card Generator | 测试信用卡号生成 (Luhn) | P2 |
 | IBAN Generator/Validator | IBAN 生成验证 | P2 |
 
-### Phase 7: 图片工具 🖼️
+### Phase 7: 图片工具 🖼️ ✅
 
 | 工具 | 描述 | 优先级 |
 |------|------|--------|
-| Image to Base64 | 图片转 Base64 | P0 |
-| Base64 to Image | Base64 转图片 | P0 |
-| Image Compressor | 图片压缩 | P1 |
-| Image Format Converter | 图片格式转换 | P1 |
-| Favicon Generator | Favicon 生成 | P2 |
-| SVG Optimizer | SVG 优化 | P2 |
-| Color Picker | 颜色选择器 | P0 |
-| Image Color Extractor | 图片取色 | P2 |
+| ✅ Image ↔ Base64 | 图片与 Base64 互转 | P0 |
+| ✅ Image Compressor | 图片压缩 | P1 |
+| ✅ Image Format Converter | 图片格式转换 | P1 |
+| ✅ Favicon Generator | Favicon 生成 | P2 |
+| ✅ SVG Optimizer | SVG 优化 | P2 |
+| ✅ Color Picker & Converter | 颜色选择器和转换器 | P0 |
+| ✅ Image Color Extractor | 图片取色 | P2 |
 
 ### Phase 8: 颜色工具 🎨
 
@@ -202,7 +201,7 @@
 
 ## 统计
 
-- 已实现: **57** 个工具 (Phase 1-6 完成)
+- 已实现: **64** 个工具 (Phase 1-7 完成)
 - 待开发: **~38** 个工具
 - 总计: **~95** 个工具
 

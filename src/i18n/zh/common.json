@@ -20,7 +20,9 @@
     "json": "JSON / 数据",
     "generators": "生成器",
     "crypto": "加密",
-    "network": "网络"
+    "network": "网络",
+    "image": "图片",
+    "color": "颜色"
   },
   "categoryDesc": {
     "time": "日期、时间和定时任务工具",
@@ -29,7 +31,9 @@
     "json": "格式化、验证和转换结构化数据",
     "generators": "生成 UUID、密码、哈希等",
     "crypto": "哈希和加密工具",
-    "network": "URL、IP 和网络工具"
+    "network": "URL、IP 和网络工具",
+    "image": "图片转换、压缩和处理",
+    "color": "颜色转换、调色板和无障碍"
   },
   "tools": {
     "base64": {
@@ -892,6 +896,89 @@
       "checkDigits": "校验位",
       "bban": "BBAN",
       "warning": "这些仅是测试 IBAN。它们结构上有效但不是真实的银行账户。仅用于测试目的。"
+    },
+    "imageBase64": {
+      "title": "图片 ↔ Base64",
+      "description": "图片与 Base64 字符串互转",
+      "imageToBase64": "图片 → Base64",
+      "base64ToImage": "Base64 → 图片",
+      "dropzone": "点击选择图片",
+      "mimeType": "MIME 类型",
+      "fileSize": "文件大小",
+      "base64Output": "Base64 输出",
+      "base64Input": "Base64 输入",
+      "base64Placeholder": "在此粘贴 Base64 或 data URL...",
+      "decode": "解码",
+      "download": "下载图片"
+    },
+    "imageCompressor": {
+      "title": "图片压缩器",
+      "description": "在浏览器中压缩和调整图片大小",
+      "dropzone": "点击选择图片",
+      "quality": "质量",
+      "maxWidth": "最大宽度",
+      "maxHeight": "最大高度",
+      "format": "格式",
+      "compress": "压缩",
+      "processing": "压缩中...",
+      "original": "原图",
+      "compressed": "压缩后",
+      "download": "下载"
+    },
+    "imageConverter": {
+      "title": "图片格式转换器",
+      "description": "在 PNG、JPEG、WebP、BMP 格式之间转换图片",
+      "dropzone": "点击选择图片",
+      "sourceFormat": "源格式",
+      "targetFormat": "目标格式",
+      "quality": "质量",
+      "convert": "转换",
+      "processing": "转换中...",
+      "outputSize": "输出大小",
+      "download": "下载"
+    },
+    "faviconGenerator": {
+      "title": "Favicon 生成器",
+      "description": "从图片生成网站图标和应用图标",
+      "dropzone": "点击选择源图片",
+      "selectSizes": "选择尺寸",
+      "generate": "生成 Favicon",
+      "processing": "生成中...",
+      "generated": "已生成 {{count}} 个图标",
+      "downloadAll": "全部下载",
+      "preview": "预览"
+    },
+    "svgOptimizer": {
+      "title": "SVG 优化器",
+      "description": "优化、压缩和美化 SVG 文件",
+      "input": "输入 SVG",
+      "output": "优化后的 SVG",
+      "inputPlaceholder": "在此粘贴 SVG 代码...",
+      "optimize": "优化",
+      "preview": "预览",
+      "options": {
+        "removeComments": "删除注释",
+        "removeMetadata": "删除元数据",
+        "removeEmptyAttrs": "删除空属性",
+        "removeXMLDecl": "删除 XML 声明",
+        "minify": "压缩",
+        "prettify": "美化"
+      }
+    },
+    "colorPicker": {
+      "title": "颜色选择器和转换器",
+      "description": "选择颜色并在 HEX、RGB、HSL、HSV 之间转换",
+      "pickColor": "选择颜色",
+      "colorFormats": "颜色格式"
+    },
+    "imageColorExtractor": {
+      "title": "图片颜色提取器",
+      "description": "从图片中提取主要颜色",
+      "dropzone": "点击选择图片",
+      "maxColors": "最大颜色数",
+      "extract": "提取颜色",
+      "processing": "提取中...",
+      "extractedColors": "提取的颜色"
     }
   },
   "pipeline": {

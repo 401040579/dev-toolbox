@@ -20,7 +20,9 @@
     "json": "JSON / Data",
     "generators": "Generators",
     "crypto": "Crypto",
-    "network": "Network"
+    "network": "Network",
+    "image": "Image",
+    "color": "Color"
   },
   "categoryDesc": {
     "time": "Date, time, and scheduling utilities",
@@ -29,7 +31,9 @@
     "json": "Format, validate, and convert structured data",
     "generators": "Generate UUIDs, passwords, hashes, and more",
     "crypto": "Hashing and cryptographic utilities",
-    "network": "URL, IP, and network utilities"
+    "network": "URL, IP, and network utilities",
+    "image": "Image conversion, compression, and manipulation",
+    "color": "Color conversion, palettes, and accessibility"
   },
   "tools": {
     "base64": {
@@ -892,6 +896,89 @@
       "checkDigits": "Check Digits",
       "bban": "BBAN",
       "warning": "These are TEST IBANs only. They are structurally valid but NOT real bank accounts. Use only for testing purposes."
+    },
+    "imageBase64": {
+      "title": "Image ↔ Base64",
+      "description": "Convert images to Base64 strings and back",
+      "imageToBase64": "Image → Base64",
+      "base64ToImage": "Base64 → Image",
+      "dropzone": "Click to select an image",
+      "mimeType": "MIME Type",
+      "fileSize": "File Size",
+      "base64Output": "Base64 Output",
+      "base64Input": "Base64 Input",
+      "base64Placeholder": "Paste Base64 or data URL here...",
+      "decode": "Decode",
+      "download": "Download Image"
+    },
+    "imageCompressor": {
+      "title": "Image Compressor",
+      "description": "Compress and resize images in the browser",
+      "dropzone": "Click to select an image",
+      "quality": "Quality",
+      "maxWidth": "Max Width",
+      "maxHeight": "Max Height",
+      "format": "Format",
+      "compress": "Compress",
+      "processing": "Compressing...",
+      "original": "Original",
+      "compressed": "Compressed",
+      "download": "Download"
+    },
+    "imageConverter": {
+      "title": "Image Format Converter",
+      "description": "Convert images between PNG, JPEG, WebP, and BMP",
+      "dropzone": "Click to select an image",
+      "sourceFormat": "Source",
+      "targetFormat": "Target",
+      "quality": "Quality",
+      "convert": "Convert",
+      "processing": "Converting...",
+      "outputSize": "Output size",
+      "download": "Download"
+    },
+    "faviconGenerator": {
+      "title": "Favicon Generator",
+      "description": "Generate favicons and app icons from images",
+      "dropzone": "Click to select a source image",
+      "selectSizes": "Select Sizes",
+      "generate": "Generate Favicons",
+      "processing": "Generating...",
+      "generated": "Generated {{count}} icons",
+      "downloadAll": "Download All",
+      "preview": "Preview"
+    },
+    "svgOptimizer": {
+      "title": "SVG Optimizer",
+      "description": "Optimize, minify, and prettify SVG files",
+      "input": "Input SVG",
+      "output": "Optimized SVG",
+      "inputPlaceholder": "Paste SVG code here...",
+      "optimize": "Optimize",
+      "preview": "Preview",
+      "options": {
+        "removeComments": "Remove comments",
+        "removeMetadata": "Remove metadata",
+        "removeEmptyAttrs": "Remove empty attributes",
+        "removeXMLDecl": "Remove XML declaration",
+        "minify": "Minify",
+        "prettify": "Prettify"
+      }
+    },
+    "colorPicker": {
+      "title": "Color Picker & Converter",
+      "description": "Pick colors and convert between HEX, RGB, HSL, HSV",
+      "pickColor": "Pick a Color",
+      "colorFormats": "Color Formats"
+    },
+    "imageColorExtractor": {
+      "title": "Image Color Extractor",
+      "description": "Extract dominant colors from images",
+      "dropzone": "Click to select an image",
+      "maxColors": "Max Colors",
+      "extract": "Extract Colors",
+      "processing": "Extracting...",
+      "extractedColors": "Extracted Colors"
     }
   },
   "pipeline": {

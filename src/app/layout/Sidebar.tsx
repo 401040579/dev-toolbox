@@ -7,6 +7,8 @@ import {
   Sparkles,
   Shield,
   Network,
+  Image,
+  Palette,
   Home,
   GitBranch,
   Info,
@@ -28,9 +30,11 @@ const CATEGORY_ICONS: Record<ToolCategory, LucideIcon> = {
   generators: Sparkles,
   crypto: Shield,
   network: Network,
+  image: Image,
+  color: Palette,
 };
 
-const categories: ToolCategory[] = ['time', 'encoding', 'text', 'json', 'generators', 'crypto', 'network'];
+const categories: ToolCategory[] = ['time', 'encoding', 'text', 'json', 'generators', 'crypto', 'network', 'image', 'color'];
 
 export function Sidebar() {
   const { sidebarCollapsed, toggleSidebar } = useAppStore();

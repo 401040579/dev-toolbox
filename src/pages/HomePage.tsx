@@ -7,6 +7,8 @@ import {
   Sparkles,
   Shield,
   Network,
+  Image,
+  Palette,
   GitBranch,
   Star,
   ArrowRight,
@@ -26,6 +28,8 @@ const CATEGORY_ICONS: Record<ToolCategory, LucideIcon> = {
   generators: Sparkles,
   crypto: Shield,
   network: Network,
+  image: Image,
+  color: Palette,
 };
 
 export default function HomePage() {
