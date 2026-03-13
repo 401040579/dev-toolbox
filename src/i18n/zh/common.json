@@ -1123,6 +1123,68 @@
       "title": "Docker Compose 模板",
       "description": "常用 Docker Compose 模板和代码片段",
       "selectTemplate": "选择模板"
+    },
+    "unitConverter": {
+      "title": "单位转换器",
+      "description": "在长度、重量、温度等单位之间转换",
+      "value": "数值",
+      "from": "从",
+      "to": "到",
+      "allConversions": "所有转换"
+    },
+    "byteConverter": {
+      "title": "字节大小转换器",
+      "description": "在字节、KB、MB、GB、TB 和二进制单位之间转换",
+      "value": "数值",
+      "unit": "单位",
+      "decimal": "十进制",
+      "binary": "二进制"
+    },
+    "percentageCalc": {
+      "title": "百分比计算器",
+      "description": "计算百分比、变化量和比例",
+      "modes": {
+        "whatPercent": "A 是 B 的百分之几",
+        "percentOf": "百分比的值",
+        "percentChange": "百分比变化",
+        "addPercent": "加上百分比",
+        "subtractPercent": "减去百分比"
+      },
+      "valueA": "值 A",
+      "valueB": "值 B",
+      "percent": "百分比",
+      "ofValue": "基数",
+      "fromValue": "起始值",
+      "toValue": "终止值",
+      "value": "数值",
+      "addPercent": "加上 %",
+      "subtractPercent": "减去 %"
+    },
+    "mathEvaluator": {
+      "title": "数学表达式计算器",
+      "description": "安全计算数学表达式",
+      "expression": "表达式",
+      "supported": "支持的运算符",
+      "history": "历史记录"
+    },
+    "romanNumeral": {
+      "title": "罗马数字转换器",
+      "description": "在阿拉伯数字和罗马数字之间转换",
+      "arabic": "阿拉伯数字",
+      "roman": "罗马数字",
+      "reference": "快速参考"
+    },
+    "aspectRatio": {
+      "title": "宽高比计算器",
+      "description": "计算和转换宽高比",
+      "fromDimensions": "从尺寸计算比例",
+      "fromRatio": "从比例计算尺寸",
+      "width": "宽度",
+      "height": "高度",
+      "ratioW": "比例宽",
+      "ratioH": "比例高",
+      "knownWidth": "已知宽度",
+      "common": "常用比例"
     }
   },
   "pipeline": {

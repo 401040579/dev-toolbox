@@ -81,6 +81,12 @@ import chmodCalculatorTool from './devtools/chmod-calculator';
 import crontabGeneratorTool from './devtools/crontab-generator';
 import gitCommandTool from './devtools/git-command';
 import dockerComposeTool from './devtools/docker-compose';
+import unitConverterTool from './math/unit-converter';
+import byteConverterTool from './math/byte-converter';
+import percentageCalcTool from './math/percentage-calc';
+import mathEvaluatorTool from './math/math-evaluator';
+import romanNumeralTool from './math/roman-numeral';
+import aspectRatioTool from './math/aspect-ratio';
 
 const ALL_TOOLS: ToolDefinition[] = [
   base64Tool,
@@ -162,6 +168,12 @@ const ALL_TOOLS: ToolDefinition[] = [
   crontabGeneratorTool,
   gitCommandTool,
   dockerComposeTool,
+  unitConverterTool,
+  byteConverterTool,
+  percentageCalcTool,
+  mathEvaluatorTool,
+  romanNumeralTool,
+  aspectRatioTool,
 ];
 
 const toolRegistry = new Map<string, ToolDefinition>();

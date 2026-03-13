@@ -1123,6 +1123,68 @@
       "title": "Docker Compose Templates",
       "description": "Common Docker Compose templates and snippets",
       "selectTemplate": "Select Template"
+    },
+    "unitConverter": {
+      "title": "Unit Converter",
+      "description": "Convert between units of length, weight, temperature, and more",
+      "value": "Value",
+      "from": "From",
+      "to": "To",
+      "allConversions": "All Conversions"
+    },
+    "byteConverter": {
+      "title": "Byte Size Converter",
+      "description": "Convert between bytes, KB, MB, GB, TB and binary units",
+      "value": "Value",
+      "unit": "Unit",
+      "decimal": "Decimal",
+      "binary": "Binary"
+    },
+    "percentageCalc": {
+      "title": "Percentage Calculator",
+      "description": "Calculate percentages, changes, and proportions",
+      "modes": {
+        "whatPercent": "What % is A of B",
+        "percentOf": "% of value",
+        "percentChange": "% change",
+        "addPercent": "Add %",
+        "subtractPercent": "Subtract %"
+      },
+      "valueA": "Value A",
+      "valueB": "Value B",
+      "percent": "Percent",
+      "ofValue": "Of value",
+      "fromValue": "From",
+      "toValue": "To",
+      "value": "Value",
+      "addPercent": "Add %",
+      "subtractPercent": "Subtract %"
+    },
+    "mathEvaluator": {
+      "title": "Math Evaluator",
+      "description": "Evaluate mathematical expressions safely",
+      "expression": "Expression",
+      "supported": "Supported operators",
+      "history": "History"
+    },
+    "romanNumeral": {
+      "title": "Roman Numeral Converter",
+      "description": "Convert between Arabic and Roman numerals",
+      "arabic": "Arabic Number",
+      "roman": "Roman Numeral",
+      "reference": "Quick Reference"
+    },
+    "aspectRatio": {
+      "title": "Aspect Ratio Calculator",
+      "description": "Calculate and convert aspect ratios",
+      "fromDimensions": "Calculate ratio from dimensions",
+      "fromRatio": "Calculate dimension from ratio",
+      "width": "Width",
+      "height": "Height",
+      "ratioW": "Ratio W",
+      "ratioH": "Ratio H",
+      "knownWidth": "Known width",
+      "common": "Common Ratios"
     }
   },
   "pipeline": {
