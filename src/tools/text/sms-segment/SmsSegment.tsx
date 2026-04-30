@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AlertTriangle, Info, Sparkles } from 'lucide-react';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -119,11 +119,12 @@ export default function SmsSegment() {
               )}
             </div>
           </div>
-          <textarea
+          <HighlightedTextarea
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={setInput}
             placeholder={t('tools.smsSegment.inputPlaceholder')}
-            className="w-full min-h-[8rem] resize-y font-mono text-sm leading-relaxed"
+            nonGsmChars={result.nonGsmCharacters}
+            severity={showGsm7IncompatibleWarning ? 'error' : 'info'}
           />
 
           {!isEmpty && (
@@ -270,6 +271,108 @@ export default function SmsSegment() {
 }
 
 /* ────── Sub-components ────── */
+
+interface HighlightedTextareaProps {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder: string;
+  nonGsmChars: string[];
+  severity: 'error' | 'info';
+}
+
+function splitToGraphemes(text: string): string[] {
+  const SegmenterImpl = (Intl as unknown as {
+    Segmenter?: new (l: string, o: { granularity: 'grapheme' }) => {
+      segment(s: string): Iterable<{ segment: string }>;
+    };
+  }).Segmenter;
+  if (SegmenterImpl) {
+    const seg = new SegmenterImpl('en', { granularity: 'grapheme' });
+    const out: string[] = [];
+    for (const s of seg.segment(text)) out.push(s.segment);
+    return out;
+  }
+  return Array.from(text);
+}
+
+function HighlightedTextarea({ value, onChange, placeholder, nonGsmChars, severity }: HighlightedTextareaProps) {
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const nonGsmSet = useMemo(() => new Set(nonGsmChars), [nonGsmChars]);
+
+  const parts = useMemo(() => {
+    if (nonGsmSet.size === 0 || value.length === 0) {
+      return null;
+    }
+    const graphemes = splitToGraphemes(value);
+    const out: { isBad: boolean; text: string }[] = [];
+    for (const g of graphemes) {
+      const isBad = nonGsmSet.has(g);
+      const last = out[out.length - 1];
+      if (last && last.isBad === isBad) {
+        last.text += g;
+      } else {
+        out.push({ isBad, text: g });
+      }
+    }
+    return out;
+  }, [value, nonGsmSet]);
+
+  const handleScroll = (e: React.UIEvent<HTMLTextAreaElement>) => {
+    const t = e.currentTarget;
+    if (overlayRef.current) {
+      overlayRef.current.scrollTop = t.scrollTop;
+      overlayRef.current.scrollLeft = t.scrollLeft;
+    }
+  };
+
+  const sharedFont = 'font-mono text-sm leading-relaxed';
+
+  if (!parts) {
+    return (
+      <textarea
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className={`w-full min-h-[8rem] resize-y ${sharedFont}`}
+      />
+    );
+  }
+
+  const markCls =
+    severity === 'error'
+      ? 'bg-error/20 text-error rounded-sm ring-1 ring-inset ring-error/40'
+      : 'bg-info/15 text-info rounded-sm ring-1 ring-inset ring-info/30';
+
+  return (
+    <div className="relative">
+      <div
+        ref={overlayRef}
+        aria-hidden
+        className={`pointer-events-none absolute inset-0 m-0 px-3 py-2 ${sharedFont} whitespace-pre-wrap break-words overflow-hidden rounded-md border border-transparent text-text-primary`}
+      >
+        {parts.map((p, i) =>
+          p.isBad ? (
+            <span key={i} className={markCls}>{p.text}</span>
+          ) : (
+            <span key={i}>{p.text}</span>
+          ),
+        )}
+        {/* Trailing newline placeholder so the last empty line keeps its height */}
+        {value.endsWith('\n') && <span>&#x200b;</span>}
+      </div>
+      <textarea
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onScroll={handleScroll}
+        placeholder={placeholder}
+        spellCheck={false}
+        className={`relative w-full min-h-[8rem] resize-y ${sharedFont} bg-transparent text-transparent placeholder:text-text-muted selection:bg-accent/30 selection:text-text-primary`}
+        style={{ caretColor: 'var(--text-primary)' }}
+      />
+    </div>
+  );
+}
+
 
 interface SegmentedControlProps<T extends string> {
   value: T;
