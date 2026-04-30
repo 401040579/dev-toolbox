@@ -3,6 +3,7 @@
 @theme {
   --color-background: var(--background);
   --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
   --color-surface-hover: var(--surface-hover);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
@@ -49,7 +50,8 @@
 :root {
   --background: hsl(220 14% 6%);
   --surface: hsl(220 13% 9%);
-  --surface-hover: hsl(220 13% 12%);
+  --surface-alt: hsl(220 13% 11%);
+  --surface-hover: hsl(220 13% 14%);
   --border: hsl(220 13% 16%);
   --border-strong: hsl(220 13% 22%);
   --text-primary: hsl(220 10% 93%);
@@ -69,7 +71,8 @@
 [data-theme="light"] {
   --background: hsl(220 14% 97%);
   --surface: hsl(0 0% 100%);
-  --surface-hover: hsl(220 14% 94%);
+  --surface-alt: hsl(220 14% 95%);
+  --surface-hover: hsl(220 14% 92%);
   --border: hsl(220 13% 86%);
   --border-strong: hsl(220 13% 76%);
   --text-primary: hsl(220 14% 10%);
