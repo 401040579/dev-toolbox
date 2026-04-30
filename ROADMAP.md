@@ -244,6 +244,7 @@
 - [x] NATO Phonetic Alphabet
 - [x] Slugify
 - [x] Truncate Text
+- [x] SMS Segment Calculator (GSM-7 / UCS-2，参考 Twilio)
 
 ### Phase 5 进度
 - [x] SQL Formatter
