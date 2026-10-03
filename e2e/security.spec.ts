@@ -18,14 +18,19 @@ async function observe(page: Page) {
 async function decodeQr(page: Page) {
   const pixels = await page.locator('main img').evaluate((element) => {
     const image = element as HTMLImageElement;
+    if (!image.complete || !image.naturalWidth || !image.naturalHeight) return null;
     const canvas = document.createElement('canvas');
-    canvas.width = image.naturalWidth;
-    canvas.height = image.naturalHeight;
+    // This fixture decodes at 256px. Avoid serializing a million channel values per
+    // poll for the 512px SVG on a shared CI runner; output dimensions are checked separately.
+    const scale = Math.min(1, 256 / Math.max(image.naturalWidth, image.naturalHeight));
+    canvas.width = Math.round(image.naturalWidth * scale);
+    canvas.height = Math.round(image.naturalHeight * scale);
     const context = canvas.getContext('2d')!;
-    context.drawImage(image, 0, 0);
+    context.imageSmoothingEnabled = false;
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
     return { width: canvas.width, height: canvas.height, data: Array.from(context.getImageData(0, 0, canvas.width, canvas.height).data) };
   });
-  return jsQR(new Uint8ClampedArray(pixels.data), pixels.width, pixels.height)?.data;
+  return pixels ? jsQR(new Uint8ClampedArray(pixels.data), pixels.width, pixels.height)?.data : undefined;
 }
 
 test('QR preview and downloaded SVG decode locally without any external requests', async ({ page }) => {
@@ -37,16 +42,20 @@ test('QR preview and downloaded SVG decode locally without any external requests
   await expect.poll(() => decodeQr(page)).toBe(content);
   await page.locator('main select').selectOption('512');
   await expect(page.locator('main img')).toHaveAttribute('width', '512');
+  await expect(page.locator('main img')).toHaveJSProperty('naturalWidth', 512);
   await expect.poll(() => decodeQr(page)).toBe(content);
   const pending = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Download SVG' }).click();
   const download = await pending;
   expect(download.suggestedFilename()).toBe('qrcode.svg');
   const exported = await readFile((await download.path())!, 'utf8');
-  await page.locator('main img').evaluate((element, svg) => {
-    (element as HTMLImageElement).src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+  await page.locator('main img').evaluate(async (element, svg) => {
+    const image = element as HTMLImageElement;
+    image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+    await image.decode();
   }, exported);
-  await expect.poll(() => decodeQr(page)).toBe(content);
+  await expect(page.locator('main img')).toHaveJSProperty('naturalWidth', 512);
+  await expect.poll(() => decodeQr(page), { timeout: 15_000 }).toBe(content);
   await page.locator('main textarea').fill('x'.repeat(5000));
   await expect(page.getByRole('alert')).toBeVisible();
   await expect(page.locator('main img')).toHaveCount(0);
