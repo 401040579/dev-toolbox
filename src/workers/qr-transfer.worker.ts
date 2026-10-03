@@ -41,10 +41,10 @@ self.onmessage = (event: MessageEvent<QrWorkerRequest>) => {
         const boards = [], buffers: ArrayBuffer[] = [];
         for (let i = 0; i < request.count; i++) {
           const file = files[position.file];
-          if (!file || !Number.isInteger(position.index) || position.index < 0 || position.index >= file.order.length) throw new TransferError('engine');
+          if (!file || !Number.isSafeInteger(position.pass) || position.pass < 1 || !Number.isInteger(position.index) || position.index < 0 || position.index >= file.order.length) throw new TransferError('engine');
           const board = nextBoard(position, files.map((entry) => entry.order.length), request.parallel);
           const codes = board.positions.map((slot) => {
-            const matrix = QRCode.create([{ data: frameAt(file, slot.index), mode: 'byte' }], transferGeometry(file.metadata, profile)).modules;
+            const matrix = QRCode.create([{ data: frameAt(file, slot.index, slot.pass), mode: 'byte' }], transferGeometry(file.metadata, profile)).modules;
             buffers.push(matrix.data.buffer as ArrayBuffer);
             return { modules: matrix.data, size: matrix.size };
           });

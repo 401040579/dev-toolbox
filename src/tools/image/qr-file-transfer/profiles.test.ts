@@ -43,3 +43,20 @@ it('budgets metadata and never mixes files on a parallel board', () => {
   expect(nextBoard({ file: 0, index: 4, pass: 1 }, [5, 7], 4)).toEqual({ positions: [{ file: 0, index: 4, pass: 1 }], next: { file: 1, index: 0, pass: 1 } });
   expect(nextBoard({ file: 1, index: 4, pass: 2 }, [5, 7], 4).next).toEqual({ file: 0, index: 0, pass: 3 });
 });
+
+it('shifts repeated boards to break fixed every-other-board camera aliasing', async () => {
+  const bytes = crypto.getRandomValues(new Uint8Array(25_600));
+  const file = await prepareFile(new File([bytes], 'alias.bin'), 'high'), receiver = new FileReceiver();
+  expect(file.order).toHaveLength(24); // Six four-code boards: a half-rate camera can lock to three of them.
+  let complete;
+  for (let pass = 1; pass <= 4 && !complete; pass++) {
+    for (let index = 0; index < file.order.length; index++) {
+      if (Math.floor(index / 4) % 2 === 1) continue;
+      const result = await receiver.accept(frameAt(file, index, pass));
+      if (result.type === 'complete') complete = result;
+    }
+    if (pass === 1) expect(complete).toBeUndefined();
+  }
+  expect(complete).toBeDefined();
+  expect(complete?.bytes).toEqual(bytes); receiver.clear();
+});

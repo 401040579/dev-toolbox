@@ -22,8 +22,10 @@ export async function prepareFile(file: File, profile: TransferProfile = 'compat
   }
   return { metadata: sizedMetadata, packets, order };
 }
-export function frameAt(file: PreparedFile, index: number): Uint8Array {
-  return encodeFrame(file.metadata, file.packets[file.order[index]!]!);
+export function frameAt(file: PreparedFile, index: number, pass = 1): Uint8Array {
+  // Shift every loop so a 15 FPS camera cannot miss the same half of a 30 FPS board forever.
+  const shifted = (index + (pass - 1) % file.order.length) % file.order.length;
+  return encodeFrame(file.metadata, file.packets[file.order[shifted]!]!);
 }
 interface Session { metadata: FileMetadata; decoder: RaptorQDecoder; seen: Set<number>; started: number }
 
