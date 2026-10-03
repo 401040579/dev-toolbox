@@ -56,7 +56,7 @@ export default function UserAgent() {
                 </div>
                 <p className="text-lg font-semibold">{result.browser.name}</p>
                 {result.browser.version && (
-                  <p className="text-sm text-text-muted">Version {result.browser.version}</p>
+                  <p className="text-sm text-text-muted">{t('common.version')} {result.browser.version}</p>
                 )}
               </div>
             )}
@@ -70,7 +70,7 @@ export default function UserAgent() {
                 </div>
                 <p className="text-lg font-semibold">{result.os.name}</p>
                 {result.os.version && (
-                  <p className="text-sm text-text-muted">Version {result.os.version}</p>
+                  <p className="text-sm text-text-muted">{t('common.version')} {result.os.version}</p>
                 )}
               </div>
             )}
@@ -82,7 +82,7 @@ export default function UserAgent() {
                   <span className="text-2xl">📱</span>
                   <h3 className="text-sm font-medium text-text-muted">{t('tools.userAgent.device')}</h3>
                 </div>
-                <p className="text-lg font-semibold">{result.device.type}</p>
+                <p className="text-lg font-semibold">{t(`tools.userAgent.${({ Mobile: 'mobile', Tablet: 'tablet', Desktop: 'desktop', 'Smart TV': 'smartTv', 'Game Console': 'console' } as Record<string, string>)[result.device.type]}`)}</p>
                 {result.device.vendor && (
                   <p className="text-sm text-text-muted">{result.device.vendor} {result.device.model}</p>
                 )}
@@ -98,7 +98,7 @@ export default function UserAgent() {
                 </div>
                 <p className="text-lg font-semibold">{result.engine.name}</p>
                 {result.engine.version && (
-                  <p className="text-sm text-text-muted">Version {result.engine.version}</p>
+                  <p className="text-sm text-text-muted">{t('common.version')} {result.engine.version}</p>
                 )}
               </div>
             )}
@@ -123,11 +123,11 @@ export default function UserAgent() {
           </p>
           <div className="space-y-2">
             {[
-              { label: 'Chrome on Windows', ua: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' },
-              { label: 'Safari on macOS', ua: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15' },
-              { label: 'Firefox on Linux', ua: 'Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0' },
-              { label: 'Safari on iPhone', ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1' },
-              { label: 'Chrome on Android', ua: 'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36' },
+              { label: t('tools.userAgent.sampleChromeWindows'), ua: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' },
+              { label: t('tools.userAgent.sampleSafariMac'), ua: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15' },
+              { label: t('tools.userAgent.sampleFirefoxLinux'), ua: 'Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0' },
+              { label: t('tools.userAgent.sampleSafariIphone'), ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1' },
+              { label: t('tools.userAgent.sampleChromeAndroid'), ua: 'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36' },
             ].map(({ label, ua }) => (
               <button
                 key={label}

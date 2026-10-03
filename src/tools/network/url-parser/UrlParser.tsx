@@ -87,8 +87,8 @@ export default function UrlParser() {
                   <table className="w-full text-sm">
                     <thead className="bg-surface-alt">
                       <tr>
-                        <th className="px-4 py-2 text-left text-text-muted font-medium">Key</th>
-                        <th className="px-4 py-2 text-left text-text-muted font-medium">Value</th>
+                        <th className="px-4 py-2 text-left text-text-muted font-medium">{t('common.key')}</th>
+                        <th className="px-4 py-2 text-left text-text-muted font-medium">{t('common.value')}</th>
                         <th className="w-12"></th>
                       </tr>
                     </thead>

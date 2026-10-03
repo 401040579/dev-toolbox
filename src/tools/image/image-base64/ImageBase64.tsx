@@ -88,7 +88,7 @@ export default function ImageBase64() {
 
             {imagePreview && (
               <div className="flex justify-center">
-                <img src={imagePreview} alt="Preview" className="max-h-48 rounded-lg border border-border" />
+                <img src={imagePreview} alt={t('common.previewImage')} className="max-h-48 rounded-lg border border-border" />
               </div>
             )}
 
@@ -136,7 +136,7 @@ export default function ImageBase64() {
             {imagePreview && mode === 'decode' && (
               <>
                 <div className="flex justify-center">
-                  <img src={imagePreview} alt="Decoded" className="max-h-48 rounded-lg border border-border" />
+                  <img src={imagePreview} alt={t('common.decodedImage')} className="max-h-48 rounded-lg border border-border" />
                 </div>
                 <button onClick={handleDownload} className="btn btn-secondary">
                   {t('tools.imageBase64.download')}

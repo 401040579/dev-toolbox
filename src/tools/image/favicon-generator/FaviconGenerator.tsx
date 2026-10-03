@@ -75,7 +75,7 @@ export default function FaviconGenerator() {
           <>
             {preview && (
               <div className="flex justify-center">
-                <img src={preview} alt="Source" className="max-h-32 rounded-lg border border-border" />
+                <img src={preview} alt={t('common.sourceImage')} className="max-h-32 rounded-lg border border-border" />
               </div>
             )}
 

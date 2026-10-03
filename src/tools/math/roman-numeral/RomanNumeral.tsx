@@ -77,7 +77,7 @@ export default function RomanNumeral() {
               type="text"
               value={roman}
               onChange={(e) => handleRomanChange(e.target.value)}
-              placeholder="e.g. XLII"
+              placeholder={t('tools.romanNumeral.placeholder')}
               className="w-full font-mono text-lg uppercase"
             />
           </div>

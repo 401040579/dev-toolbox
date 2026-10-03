@@ -59,7 +59,7 @@ export default function ImageConverter() {
           <>
             {preview && (
               <div className="flex justify-center">
-                <img src={preview} alt="Preview" className="max-h-48 rounded-lg border border-border" />
+                <img src={preview} alt={t('common.previewImage')} className="max-h-48 rounded-lg border border-border" />
               </div>
             )}
 

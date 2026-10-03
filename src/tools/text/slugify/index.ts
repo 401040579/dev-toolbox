@@ -51,12 +51,11 @@ export function slugify(input: string, options: Partial<SlugifyOptions> = {}): s
   // Replace whitespace with separator
   result = result.replace(/[\s_]+/g, opts.separator);
 
-  // Remove duplicate separators
-  result = result.replace(new RegExp(`${opts.separator}+`, 'g'), opts.separator);
-
-  // Trim separators from start and end
-  if (opts.trim) {
-    result = result.replace(new RegExp(`^${opts.separator}+|${opts.separator}+$`, 'g'), '');
+  if (opts.separator) {
+    // Separators are literal text. Empty separators must never form a bare '+' regex.
+    const literal = opts.separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    result = result.replace(new RegExp(`(?:${literal})+`, 'g'), () => opts.separator);
+    if (opts.trim) result = result.replace(new RegExp(`^(?:${literal})+|(?:${literal})+$`, 'g'), '');
   }
 
   return result;

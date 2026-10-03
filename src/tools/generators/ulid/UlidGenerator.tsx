@@ -106,8 +106,7 @@ export default function UlidGenerator() {
           <p className="font-mono text-xs bg-surface-alt p-2 rounded">
             01ARZ3NDEKTSV4RRFFQ69G5FAV<br/>
             └──────┘└───────────────┘<br/>
-            &nbsp;Timestamp&nbsp;&nbsp;&nbsp;Randomness<br/>
-            &nbsp;&nbsp;(10 chars)&nbsp;&nbsp;(16 chars)
+            {t('tools.ulid.timestampPart')} · {t('tools.ulid.randomPart')}
           </p>
         </div>
       </div>

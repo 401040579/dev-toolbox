@@ -19,8 +19,8 @@ export default function TextStats() {
 
   const extraStats = [
     { key: 'bytes', label: t('tools.textStats.bytes'), value: `${stats.bytes} B` },
-    { key: 'readingTime', label: t('tools.textStats.readingTime'), value: `~${stats.readingTime} min` },
-    { key: 'speakingTime', label: t('tools.textStats.speakingTime'), value: `~${stats.speakingTime} min` },
+    { key: 'readingTime', label: t('tools.textStats.readingTime'), value: `~${stats.readingTime} ${t('tools.textStats.minutes')}` },
+    { key: 'speakingTime', label: t('tools.textStats.speakingTime'), value: `~${stats.speakingTime} ${t('tools.textStats.minutes')}` },
     { key: 'uniqueWords', label: t('tools.textStats.uniqueWords'), value: stats.uniqueWords },
     { key: 'avgWordLength', label: t('tools.textStats.avgWordLength'), value: stats.avgWordLength },
     { key: 'avgSentenceLength', label: t('tools.textStats.avgSentenceLength'), value: stats.avgSentenceLength },

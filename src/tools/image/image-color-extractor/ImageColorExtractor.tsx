@@ -54,7 +54,7 @@ export default function ImageColorExtractor() {
           <>
             {preview && (
               <div className="flex justify-center">
-                <img src={preview} alt="Source" className="max-h-48 rounded-lg border border-border" />
+                <img src={preview} alt={t('common.sourceImage')} className="max-h-48 rounded-lg border border-border" />
               </div>
             )}
 

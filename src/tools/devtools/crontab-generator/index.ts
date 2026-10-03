@@ -1,3 +1,4 @@
+import { parseCron } from '@/lib/cron';
 import type { ToolDefinition } from '@/tools/types';
 
 export interface CrontabPart {
@@ -25,7 +26,7 @@ export const PRESETS: { label: string; expression: string }[] = [
 
 export function parseCrontab(expression: string): CrontabPart | null {
   const parts = expression.trim().split(/\s+/);
-  if (parts.length !== 5) return null;
+  try { parseCron(expression); } catch { return null; }
   return {
     minute: parts[0]!,
     hour: parts[1]!,

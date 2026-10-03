@@ -71,7 +71,7 @@ export default function BasicAuth() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-xs font-medium text-text-muted uppercase tracking-wider">
-                    Authorization Header
+                    {t('tools.basicAuth.authorizationHeader')}
                   </label>
                   <CopyButton text={header} />
                 </div>
@@ -83,7 +83,7 @@ export default function BasicAuth() {
           <>
             <div>
               <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
-                Authorization Header
+                {t('tools.basicAuth.authorizationHeader')}
               </label>
               <input
                 type="text"

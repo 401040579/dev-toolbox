@@ -135,7 +135,7 @@ export default function ImageCompressor() {
             <div className="grid grid-cols-2 gap-4">
               <div className="p-3 rounded-lg bg-surface-alt text-center">
                 <p className="text-xs text-text-muted mb-1">{t('tools.imageCompressor.original')}</p>
-                <img src={original.url} alt="Original" className="max-h-32 mx-auto rounded" />
+                <img src={original.url} alt={t('common.originalImage')} className="max-h-32 mx-auto rounded" />
                 <p className="text-sm mt-2">{original.width}x{original.height}</p>
                 <p className="text-sm">{formatFileSize(original.file.size)}</p>
               </div>
@@ -143,7 +143,7 @@ export default function ImageCompressor() {
               {compressed && (
                 <div className="p-3 rounded-lg bg-surface-alt text-center">
                   <p className="text-xs text-text-muted mb-1">{t('tools.imageCompressor.compressed')}</p>
-                  <img src={compressed.url} alt="Compressed" className="max-h-32 mx-auto rounded" />
+                  <img src={compressed.url} alt={t('common.compressedImage')} className="max-h-32 mx-auto rounded" />
                   <p className="text-sm mt-2">{compressed.width}x{compressed.height}</p>
                   <p className="text-sm">{formatFileSize(compressed.size)}</p>
                   {savings > 0 && <p className="text-sm text-success">-{savings}%</p>}

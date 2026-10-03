@@ -16,6 +16,7 @@ export default function OAuthParser() {
       </div>
 
       <div className="flex-1 overflow-auto p-4 sm:p-6 space-y-4">
+        <p className="text-xs text-text-muted">{t('tools.oauthParser.verificationNote')}</p>
         <div>
           <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
             {t('tools.oauthParser.input')}
@@ -32,7 +33,7 @@ export default function OAuthParser() {
           <div className="space-y-4">
             <div className="flex gap-2">
               <span className={`px-2 py-0.5 rounded text-xs font-medium ${info.isJwt ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'}`}>
-                {info.isJwt ? 'JWT' : 'Opaque Token'}
+                {info.isJwt ? 'JWT' : t('tools.oauthParser.opaqueToken')}
               </span>
               {info.isExpired !== undefined && (
                 <span className={`px-2 py-0.5 rounded text-xs font-medium ${info.isExpired ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'}`}>
@@ -66,31 +67,31 @@ export default function OAuthParser() {
             <div className="grid grid-cols-2 gap-3">
               {info.issuer && (
                 <div className="p-2 rounded bg-surface-alt">
-                  <p className="text-xs text-text-muted">Issuer</p>
+                  <p className="text-xs text-text-muted">{t('tools.oauthParser.issuer')}</p>
                   <p className="text-sm font-mono text-text-primary">{info.issuer}</p>
                 </div>
               )}
               {info.subject && (
                 <div className="p-2 rounded bg-surface-alt">
-                  <p className="text-xs text-text-muted">Subject</p>
+                  <p className="text-xs text-text-muted">{t('tools.oauthParser.subject')}</p>
                   <p className="text-sm font-mono text-text-primary">{info.subject}</p>
                 </div>
               )}
               {info.issuedAt && (
                 <div className="p-2 rounded bg-surface-alt">
-                  <p className="text-xs text-text-muted">Issued At</p>
+                  <p className="text-xs text-text-muted">{t('tools.oauthParser.issuedAt')}</p>
                   <p className="text-sm font-mono text-text-primary">{info.issuedAt}</p>
                 </div>
               )}
               {info.expiresAt && (
                 <div className="p-2 rounded bg-surface-alt">
-                  <p className="text-xs text-text-muted">Expires At</p>
+                  <p className="text-xs text-text-muted">{t('tools.oauthParser.expiresAt')}</p>
                   <p className="text-sm font-mono text-text-primary">{info.expiresAt}</p>
                 </div>
               )}
               {info.scopes && (
                 <div className="p-2 rounded bg-surface-alt col-span-2">
-                  <p className="text-xs text-text-muted">Scopes</p>
+                  <p className="text-xs text-text-muted">{t('tools.oauthParser.scopes')}</p>
                   <div className="flex flex-wrap gap-1 mt-1">
                     {info.scopes.map((s, i) => (
                       <span key={i} className="px-2 py-0.5 rounded bg-accent-muted text-accent text-xs">{s}</span>

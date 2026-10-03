@@ -78,8 +78,9 @@ export default function ColorBlindness() {
           </div>
         </div>
 
+        <p className="text-xs text-text-muted">{t('tools.colorBlindness.approximation')}</p>
         {/* Simulations */}
-        {BLINDNESS_TYPES.map(({ type, prevalence }) => {
+        {BLINDNESS_TYPES.map(({ type }) => {
           const simulated = colors.map((c) => simulateColorBlindness(c, type));
           return (
             <div key={type} className="p-3 rounded-lg bg-surface-alt">
@@ -88,7 +89,6 @@ export default function ColorBlindness() {
                   {t(`tools.colorBlindness.types.${type}`)}
                 </p>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-text-muted">{prevalence}</span>
                   <CopyButton text={simulated.join(', ')} />
                 </div>
               </div>

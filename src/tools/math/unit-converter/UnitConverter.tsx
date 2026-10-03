@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { UNIT_CATEGORIES, convert, type UnitCategory } from './index';
+import { UNIT_CATEGORIES, convert, formatConvertedNumber, type UnitCategory } from './index';
 
 export default function UnitConverter() {
   const { t } = useTranslation();
@@ -22,21 +22,21 @@ export default function UnitConverter() {
 
   const result = useMemo(() => {
     const num = parseFloat(value);
-    if (isNaN(num)) return '';
+    if (!Number.isFinite(num)) return '';
     const converted = convert(num, fromUnit, toUnit, category);
-    return isNaN(converted) ? '' : converted.toPrecision(10).replace(/\.?0+$/, '');
+    return formatConvertedNumber(converted);
   }, [value, fromUnit, toUnit, category]);
 
   // All conversions from current value
   const allConversions = useMemo(() => {
     const num = parseFloat(value);
-    if (isNaN(num)) return [];
+    if (!Number.isFinite(num)) return [];
     return unitKeys.map((key) => {
       const converted = convert(num, fromUnit, key, category);
       return {
         key,
         name: catData.units[key]!.name,
-        value: isNaN(converted) ? '-' : converted.toPrecision(10).replace(/\.?0+$/, ''),
+        value: formatConvertedNumber(converted) || '-',
       };
     });
   }, [value, fromUnit, category, unitKeys, catData]);
@@ -60,7 +60,7 @@ export default function UnitConverter() {
                   : 'border-border text-text-secondary hover:border-accent'
               }`}
             >
-              {UNIT_CATEGORIES[cat].label}
+              {t(`tools.unitConverter.categories.${cat}`)}
             </button>
           ))}
         </div>
@@ -83,7 +83,7 @@ export default function UnitConverter() {
             </label>
             <select value={fromUnit} onChange={(e) => setFromUnit(e.target.value)} className="w-36">
               {unitKeys.map((key) => (
-                <option key={key} value={key}>{catData.units[key]!.name}</option>
+                <option key={key} value={key}>{t(`tools.unitConverter.units.${key}`)}</option>
               ))}
             </select>
           </div>
@@ -94,7 +94,7 @@ export default function UnitConverter() {
             </label>
             <select value={toUnit} onChange={(e) => setToUnit(e.target.value)} className="w-36">
               {unitKeys.map((key) => (
-                <option key={key} value={key}>{catData.units[key]!.name}</option>
+                <option key={key} value={key}>{t(`tools.unitConverter.units.${key}`)}</option>
               ))}
             </select>
           </div>
@@ -103,7 +103,7 @@ export default function UnitConverter() {
         {result && (
           <div className="p-4 rounded-lg bg-surface-alt text-center">
             <p className="text-3xl font-mono font-bold text-accent">{result}</p>
-            <p className="text-sm text-text-muted mt-1">{catData.units[toUnit]?.name}</p>
+            <p className="text-sm text-text-muted mt-1">{t(`tools.unitConverter.units.${toUnit}`)}</p>
           </div>
         )}
 
@@ -114,7 +114,7 @@ export default function UnitConverter() {
           <div className="space-y-1">
             {allConversions.map((c) => (
               <div key={c.key} className="flex items-center justify-between p-2 rounded hover:bg-surface-alt">
-                <span className="text-sm text-text-secondary">{c.name}</span>
+                <span className="text-sm text-text-secondary">{t(`tools.unitConverter.units.${c.key}`)}</span>
                 <code className="text-sm font-mono text-text-primary">{c.value}</code>
               </div>
             ))}

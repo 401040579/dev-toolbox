@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 import { Clock, List, Code, Timer, Hash } from 'lucide-react';
@@ -11,7 +11,8 @@ const WEBKIT_EPOCH_DIFF = 11644473600000000n; // Microseconds between 1601 and 1
 const HFS_EPOCH_DIFF = 2082844800; // Seconds between 1904 and 1970
 
 export default function EpochConverter() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.resolvedLanguage === 'zh' ? 'zh-CN' : 'en-US';
   const [activeTab, setActiveTab] = useState<TabId>('converter');
   const [mode, setMode] = useState<'epoch-to-date' | 'date-to-epoch'>('epoch-to-date');
   const [input, setInput] = useState('');
@@ -30,7 +31,7 @@ export default function EpochConverter() {
   const currentDate = new Date(now);
 
   // Detect timestamp precision and convert to milliseconds
-  const detectAndConvertTimestamp = (num: number): { ms: number; precision: string } => {
+  const detectAndConvertTimestamp = useCallback((num: number): { ms: number; precision: string } => {
     if (num > 1e18) {
       // Nanoseconds
       return { ms: num / 1e6, precision: t('tools.epoch.nanoseconds') };
@@ -44,21 +45,18 @@ export default function EpochConverter() {
       // Seconds
       return { ms: num * 1000, precision: t('tools.epoch.seconds') };
     }
-  };
+  }, [t]);
 
-  const getRelativeTimeLocalized = (date: Date): string => {
-    const nowMs = Date.now();
-    const diff = nowMs - date.getTime();
-    const abs = Math.abs(diff);
-    const dir = diff > 0 ? t('tools.epoch.ago') : t('tools.epoch.fromNow');
+  const getRelativeTimeLocalized = useCallback((date: Date): string => {
+    const seconds = (date.getTime() - Date.now()) / 1000;
+    const abs = Math.abs(seconds);
+    const format = new Intl.RelativeTimeFormat(locale, { numeric: 'always' });
+    for (const [limit, scale, unit] of [[60, 1, 'second'], [3600, 60, 'minute'], [86400, 3600, 'hour'], [2592000, 86400, 'day'], [31536000, 2592000, 'month'], [Infinity, 31536000, 'year']] as const) {
+      if (abs < limit) return format.format(Math.trunc(seconds / scale), unit);
+    }
+    return '';
 
-    if (abs < 60000) return t('tools.epoch.secondsAgo', { count: Math.floor(abs / 1000), dir });
-    if (abs < 3600000) return t('tools.epoch.minutesAgo', { count: Math.floor(abs / 60000), dir });
-    if (abs < 86400000) return t('tools.epoch.hoursAgo', { count: Math.floor(abs / 3600000), dir });
-    if (abs < 2592000000) return t('tools.epoch.daysAgo', { count: Math.floor(abs / 86400000), dir });
-    if (abs < 31536000000) return t('tools.epoch.monthsAgo', { count: Math.floor(abs / 2592000000), dir });
-    return t('tools.epoch.yearsAgo', { count: Math.floor(abs / 31536000000), dir });
-  };
+  }, [locale]);
 
   const getWeekNumber = (d: Date): number => {
     const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
@@ -116,12 +114,12 @@ export default function EpochConverter() {
           type: 'date',
           iso: d.toISOString(),
           utc: d.toUTCString(),
-          local: d.toLocaleString(),
+          local: d.toLocaleString(locale),
           relative: getRelativeTimeLocalized(d),
           precision,
           weekNumber: getWeekNumber(d),
           dayOfYear: getDayOfYear(d),
-          dayOfWeek: d.toLocaleDateString(undefined, { weekday: 'long' }),
+          dayOfWeek: d.toLocaleDateString(locale, { weekday: 'long' }),
           seconds: epochSeconds,
           milliseconds: d.getTime(),
           microseconds: d.getTime() * 1000,
@@ -138,13 +136,13 @@ export default function EpochConverter() {
           nanoseconds: d.getTime() * 1000000,
           weekNumber: getWeekNumber(d),
           dayOfYear: getDayOfYear(d),
-          dayOfWeek: d.toLocaleDateString(undefined, { weekday: 'long' }),
+          dayOfWeek: d.toLocaleDateString(locale, { weekday: 'long' }),
         };
       }
     } catch {
       return { type: 'error', error: t('tools.epoch.parseFailed') };
     }
-  }, [input, mode, t]);
+  }, [input, mode, t, locale, detectAndConvertTimestamp, getRelativeTimeLocalized]);
 
   // Batch conversion
   const batchResults = useMemo(() => {
@@ -176,7 +174,7 @@ export default function EpochConverter() {
         output: d.toISOString(),
       };
     });
-  }, [batchInput, t]);
+  }, [batchInput, t, detectAndConvertTimestamp]);
 
   // Duration conversion
   const durationResult = useMemo(() => {

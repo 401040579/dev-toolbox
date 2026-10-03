@@ -18,7 +18,7 @@ export default function SvgOptimizer() {
       setOutput(optimizeSvg(input, options));
     } catch {
       setOutput('');
-      setError(t('tools.svgOptimizer.invalidSvg'));
+      setError('tools.svgOptimizer.invalidSvg');
     }
   };
 
@@ -67,7 +67,7 @@ export default function SvgOptimizer() {
               </label>
               {inputStats && (
                 <span className="text-xs text-text-muted">
-                  {inputStats.elements} elements · {inputStats.size} B
+                  {t('tools.svgOptimizer.stats', { count: inputStats.elements, bytes: inputStats.size })}
                 </span>
               )}
             </div>
@@ -87,7 +87,7 @@ export default function SvgOptimizer() {
               <div className="flex items-center gap-2">
                 {outputStats && (
                   <span className="text-xs text-text-muted">
-                    {outputStats.elements} elements · {outputStats.size} B
+                    {t('tools.svgOptimizer.stats', { count: outputStats.elements, bytes: outputStats.size })}
                     {savings > 0 && <span className="text-success ml-1">(-{savings}%)</span>}
                   </span>
                 )}
@@ -103,7 +103,7 @@ export default function SvgOptimizer() {
         </div>
 
         <p className="text-xs text-text-muted">{t('tools.svgOptimizer.safetyNote')}</p>
-        {error && <p role="alert" className="text-error text-sm">{error}</p>}
+        {error && <p role="alert" className="text-error text-sm">{error.startsWith('tools.') ? t(error) : error}</p>}
         {output && <button onClick={() => downloadText(output, 'optimized.svg', 'image/svg+xml')} className="btn btn-secondary">{t('tools.svgOptimizer.download')}</button>}
         <button onClick={handleOptimize} className="btn btn-primary">
           {t('tools.svgOptimizer.optimize')}
