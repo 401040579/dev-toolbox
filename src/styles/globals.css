@@ -166,3 +166,47 @@ textarea {
   resize: vertical;
   min-height: 120px;
 }
+
+/* Shared action styles used by tool controls and the update prompt. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 36px;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-default), opacity var(--duration-fast) var(--ease-default);
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background-color: var(--accent);
+  color: hsl(220 14% 6%);
+}
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+}
+.btn-secondary {
+  background-color: var(--surface-alt);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--surface-hover);
+}
+/* The light palette's link accent needs a darker button fill for white text contrast. */
+[data-theme="light"] .btn-primary {
+  background-color: var(--accent-hover);
+  color: white;
+}
+[data-theme="light"] .btn-primary:hover:not(:disabled) {
+  background-color: hsl(160 80% 24%);
+}

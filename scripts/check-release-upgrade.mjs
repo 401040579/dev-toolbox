@@ -74,7 +74,7 @@ with zipfile.ZipFile(sys.argv[1]) as archive:
     console.log(JSON.stringify({ oldZip, old, next }, null, 2));
 
     let activeRoot = oldRoot;
-    const mime = { '.html': 'text/html', '.js': 'application/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.webmanifest': 'application/manifest+json', '.woff2': 'font/woff2' };
+    const mime = { '.html': 'text/html', '.js': 'application/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.webmanifest': 'application/manifest+json', '.woff2': 'font/woff2', '.wasm': 'application/wasm' };
     server = createServer(async (request, response) => {
       try {
         const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
@@ -169,6 +169,30 @@ with zipfile.ZipFile(sys.argv[1]) as archive:
     assert.equal(report.changes.length, 5);
     assert.equal(report.version, 1);
     console.log('New JSON Diff lazy chunk loaded and exported the complete example report');
+    if (tools.some((tool) => tool.id === 'qr-file-transfer')) {
+      const copy = zh.tools.qrTransfer;
+      await context.setOffline(true);
+      await page.goto(`${origin}/tools/image/qr-file-transfer`);
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(copy.title);
+      await expect(page.getByText(copy.offlineReady, { exact: true })).toBeVisible();
+      await page.getByLabel(copy.choose, { exact: true }).setInputFiles({ name: 'upgrade-demo.txt', mimeType: 'text/plain', buffer: Buffer.from('DEMO-1042 offline upgrade') });
+      await page.getByRole('button', { name: copy.startSend, exact: true }).click();
+      await expect(page.getByRole('button', { name: copy.pause, exact: true })).toBeVisible();
+      await expect.poll(() => page.locator('main canvas').evaluate((canvas) => canvas.width)).toBeGreaterThan(300);
+      await page.getByRole('tab', { name: copy.receive, exact: true }).click();
+      await page.evaluate(() => {
+        Object.defineProperty(navigator.mediaDevices, 'getUserMedia', { value: async () => {
+          const canvas = document.createElement('canvas'); canvas.width = canvas.height = 400;
+          const stream = canvas.captureStream(30);
+          const drawing = canvas.getContext('2d'); drawing.fillStyle = '#fff'; drawing.fillRect(0, 0, 400, 400);
+          return stream;
+        } });
+      });
+      await page.getByRole('button', { name: copy.startReceive, exact: true }).click();
+      await expect(page.getByText(copy.scanning, { exact: true })).toBeVisible();
+      await page.getByRole('button', { name: copy.stopReceive, exact: true }).click();
+      console.log('QR sender and receiver Worker engines started offline after the cache upgrade');
+    }
     console.log('Upgrade verification PASSED');
   } finally {
     await Promise.allSettled([context?.close(), browser?.close()]);

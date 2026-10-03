@@ -65,6 +65,7 @@ import httpHeadersTool from './network/http-headers';
 import dataUrlTool from './network/data-url';
 import imageBase64Tool from './image/image-base64';
 import imageCompressorTool from './image/image-compressor';
+import qrFileTransferTool from './image/qr-file-transfer';
 import imageConverterTool from './image/image-converter';
 import faviconGeneratorTool from './image/favicon-generator';
 import svgOptimizerTool from './image/svg-optimizer';
@@ -155,6 +156,7 @@ const ALL_TOOLS: ToolDefinition[] = [
   dataUrlTool,
   imageBase64Tool,
   imageCompressorTool,
+  qrFileTransferTool,
   imageConverterTool,
   faviconGeneratorTool,
   svgOptimizerTool,

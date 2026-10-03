@@ -86,7 +86,7 @@ export default function HomePage() {
       <section>
         <h2 className="text-sm font-medium text-text-secondary mb-3">{t('home.workflowTools')}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {['json-diff', 'log-analyzer'].map((id) => {
+          {['json-diff', 'log-analyzer', 'qr-file-transfer'].map((id) => {
             const tool = getTool(id);
             return tool ? <ToolCard key={id} tool={tool} /> : null;
           })}
