@@ -16,6 +16,7 @@ import epochTool from './time/epoch-converter';
 import cronParserTool from './time/cron-parser';
 import jsonFormatterTool from './json/json-formatter';
 import jsonDiffTool from './json/json-diff';
+import logAnalyzerTool from './devtools/log-analyzer';
 import jsonYamlTool from './json/json-yaml';
 import sqlFormatterTool from './json/sql-formatter';
 import htmlFormatterTool from './json/html-formatter';
@@ -105,6 +106,7 @@ const ALL_TOOLS: ToolDefinition[] = [
   cronParserTool,
   jsonFormatterTool,
   jsonDiffTool,
+  logAnalyzerTool,
   jsonYamlTool,
   sqlFormatterTool,
   htmlFormatterTool,

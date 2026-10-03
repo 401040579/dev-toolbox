@@ -84,6 +84,16 @@ export default function HomePage() {
       </Link>
 
       <section>
+        <h2 className="text-sm font-medium text-text-secondary mb-3">{t('home.workflowTools')}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {['json-diff', 'log-analyzer'].map((id) => {
+            const tool = getTool(id);
+            return tool ? <ToolCard key={id} tool={tool} /> : null;
+          })}
+        </div>
+      </section>
+
+      <section>
         <h2 className="text-sm font-medium text-text-secondary mb-3">{t('home.tasksTitle')}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[

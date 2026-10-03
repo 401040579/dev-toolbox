@@ -1579,6 +1579,58 @@
         "pathTooLong": "某个差异路径超过 {{path}} 个字符。请缩短属性名或单独对比相关子树。",
         "reportTooLarge": "JSON 报告超过 4 MiB。请缩小对比范围；不会显示不完整报告。"
       }
+    },
+    "logAnalyzer": {
+      "title": "日志分析器",
+      "description": "按时间、级别、请求 ID 和关键词筛选本地日志",
+      "privacy": "日志仅在当前浏览器中处理，不会上传。较大的输入可能超过草稿恢复的容量限制。",
+      "input": "日志内容",
+      "chooseFile": "选择文件",
+      "loadSample": "加载示例",
+      "placeholder": "粘贴文本日志或 JSONL，或拖入 .log、.txt、.jsonl 文件…",
+      "fileHint": "可拖入一个 .log、.txt 或 .jsonl 文件，最大 10 MiB。多行堆栈会保留在对应日志记录中。",
+      "reading": "正在读取文件… 粘贴新内容即可取消读取。",
+      "filters": "筛选条件",
+      "resetFilters": "重置筛选",
+      "keyword": "关键词",
+      "keywordPlaceholder": "搜索文本，不区分大小写",
+      "level": "日志级别",
+      "allLevels": "所有级别",
+      "requestId": "请求 ID",
+      "requestPlaceholder": "精确匹配请求、关联或追踪 ID",
+      "from": "开始时间（本地）",
+      "to": "结束时间（本地）",
+      "timeHint": "时间范围包含起止时间，使用本地时区。设置时间条件后，不含可识别时间戳的记录会被排除。文本中没有时区偏移的时间戳按本地时间解释。",
+      "requestHint": "点击 ID 会清除其他筛选条件，查看该请求的完整过程。此处最多显示 40 个常见 ID，其他 ID 可在上方输入。",
+      "showRequest": "查看请求 {{id}} 的全部日志",
+      "results": "筛选结果",
+      "summary": "显示 {{matched}} / {{total}} 条记录 · 共 {{lines}} 行",
+      "processing": "正在分析日志…",
+      "copyResults": "复制结果",
+      "downloadResults": "下载结果",
+      "unknownHint": "保留了 {{count}} 条未识别记录的原始文本，可选择“未识别”级别查看。",
+      "empty": "粘贴日志、选择文件或加载示例即可开始。",
+      "noMatches": "没有符合条件的记录，可重置筛选查看全部内容。",
+      "line": "第 {{start}}–{{end}} 行",
+      "previous": "上一页",
+      "next": "下一页",
+      "page": "第 {{page}} / {{pages}} 页",
+      "invalidTimeRange": "请输入有效时间范围，开始时间不能晚于结束时间。",
+      "tooLarge": "输入超过 10 MiB，请拆分成较小的日志文件再分析。",
+      "unsupportedFile": "请选择 .log、.txt 或 .jsonl 文本文件。",
+      "fileFailed": "无法读取该文件，请重新选择或直接粘贴内容。",
+      "parseFailed": "暂时无法分析日志，输入内容仍保留，可尝试较小的文件。",
+      "recordLimit": "已索引前 {{limit}} 条记录，其余行保留为一块未识别文本，导出全部记录时也会包含。若要逐条筛选这些行，请拆分文件。",
+      "levels": {
+        "TRACE": "跟踪",
+        "DEBUG": "调试",
+        "INFO": "信息",
+        "WARN": "警告",
+        "ERROR": "错误",
+        "FATAL": "严重错误",
+        "UNKNOWN": "未识别"
+      },
+      "previewLimit": "预览仅显示前 4,000 个字符，复制或下载结果可获取完整原始记录。"
     }
   },
   "pipeline": {
@@ -1731,7 +1783,8 @@
       }
     },
     "toolCount_one": "{{count}} 个工具",
-    "toolCount_other": "{{count}} 个工具"
+    "toolCount_other": "{{count}} 个工具",
+    "workflowTools": "对比接口数据与排查请求日志"
   },
   "transforms": {
     "crc32": {

@@ -1579,6 +1579,58 @@
         "pathTooLong": "A changed JSON path exceeds {{path}} characters. Shorten the property names or compare a smaller subtree.",
         "reportTooLarge": "The JSON report exceeds 4 MiB. Compare a smaller part of the payload; no partial report is shown."
       }
+    },
+    "logAnalyzer": {
+      "title": "Log Analyzer",
+      "description": "Filter local logs by time, severity, request ID, and keyword",
+      "privacy": "Processing stays in this browser. No log content is uploaded. Large inputs may exceed the draft restore limit.",
+      "input": "Log content",
+      "chooseFile": "Choose file",
+      "loadSample": "Load sample",
+      "placeholder": "Paste text logs or JSONL here, or drop a .log, .txt, or .jsonl file…",
+      "fileHint": "Drop one .log, .txt, or .jsonl file here (up to 10 MiB). Multiline stack traces stay with their log entry.",
+      "reading": "Reading file… You can paste new content to cancel.",
+      "filters": "Filters",
+      "resetFilters": "Reset filters",
+      "keyword": "Keyword",
+      "keywordPlaceholder": "Case-insensitive text search",
+      "level": "Severity",
+      "allLevels": "All levels",
+      "requestId": "Request ID",
+      "requestPlaceholder": "Exact request, correlation, or trace ID",
+      "from": "From (local time)",
+      "to": "To (local time)",
+      "timeHint": "Range endpoints are inclusive, in your local timezone. Entries without a recognized timestamp are excluded when a time filter is set. Text timestamps without an offset use local time.",
+      "requestHint": "Click an ID to show its complete process and clear the other filters. Up to 40 frequent IDs are shown; enter any other ID above.",
+      "showRequest": "Show all logs for request {{id}}",
+      "results": "Results",
+      "summary": "{{matched}} of {{total}} entries · {{lines}} lines",
+      "processing": "Analyzing logs…",
+      "copyResults": "Copy results",
+      "downloadResults": "Download results",
+      "unknownHint": "{{count}} unrecognized entries kept as original text. Select “Unrecognized” to inspect them.",
+      "empty": "Paste logs, choose a file, or load the sample to start.",
+      "noMatches": "No entries match these filters. Reset the filters to see all entries.",
+      "line": "Lines {{start}}–{{end}}",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{page}} of {{pages}}",
+      "invalidTimeRange": "Enter a valid time range with From no later than To.",
+      "tooLarge": "This input exceeds 10 MiB. Split it into smaller log files before analyzing.",
+      "unsupportedFile": "Choose a .log, .txt, or .jsonl text file.",
+      "fileFailed": "The file could not be read. Try selecting it again or paste the content.",
+      "parseFailed": "The logs could not be analyzed. Your input is still available; try a smaller file.",
+      "recordLimit": "The first {{limit}} entries are indexed. The remaining lines are kept together as an unrecognized block and included when exporting all entries; analyze a smaller file to filter those lines individually.",
+      "levels": {
+        "TRACE": "Trace",
+        "DEBUG": "Debug",
+        "INFO": "Info",
+        "WARN": "Warning",
+        "ERROR": "Error",
+        "FATAL": "Fatal",
+        "UNKNOWN": "Unrecognized"
+      },
+      "previewLimit": "Preview shortened to 4,000 characters. Copy or download the results for the complete original entry."
     }
   },
   "pipeline": {
@@ -1731,7 +1783,8 @@
       }
     },
     "toolCount_one": "{{count}} tool",
-    "toolCount_other": "{{count}} tools"
+    "toolCount_other": "{{count}} tools",
+    "workflowTools": "Inspect API changes and request logs"
   },
   "transforms": {
     "crc32": {
