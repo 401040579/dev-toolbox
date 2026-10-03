@@ -1,38 +1,29 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-// Minimal QR code via Google Charts API (no external lib needed)
-function getQrUrl(text: string, size: number): string {
-  const encoded = encodeURIComponent(text);
-  return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encoded}&format=svg`;
-}
+import QRCode from 'qrcode';
+import { downloadText } from '@/lib/download';
 
 export default function QrCodeGenerator() {
   const { t } = useTranslation();
   const [input, setInput] = useState('');
   const [size, setSize] = useState(256);
 
-  const qrUrl = useMemo(() => {
-    if (!input.trim()) return '';
-    return getQrUrl(input, size);
-  }, [input, size]);
-
-  const handleDownload = useCallback(async () => {
-    if (!qrUrl) return;
-    try {
-      const res = await fetch(qrUrl);
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'qrcode.svg';
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch {
-      // Fallback: open in new tab
-      window.open(qrUrl, '_blank');
+  const [svg, setSvg] = useState('');
+  const [error, setError] = useState('');
+  useEffect(() => {
+    let active = true;
+    setSvg('');
+    setError('');
+    if (input.trim()) {
+      QRCode.toString(input, { type: 'svg', width: size, margin: 4, errorCorrectionLevel: 'M' })
+        .then((value) => { if (active) setSvg(value); })
+        .catch(() => { if (active) setError(t('tools.qrcode.tooLong')); });
     }
-  }, [qrUrl]);
+    return () => { active = false; };
+  }, [input, size, t]);
+  const qrUrl = svg ? `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}` : '';
+  const handleDownload = () => downloadText(svg, 'qrcode.svg', 'image/svg+xml');
 
   return (
     <div className="flex flex-col h-full">
@@ -89,6 +80,8 @@ export default function QrCodeGenerator() {
             </div>
           </div>
         )}
+
+        {error && <p role="alert" className="text-error text-sm">{error}</p>}
 
         {!input.trim() && (
           <p className="text-center text-text-muted text-sm">{t('tools.qrcode.emptyState')}</p>

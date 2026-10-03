@@ -44,6 +44,7 @@ export default function MarkdownPreview() {
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
         <h1 className="text-lg font-semibold text-text-primary">{t('tools.markdownPreview.title')}</h1>
         <p className="text-sm text-text-secondary mt-0.5">{t('tools.markdownPreview.description')}</p>
+        <p className="text-xs text-text-muted mt-1">{t('tools.markdownPreview.safetyNote')}</p>
       </div>
 
       <div className="flex-1 overflow-hidden flex flex-col md:flex-row">

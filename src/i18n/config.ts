@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import en from './en/common.json';
 import zh from './zh/common.json';
 
-const savedLang = localStorage.getItem('dev-toolbox-lang') || navigator.language.startsWith('zh') ? 'zh' : 'en';
+const savedLang = localStorage.getItem('dev-toolbox-lang') || (navigator.language.startsWith('zh') ? 'zh' : 'en');
 
 i18n.use(initReactI18next).init({
   resources: {
