@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.1.0 — 2026-10-02
+
+Add four practical workflows with complete English/Chinese copy.
+
+- Restore text inputs and options across tool switches and refreshes; add disable/clear controls, session-only failure feedback and protection against stale async writes. Exclude password/key fields and generated credentials.
+- Add JSON structural diff with safe field paths, type/array-order distinctions, filtering and complete report export; reject lossy numeric input and bounded-resource failures instead of showing misleading equality or partial reports.
+- Add local log analysis with text/JSONL, multiline stacks, exact request traces, time/severity/keyword filters, Worker processing, pagination and lossless export.
+- Add Smart Paste recommendations with explicit clipboard access and one-time in-memory input handoff, including same-tool navigation.
+- Correct exact timestamp precision boundaries, validate restored option values and localize theme controls; test every category/card in both languages and cached-version upgrades.
+
+新增草稿恢复、JSON 结构对比、日志分析和智能粘贴；详情与验收证据见 [v1.1 验证记录](docs/releases/v1.1.0-validation.md)。
+
 ## 1.0.1 — 2026-10-02
 
 Polish the existing tools before expanding the catalog.
