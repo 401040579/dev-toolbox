@@ -35,6 +35,7 @@ jobs:
         with:
           name: browser-failure-traces
           path: .playwright-results/
+          include-hidden-files: true
       - uses: actions/upload-artifact@v4
         with:
           name: verified-site
