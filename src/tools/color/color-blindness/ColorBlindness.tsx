@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
 import { useTranslation } from 'react-i18next';
 import { simulateColorBlindness, BLINDNESS_TYPES } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function ColorBlindness() {
   const { t } = useTranslation();
-  const [colors, setColors] = useState(['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF']);
+  const [colors, setColors] = useDraftState('colors', ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF']);
 
   const handleColorChange = (index: number, value: string) => {
     setColors((prev) => {

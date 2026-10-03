@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateRSAKeyPair, type KeyFormat, type ModulusLength } from './index';
@@ -5,8 +6,8 @@ import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function RsaKeygen() {
   const { t } = useTranslation();
-  const [modulusLength, setModulusLength] = useState<ModulusLength>(2048);
-  const [format, setFormat] = useState<KeyFormat>('pkcs8');
+  const [modulusLength, setModulusLength] = useDraftState<ModulusLength>('modulusLength', 2048, { allowed: [2048,3072,4096] });
+  const [format, setFormat] = useDraftState<KeyFormat>('format', 'pkcs8', { allowed: ["pkcs8","spki","jwk"] });
   const [publicKey, setPublicKey] = useState('');
   const [privateKey, setPrivateKey] = useState('');
   const [loading, setLoading] = useState(false);

@@ -1,14 +1,11 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { parseUserAgent } from './index';
 
 export default function UserAgent() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
-
-  useEffect(() => {
-    setInput(navigator.userAgent);
-  }, []);
+  const [input, setInput] = useDraftState('input', () => navigator.userAgent, { clearValue: '' });
 
   const result = useMemo(() => {
     if (!input.trim()) return null;

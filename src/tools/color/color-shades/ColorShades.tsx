@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
 import { useTranslation } from 'react-i18next';
 import { generateShades, generateTints } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function ColorShades() {
   const { t } = useTranslation();
-  const [baseColor, setBaseColor] = useState('#3B82F6');
-  const [steps, setSteps] = useState(11);
+  const [baseColor, setBaseColor] = useDraftState('baseColor', '#3B82F6');
+  const [steps, setSteps] = useDraftState('steps', 11, { min: 3, max: 21 });
 
   const shades = generateShades(baseColor, steps);
   const tints = generateTints(baseColor, steps);

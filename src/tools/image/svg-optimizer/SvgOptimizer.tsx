@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { optimizeSvg, getSvgStats, DEFAULT_OPTIONS, type SvgOptimizeOptions } from './index';
@@ -6,10 +7,10 @@ import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function SvgOptimizer() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
-  const [options, setOptions] = useState<SvgOptimizeOptions>({ ...DEFAULT_OPTIONS });
+  const [options, setOptions] = useDraftState<SvgOptimizeOptions>('options', { ...DEFAULT_OPTIONS });
 
   const handleOptimize = () => {
     if (!input.trim()) return;

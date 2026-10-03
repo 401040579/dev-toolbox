@@ -1,11 +1,12 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { convertToAll, type ByteUnit } from './index';
 
 export default function ByteConverter() {
   const { t } = useTranslation();
-  const [value, setValue] = useState('1');
-  const [fromUnit, setFromUnit] = useState<ByteUnit>('GB');
+  const [value, setValue] = useDraftState('value', '1');
+  const [fromUnit, setFromUnit] = useDraftState<ByteUnit>('fromUnit', 'GB', { allowed: ["B","KB","MB","GB","TB","PB","KiB","MiB","GiB","TiB","PiB"] });
 
   const allValues = useMemo(() => {
     const num = parseFloat(value);

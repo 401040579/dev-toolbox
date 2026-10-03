@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatJS, minifyJS } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -7,10 +8,10 @@ const SAMPLE_JS = `function greet(name){const message="Hello, "+name+"!";console
 
 export default function JsFormatter() {
   const { t } = useTranslation();
-  const [input, setInput] = useState(SAMPLE_JS);
-  const [indent, setIndent] = useState('  ');
-  const [semicolons, setSemicolons] = useState(true);
-  const [mode, setMode] = useState<'format' | 'minify'>('format');
+  const [input, setInput] = useDraftState('input', SAMPLE_JS, { clearValue: '' });
+  const [indent, setIndent] = useDraftState('indent', '  ');
+  const [semicolons, setSemicolons] = useDraftState('semicolons', true);
+  const [mode, setMode] = useDraftState<'format' | 'minify'>('mode', 'format', { allowed: ["format","minify"] });
 
   const output = useMemo(() => {
     if (!input.trim()) return '';

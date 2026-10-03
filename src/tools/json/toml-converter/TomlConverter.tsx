@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { convert, type ConversionMode } from './conversion';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -23,8 +24,8 @@ enabled = ["auth", "logging", "cache"]`;
 
 export default function TomlConverter() {
   const { t } = useTranslation();
-  const [input, setInput] = useState(SAMPLE_TOML);
-  const [mode, setMode] = useState<ConversionMode>('toml-to-json');
+  const [input, setInput] = useDraftState('input', SAMPLE_TOML, { clearValue: '' });
+  const [mode, setMode] = useDraftState<ConversionMode>('mode', 'toml-to-json', { allowed: ["toml-to-json","json-to-toml","toml-to-yaml","yaml-to-toml"] });
   const { output, error } = useMemo(() => {
     if (!input.trim()) return { output: '', error: '' };
     try {

@@ -1530,6 +1530,107 @@
         "9-16": "9:16（手机）",
         "2-3": "2:3（竖向）"
       }
+    },
+    "jsonDiff": {
+      "title": "JSON 结构对比",
+      "description": "按结构对比 API 数据，定位新增、删除和修改的值。",
+      "left": "原始 JSON",
+      "right": "修改后 JSON",
+      "leftPlaceholder": "粘贴原始 JSON 值…",
+      "rightPlaceholder": "粘贴修改后的 JSON 值…",
+      "loadExample": "加载示例",
+      "clear": "清空",
+      "supportedNote": "忽略对象键顺序，保留类型和数组顺序。新增或删除的整个子树计为一项差异。每侧最多 1 MiB、20,000 个节点、64 层嵌套；最多 500 项差异，每个路径最多 4,096 字符，报告最多 4 MiB。数值使用 JavaScript 精度，整数须在安全整数范围内。遵循 JSON.parse 规则，重复键取最后一个值。会发生舍入或下溢的数值被拒绝；精确大数和高精度小数请使用字符串。",
+      "emptyState": "在两侧粘贴 JSON 即可对比，支持对象、数组和标量值。",
+      "comparing": "正在对比…",
+      "equal": "两个 JSON 值在结构上相同。",
+      "summary": "差异统计",
+      "totalCount": "全部：{{count}}",
+      "addedCount": "新增：{{count}}",
+      "removedCount": "删除：{{count}}",
+      "modifiedCount": "修改：{{count}}",
+      "copyReport": "复制 JSON 报告",
+      "downloadReport": "下载 JSON 报告",
+      "reportNote": "复制和下载包含完整报告；筛选仅改变当前显示的结果。",
+      "filter": "显示",
+      "shownCount": "已显示：{{count}}",
+      "noMatches": "没有符合此筛选的差异。",
+      "before": "原值",
+      "after": "新值",
+      "absent": "字段不存在",
+      "filters": {
+        "all": "全部差异",
+        "added": "仅新增",
+        "removed": "仅删除",
+        "modified": "仅修改"
+      },
+      "kinds": {
+        "added": "新增",
+        "removed": "删除",
+        "modified": "修改"
+      },
+      "errors": {
+        "invalidJson": "{{side}} 不是有效的 JSON。",
+        "inputTooLarge": "{{side}} 超过 1 MiB 输入限制。",
+        "tooDeep": "{{side}} 超过 {{depth}} 层嵌套限制。",
+        "tooManyNodes": "{{side}} 超过 {{nodes}} 个 JSON 节点限制。",
+        "unsupportedNumber": "{{side}}包含无法以 JavaScript 精度完整保留的数值（非有限数、安全范围外整数、舍入或下溢）。请用字符串保留精确值。",
+        "tooManyChanges": "差异超过 {{changes}} 项。请缩小对比范围；不会显示不完整报告。",
+        "pathTooLong": "某个差异路径超过 {{path}} 个字符。请缩短属性名或单独对比相关子树。",
+        "reportTooLarge": "JSON 报告超过 4 MiB。请缩小对比范围；不会显示不完整报告。"
+      }
+    },
+    "logAnalyzer": {
+      "title": "日志分析器",
+      "description": "按时间、级别、请求 ID 和关键词筛选本地日志",
+      "privacy": "日志仅在当前浏览器中处理，不会上传。较大的输入可能超过草稿恢复的容量限制。",
+      "input": "日志内容",
+      "chooseFile": "选择文件",
+      "loadSample": "加载示例",
+      "placeholder": "粘贴文本日志或 JSONL，或拖入 .log、.txt、.jsonl 文件…",
+      "fileHint": "可拖入一个 .log、.txt 或 .jsonl 文件，最大 10 MiB。多行堆栈会保留在对应日志记录中。",
+      "reading": "正在读取文件… 粘贴新内容即可取消读取。",
+      "filters": "筛选条件",
+      "resetFilters": "重置筛选",
+      "keyword": "关键词",
+      "keywordPlaceholder": "搜索文本，不区分大小写",
+      "level": "日志级别",
+      "allLevels": "所有级别",
+      "requestId": "请求 ID",
+      "requestPlaceholder": "精确匹配请求、关联或追踪 ID",
+      "from": "开始时间（本地）",
+      "to": "结束时间（本地）",
+      "timeHint": "时间范围包含起止时间，使用本地时区。设置时间条件后，不含可识别时间戳的记录会被排除。文本中没有时区偏移的时间戳按本地时间解释。",
+      "requestHint": "点击 ID 会清除其他筛选条件，查看该请求的完整过程。此处最多显示 40 个常见 ID，其他 ID 可在上方输入。",
+      "showRequest": "查看请求 {{id}} 的全部日志",
+      "results": "筛选结果",
+      "summary": "显示 {{matched}} / {{total}} 条记录 · 共 {{lines}} 行",
+      "processing": "正在分析日志…",
+      "copyResults": "复制结果",
+      "downloadResults": "下载结果",
+      "unknownHint": "保留了 {{count}} 条未识别记录的原始文本，可选择“未识别”级别查看。",
+      "empty": "粘贴日志、选择文件或加载示例即可开始。",
+      "noMatches": "没有符合条件的记录，可重置筛选查看全部内容。",
+      "line": "第 {{start}}–{{end}} 行",
+      "previous": "上一页",
+      "next": "下一页",
+      "page": "第 {{page}} / {{pages}} 页",
+      "invalidTimeRange": "请输入有效时间范围，开始时间不能晚于结束时间。",
+      "tooLarge": "输入超过 10 MiB，请拆分成较小的日志文件再分析。",
+      "unsupportedFile": "请选择 .log、.txt 或 .jsonl 文本文件。",
+      "fileFailed": "无法读取该文件，请重新选择或直接粘贴内容。",
+      "parseFailed": "暂时无法分析日志，输入内容仍保留，可尝试较小的文件。",
+      "recordLimit": "已索引前 {{limit}} 条记录，其余行保留为一块未识别文本，导出全部记录时也会包含。若要逐条筛选这些行，请拆分文件。",
+      "levels": {
+        "TRACE": "跟踪",
+        "DEBUG": "调试",
+        "INFO": "信息",
+        "WARN": "警告",
+        "ERROR": "错误",
+        "FATAL": "严重错误",
+        "UNKNOWN": "未识别"
+      },
+      "previewLimit": "预览仅显示前 4,000 个字符，复制或下载结果可获取完整原始记录。"
     }
   },
   "pipeline": {
@@ -1630,7 +1731,10 @@
     "compressedImage": "压缩后的图像",
     "copyFailed": "复制失败，请选中输出内容手动复制。",
     "copyError": "复制失败",
-    "bits": "{{count}} 位"
+    "bits": "{{count}} 位",
+    "clear": "清空",
+    "switchToLightMode": "切换到浅色模式",
+    "switchToDarkMode": "切换到深色模式"
   },
   "about": {
     "title": "关于",
@@ -1681,7 +1785,8 @@
       }
     },
     "toolCount_one": "{{count}} 个工具",
-    "toolCount_other": "{{count}} 个工具"
+    "toolCount_other": "{{count}} 个工具",
+    "workflowTools": "对比接口数据与排查请求日志"
   },
   "transforms": {
     "crc32": {
@@ -1925,6 +2030,50 @@
     "seconds-to-duration": {
       "name": "秒 → 时长",
       "description": "将秒数转换为易读时长（d h m s）"
+    }
+  },
+  "drafts": {
+    "enabled": "恢复草稿",
+    "disabled": "已关闭草稿恢复",
+    "clearCurrent": "清空当前",
+    "clearAll": "清空全部草稿",
+    "notice": "文本输入和选项保存在本浏览器，原始文件、密码/密钥输入框和生成的凭据不保留。",
+    "storageError": "无法修改浏览器存储，当前输入仍可继续使用。",
+    "status": {
+      "empty": "在此保存输入和选项",
+      "pending": "正在保存草稿…",
+      "saved": "草稿已保存在当前浏览器",
+      "tooLarge": "内容过大，仅保留本次会话（上限：524,288 个字符，含选项）",
+      "unavailable": "无法保存到本地，仅保留本次会话"
+    }
+  },
+  "smartPaste": {
+    "title": "智能粘贴",
+    "description": "粘贴内容，找到合适的工具。选择推荐项后打开工具并带入输入。",
+    "close": "关闭智能粘贴",
+    "inputLabel": "内容",
+    "readClipboard": "读取剪贴板",
+    "reading": "读取中…",
+    "placeholder": "粘贴 JSON、JWT、Unix 时间戳、URL、Base64 或普通文本…",
+    "privacy": "识别在浏览器本地完成，输入上限为 1 MiB。只有点击按钮才读取剪贴板；输入通过当前标签页内存传递。工具输入的草稿保存遵循恢复设置。",
+    "empty": "在上方粘贴内容后查看推荐工具。",
+    "chooseTool": "请选择工具来处理这段内容。识别结果仅供参考，由你决定。",
+    "suggestions": "推荐工具",
+    "recommended": "推荐",
+    "tooLarge": "粘贴内容超过 1 MiB 上限，请减少内容后重试。",
+    "clipboardUnavailable": "当前无法读取剪贴板，请手动粘贴到内容框。",
+    "clipboardFailed": "剪贴板读取被拒绝或失败，请手动粘贴到内容框。",
+    "clipboardChanged": "读取剪贴板期间你修改了输入，已保留修改。若需替换，请再次点击。",
+    "handoffFailed": "无法打开所选工具。内容仍保留在此处，请重试。",
+    "reasons": {
+      "jsonObject": "有效的 JSON 对象，可格式化并查看结构。",
+      "jsonArray": "有效的 JSON 数组，可格式化并查看结构。",
+      "jwt": "符合 JWT 头部和载荷结构，可查看内容；尚未验证签名。",
+      "seconds": "看起来是以秒为单位的 Unix 时间戳，也可能是数字编号。",
+      "milliseconds": "看起来是以毫秒为单位的 Unix 时间戳，也可能是数字编号。",
+      "url": "有效的 HTTP 或 HTTPS URL，可解析组成部分，无需打开地址。",
+      "base64": "规范的 Base64 编码，能解码为 UTF-8 文本，也可能只是普通文本。",
+      "text": "按普通文本查看内容，统计字符、单词和行数。"
     }
   }
 }

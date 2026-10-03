@@ -14,6 +14,22 @@ const definitions = (readdirSync(resolve('src/tools'), { recursive: true }) as s
   .map((match) => ({ id: match[1]!, category: match[2]! }));
 
 for (const language of ['en', 'zh'] as const) {
+  test(`${language}: every category translates its heading, description and all tool cards`, async ({ page }) => {
+    const resources = language === 'en' ? en : zh;
+    await page.addInitScript((lang) => localStorage.setItem('dev-toolbox-lang', lang), language);
+    for (const category of Object.keys(resources.categories) as Array<keyof typeof resources.categories>) {
+      await page.goto(`/tools/${category}`);
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(resources.categories[category]);
+      await expect(page.locator('main')).toContainText(resources.categoryDesc[category]);
+      for (const tool of definitions.filter((entry) => entry.category === category)) {
+        const copy = resources.tools[TOOL_I18N_KEYS[tool.id] as keyof typeof resources.tools];
+        const card = page.locator(`main a[href="/tools/${category}/${tool.id}"]`);
+        await expect(card).toContainText(copy.title);
+        await expect(card).toContainText(copy.description);
+      }
+    }
+  });
+
   test(`${language}: every existing tool renders translated controls and metadata`, async ({ page }) => {
     test.setTimeout(120_000);
     const resources = language === 'en' ? en : zh;
@@ -36,9 +52,14 @@ for (const language of ['en', 'zh'] as const) {
 test('language switch updates navigation, search, Pipeline details and existing errors', async ({ page }) => {
   await page.goto('/tools/text/slugify');
   await expect(page.getByRole('combobox')).toContainText('Underscore');
+  await expect(page.getByRole('button', { name: en.common.switchToLightMode, exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Switch language' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
   await expect(page.getByRole('combobox')).toContainText('下划线');
+  await page.getByRole('button', { name: zh.common.switchToLightMode, exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await page.getByRole('button', { name: zh.common.switchToDarkMode, exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.goto('/tools/text');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(zh.categories.text);
   await expect(page.getByRole('link', { name: /文本统计/ })).toBeVisible();
@@ -145,9 +166,9 @@ test('large unit conversions and Cron invalid input keep correct results', async
     expect(Number(result)).toBe(Number(value));
   }
   await page.goto('/tools/time/cron-parser');
-  await page.locator('main input').fill('*/0 * * * *');
+  await page.locator('main').getByRole('textbox').fill('*/0 * * * *');
   await expect(page.locator('main')).toContainText(en.tools.cron.invalidExpression);
-  await page.locator('main input').fill('0 0 * * 7');
+  await page.locator('main').getByRole('textbox').fill('0 0 * * 7');
   await expect(page.locator('main')).toContainText('Sun');
 });
 

@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { parseColor, hexToRgb, rgbToHex, rgbToHsl, rgbToHsv, type ColorInfo } from './index';
@@ -5,8 +6,8 @@ import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function ColorPicker() {
   const { t } = useTranslation();
-  const [hex, setHex] = useState('#3B82F6');
-  const [color, setColor] = useState<ColorInfo | null>(() => parseColor('#3B82F6'));
+  const [hex, setHex] = useDraftState('hex', '#3B82F6');
+  const [color, setColor] = useState<ColorInfo | null>(() => parseColor(hex));
 
   const handleHexChange = (value: string) => {
     setHex(value);

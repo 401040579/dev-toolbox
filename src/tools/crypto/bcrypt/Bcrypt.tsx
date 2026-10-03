@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { hashPassword, verifyPassword } from './index';
@@ -7,11 +8,11 @@ type Mode = 'hash' | 'verify';
 
 export default function Bcrypt() {
   const { t } = useTranslation();
-  const [mode, setMode] = useState<Mode>('hash');
+  const [mode, setMode] = useDraftState<Mode>('mode', 'hash', { allowed: ["hash","verify"] });
   const [password, setPassword] = useState('');
-  const [iterations, setIterations] = useState(100000);
+  const [iterations, setIterations] = useDraftState('iterations', 100000, { allowed: [10000, 50000, 100000, 250000, 500000] });
   const [hash, setHash] = useState('');
-  const [hashToVerify, setHashToVerify] = useState('');
+  const [hashToVerify, setHashToVerify] = useDraftState('hashToVerify', '', { clearValue: '' });
   const [result, setResult] = useState<{ success: boolean; message: string } | null>(null);
   const [loading, setLoading] = useState(false);
 

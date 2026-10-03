@@ -8,9 +8,11 @@ import { CommandPalette } from '@/components/command-palette/CommandPalette';
 import { ErrorBoundary } from '@/components/error-boundary/ErrorBoundary';
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
 import { useAppStore } from '@/store/app';
+import { SmartPaste } from '@/components/smart-paste/SmartPaste';
 
 export function RootLayout() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+  const [smartPasteOpen, setSmartPasteOpen] = useState(false);
   const navigate = useNavigate();
   const toggleSidebar = useAppStore((s) => s.toggleSidebar);
 
@@ -23,7 +25,7 @@ export function RootLayout() {
     <div className="flex h-dvh overflow-hidden bg-background">
       <Sidebar />
       <div className="flex flex-col flex-1 min-w-0">
-        <Header onOpenCommandPalette={() => setCommandPaletteOpen(true)} />
+        <Header onOpenCommandPalette={() => setCommandPaletteOpen(true)} onOpenSmartPaste={() => setSmartPasteOpen(true)} />
         <main className="flex-1 min-h-0 overflow-auto pb-14 md:pb-0">
           <ErrorBoundary>
             <Suspense
@@ -41,6 +43,7 @@ export function RootLayout() {
       </div>
       <PwaUpdate />
       <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
+      {smartPasteOpen && <SmartPaste onClose={() => setSmartPasteOpen(false)} />}
     </div>
   );
 }

@@ -2,6 +2,15 @@
 
 > 参考: [IT-Tools](https://it-tools.tech), [CyberChef](https://gchq.github.io/CyberChef/), [SmallDev.tools](https://smalldev.tools/), [regex101](https://regex101.com/), [crontab.guru](https://crontab.guru/)
 
+## v1.1 新增工作流程 ✅
+
+- [x] 全部工具的文本/选项草稿恢复与清空、关闭控制
+- [x] JSON 结构对比、字段路径和完整报告导出
+- [x] 本地日志分析、请求过程筛选、Worker 与分页
+- [x] 智能粘贴推荐与明确选择后带入工具
+
+当前注册表包含 **88 个工具、58 个 Pipeline transforms**；本文早期阶段表保留规划背景，实际可用工具以注册表和在线应用为准。
+
 ## 当前已实现 ✅
 
 ### Time 时间
@@ -201,9 +210,8 @@
 
 ## 统计
 
-- 已实现: **84** 个工具 (Phase 1-10 完成)
-- 待开发: **~32** 个工具
-- 总计: **~95** 个工具
+- 已实现: **88** 个工具，另有草稿恢复、智能粘贴与 Pipeline 工作流程
+- 其余候选: Phase 11–12，开发前需核对注册表，避免重复
 
 ---
 

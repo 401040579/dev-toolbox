@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
 import { useTranslation } from 'react-i18next';
 import { generateCSS, DEFAULT_CONFIG, type GradientConfig, type GradientType } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function GradientGenerator() {
   const { t } = useTranslation();
-  const [config, setConfig] = useState<GradientConfig>({ ...DEFAULT_CONFIG, stops: [...DEFAULT_CONFIG.stops] });
+  const [config, setConfig] = useDraftState<GradientConfig>('config', { ...DEFAULT_CONFIG, stops: [...DEFAULT_CONFIG.stops] });
 
   const css = generateCSS(config);
   const fullCSS = `background: ${css};`;

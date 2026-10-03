@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { convertImage, getFormatExtension, ImageFormat } from './index';
@@ -6,8 +7,8 @@ export default function ImageConverter() {
   const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState('');
-  const [targetFormat, setTargetFormat] = useState<ImageFormat>('image/png');
-  const [quality, setQuality] = useState(92);
+  const [targetFormat, setTargetFormat] = useDraftState<ImageFormat>('targetFormat', 'image/png', { allowed: ["image/jpeg","image/png","image/webp","image/bmp"] });
+  const [quality, setQuality] = useDraftState('quality', 92, { min: 1, max: 100 });
   const [result, setResult] = useState<{ url: string; size: number } | null>(null);
   const [processing, setProcessing] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);

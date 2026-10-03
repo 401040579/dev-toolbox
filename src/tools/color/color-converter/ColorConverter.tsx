@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
 import { useTranslation } from 'react-i18next';
 import { hexToRgb, rgbToHex, rgbToHsl, hslToRgb, rgbToCmyk, cmykToRgb } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -7,10 +7,10 @@ type Mode = 'hex' | 'rgb' | 'hsl' | 'cmyk';
 
 export default function ColorConverter() {
   const { t } = useTranslation();
-  const [hex, setHex] = useState('#3B82F6');
-  const [rgb, setRgb] = useState({ r: 59, g: 130, b: 246 });
-  const [hsl, setHsl] = useState({ h: 217, s: 91, l: 60 });
-  const [cmyk, setCmyk] = useState({ c: 76, m: 47, y: 0, k: 4 });
+  const [hex, setHex] = useDraftState('hex', '#3B82F6');
+  const [rgb, setRgb] = useDraftState('rgb', { r: 59, g: 130, b: 246 });
+  const [hsl, setHsl] = useDraftState('hsl', { h: 217, s: 91, l: 60 });
+  const [cmyk, setCmyk] = useDraftState('cmyk', { c: 76, m: 47, y: 0, k: 4 });
 
   const updateFromRgb = (r: number, g: number, b: number) => {
     setRgb({ r, g, b });

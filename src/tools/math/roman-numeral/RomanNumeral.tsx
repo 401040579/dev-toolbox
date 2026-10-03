@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
 import { useTranslation } from 'react-i18next';
 import { toRoman, fromRoman } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function RomanNumeral() {
   const { t } = useTranslation();
-  const [arabic, setArabic] = useState('');
-  const [roman, setRoman] = useState('');
+  const [arabic, setArabic] = useDraftState('arabic', '', { clearValue: '' , min: 1, max: 3999});
+  const [roman, setRoman] = useDraftState('roman', '', { clearValue: '' });
 
   const handleArabicChange = (value: string) => {
     setArabic(value);

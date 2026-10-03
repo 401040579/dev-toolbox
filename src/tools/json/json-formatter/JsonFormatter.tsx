@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToolLayout } from '@/components/tool-layout/ToolLayout';
@@ -27,8 +28,8 @@ function formatBytes(bytes: number): string {
 
 export default function JsonFormatter() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
-  const [indent, setIndent] = useState<IndentType>('2');
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [indent, setIndent] = useDraftState<IndentType>('indent', '2', { allowed: ["2","4","tab"] });
   const [workerResult, setWorkerResult] = useState<{ data: JsonResult | null; error: string | null; loading: boolean }>({
     data: null, error: null, loading: false,
   });

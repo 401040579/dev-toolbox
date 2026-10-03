@@ -2,7 +2,7 @@
 
 Practical browser tools for **messaging, API payloads and POS troubleshooting**. Inspect an SMS segment jump, unwrap a Base64 order event, or turn a repeated debugging routine into a Pipeline.
 
-[Try the app](https://app.aiuos.com) · [中文](README.zh-CN.md) · [Download v1.0.1](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.1) · [Contribute](CONTRIBUTING.md)
+[Try the app](https://app.aiuos.com) · [中文](README.zh-CN.md) · [Download v1.1.0](https://github.com/401040579/dev-toolbox/releases/tag/v1.1.0) · [Contribute](CONTRIBUTING.md)
 
 ![SMS encoding and segment inspection with synthetic order data](docs/screenshots/sms-segment.png)
 
@@ -29,6 +29,13 @@ The catalog also includes local QR generation, Markdown preview, static SVG clea
 
 ![A local Pipeline decoding a synthetic POS event](docs/screenshots/pipeline.png)
 
+## v1.1 workflows
+
+- **Draft restoration**: text inputs, modes and options in existing and new tools stay in this browser across tool switches and refreshes. Each tool offers disable, clear-current and clear-all controls. Original file handles, generated credentials and password/key fields are excluded; logs and Data URLs converted into text follow text-input rules. The per-tool draft limit is 524,288 serialized JSON characters including options. Oversized or failed saves clearly remain session-only without preventing processing. Pipeline keeps its existing explicit save workflow.
+- **[JSON structural diff](https://app.aiuos.com/tools/json/json-diff)**: inspect added, removed and modified fields, ignoring object key order while preserving types, array order and absent/null distinctions. Copy or download the complete JSON report. Limits per side: 1 MiB, 20,000 values, 64 levels; at most 500 changes. Numbers that cannot be preserved are rejected; use strings for exact large numbers and high-precision decimals. Filtering affects the view only; duplicate keys follow JSON.parse's last-value rule.
+- **[Log analyzer](https://app.aiuos.com/tools/devtools/log-analyzer)**: paste or drop .log/.txt/.jsonl and filter by time, severity, keyword and exact request ID; click an ID to inspect its full trace. Worker processing accepts up to 10 MiB with 100 entries per page and 4,000 characters per entry preview. Copies and downloads keep full original text. After 100,000 indexed entries, remaining text is retained as an unknown block with a notice; unrecognized lines are never discarded.
+- **Smart Paste**: use the header button to recognize JSON, JWT, seconds/milliseconds timestamps, HTTP(S) URLs, readable-text Base64 or plain text, then choose a tool with the input filled in. Input limit: 1 MiB. Clipboard reads require a click. Handoffs use tab memory, target tools follow draft settings, and input is not placed in URLs.
+
 ## Run locally
 
 Use **Node.js 22** and npm 10 or newer. The lockfile is committed.
@@ -48,12 +55,12 @@ npm run build
 npm run preview
 ```
 
-The [release](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.1) also provides a static site ZIP, SHA-256 checksum and GitHub source archives. Extract the site ZIP, run `python3 serve.py`, and open `http://localhost:4173`. Use a local HTTP server; opening `index.html` as a file is insufficient for module loading and Web Crypto. To rebuild the archive from a clean tagged checkout: `npm ci`, `npm run build`, `npm run release:package` (Python 3 required).
+The [release](https://github.com/401040579/dev-toolbox/releases/tag/v1.1.0) also provides a static site ZIP, SHA-256 checksum and GitHub source archives. Extract the site ZIP, run `python3 serve.py`, and open `http://localhost:4173`. Use a local HTTP server; opening `index.html` as a file is insufficient for module loading and Web Crypto. To rebuild the archive from a clean tagged checkout: `npm ci`, `npm run build`, `npm run release:package` (Python 3 required).
 
 ## Privacy, offline use and boundaries
 
 - **Tool inputs are processed in your browser without uploads.** QR preview and SVG downloads are generated locally. The host still receives ordinary site requests. There is no app analytics or tracking-cookie service.
-- Preferences, favorites and explicitly saved Pipelines use browser local storage. Share links put configuration in the URL fragment, which is not an ordinary HTTP request payload, but can be read by link recipients and retained in browser history. External links open on explicit click and leave the app.
+- Preferences, favorites, enabled tool drafts and explicitly saved Pipelines use browser local storage. Share links put configuration in the URL fragment, which is not an ordinary HTTP request payload, but can be read by link recipients and retained in browser history. External links open on explicit click and leave the app.
 - Markdown supports common GFM structures (lists, tables, code and links). Raw HTML displays as text and images display as alt text, preventing automatic resource requests.
 - SVG cleanup supports **static artwork**. Scripts, event handlers, CSS, animation, embedded images and external references are removed from preview **and export**. Local gradients, masks, clips and fragment references are supported. It is a lightweight cleanup tool, not a full SVGO replacement.
 - The service worker precaches the production app after a successful online load. First load and updates require a connection; browser storage eviction/private browsing can affect offline availability. New versions show a reload prompt; copy unsaved input first. If an older cached build has no prompt, close all site tabs and installed app windows, then reopen online.
@@ -74,7 +81,7 @@ npm run test:e2e
 npm audit
 ```
 
-CI runs a clean install, lint, unit tests, dependency audit, production build and Chromium E2E before deploying `main` through GitHub Pages. The existing custom domain remains `app.aiuos.com`. Build metadata is available at [`version.json`](https://app.aiuos.com/version.json). See [contributing](CONTRIBUTING.md), [security reporting](SECURITY.md), [changelog](CHANGELOG.md) and the [release validation record](docs/releases/v1.0.1-validation.md).
+CI runs a clean install, lint, unit tests, dependency audit, production build and Chromium E2E before deploying `main` through GitHub Pages. The existing custom domain remains `app.aiuos.com`. Build metadata is available at [`version.json`](https://app.aiuos.com/version.json). See [contributing](CONTRIBUTING.md), [security reporting](SECURITY.md), [changelog](CHANGELOG.md) and the [release validation record](docs/releases/v1.1.0-validation.md).
 
 ## License and credits
 

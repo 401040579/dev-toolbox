@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { imageToBase64, base64ToBlob, getImageInfo } from './index';
@@ -5,11 +6,11 @@ import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function ImageBase64() {
   const { t } = useTranslation();
-  const [mode, setMode] = useState<'encode' | 'decode'>('encode');
+  const [mode, setMode] = useDraftState<'encode' | 'decode'>('mode', 'encode', { allowed: ["encode","decode"] });
   const [base64Output, setBase64Output] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const [info, setInfo] = useState<{ mime: string; size: number } | null>(null);
-  const [base64Input, setBase64Input] = useState('');
+  const [base64Input, setBase64Input] = useDraftState('base64Input', '', { clearValue: '' });
   const fileRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {

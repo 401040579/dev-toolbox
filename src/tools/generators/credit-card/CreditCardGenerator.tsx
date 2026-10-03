@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateCreditCards, validateLuhn, detectCardType, formatCardNumber, CardType } from './index';
@@ -5,11 +6,11 @@ import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function CreditCardGenerator() {
   const { t } = useTranslation();
-  const [cardType, setCardType] = useState<CardType>('visa');
-  const [count, setCount] = useState(5);
-  const [formatted, setFormatted] = useState(true);
+  const [cardType, setCardType] = useDraftState<CardType>('cardType', 'visa', { allowed: ["visa","mastercard","amex","discover","random"] });
+  const [count, setCount] = useDraftState('count', 5, { min: 1, max: 100 });
+  const [formatted, setFormatted] = useDraftState('formatted', true);
   const [cards, setCards] = useState<string[]>([]);
-  const [validateInput, setValidateInput] = useState('');
+  const [validateInput, setValidateInput] = useDraftState('validateInput', '', { clearValue: '' });
 
   const handleGenerate = () => {
     const generated = generateCreditCards(count, cardType);

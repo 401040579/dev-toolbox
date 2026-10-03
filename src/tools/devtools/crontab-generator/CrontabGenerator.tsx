@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
 import { useTranslation } from 'react-i18next';
 import { PRESETS, parseCrontab, buildCrontab, type CrontabPart } from './index';
 import { parseCron } from '@/lib/cron';
@@ -10,8 +10,8 @@ const DEFAULT_PARTS: CrontabPart = { minute: '0', hour: '*', dayOfMonth: '*', mo
 export default function CrontabGenerator() {
   const { t, i18n } = useTranslation();
   const locale = i18n.resolvedLanguage === 'zh' ? 'zh-CN' : 'en-US';
-  const [parts, setParts] = useState<CrontabPart>({ ...DEFAULT_PARTS });
-  const [expressionInput, setExpressionInput] = useState('');
+  const [parts, setParts] = useDraftState<CrontabPart>('parts', { ...DEFAULT_PARTS });
+  const [expressionInput, setExpressionInput] = useDraftState('expressionInput', '', { clearValue: '' });
 
   const expression = buildCrontab(parts);
   let description: string;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
 import { useTranslation } from 'react-i18next';
 import { generatePalette, type PaletteType } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -7,8 +7,8 @@ const PALETTE_TYPES: PaletteType[] = ['complementary', 'analogous', 'triadic', '
 
 export default function ColorPalette() {
   const { t } = useTranslation();
-  const [baseColor, setBaseColor] = useState('#3B82F6');
-  const [paletteType, setPaletteType] = useState<PaletteType>('complementary');
+  const [baseColor, setBaseColor] = useDraftState('baseColor', '#3B82F6');
+  const [paletteType, setPaletteType] = useDraftState<PaletteType>('paletteType', 'complementary', { allowed: ["complementary","analogous","triadic","split-complementary","tetradic"] });
 
   const palette = generatePalette(baseColor, paletteType);
   const allHexes = palette.map((c) => c.hex).join(', ');

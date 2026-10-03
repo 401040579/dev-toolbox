@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateIBAN, validateIBAN, formatIBAN, parseIBAN, getSupportedCountries } from './index';
@@ -5,10 +6,10 @@ import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function IbanGenerator() {
   const { t } = useTranslation();
-  const [country, setCountry] = useState('DE');
-  const [count, setCount] = useState(5);
+  const [country, setCountry] = useDraftState('country', 'DE');
+  const [count, setCount] = useDraftState('count', 5, { min: 1, max: 100 });
   const [ibans, setIbans] = useState<string[]>([]);
-  const [validateInput, setValidateInput] = useState('');
+  const [validateInput, setValidateInput] = useDraftState('validateInput', '', { clearValue: '' });
 
   const countries = getSupportedCountries();
 

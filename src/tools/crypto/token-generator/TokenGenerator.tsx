@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateToken, generateHexToken, generateBase64Token } from './index';
@@ -14,10 +15,10 @@ const CHARSETS = {
 
 export default function TokenGenerator() {
   const { t } = useTranslation();
-  const [tokenType, setTokenType] = useState<TokenType>('alphanumeric');
-  const [length, setLength] = useState(32);
-  const [customCharset, setCustomCharset] = useState(CHARSETS.alphanumeric);
-  const [count, setCount] = useState(1);
+  const [tokenType, setTokenType] = useDraftState<TokenType>('tokenType', 'alphanumeric', { allowed: ["hex","alphanumeric","custom","base64"] });
+  const [length, setLength] = useDraftState('length', 32, { min: 1, max: 256 });
+  const [customCharset, setCustomCharset] = useDraftState('customCharset', CHARSETS.alphanumeric);
+  const [count, setCount] = useDraftState('count', 1, { min: 1, max: 100 });
   const [tokens, setTokens] = useState<string[]>([]);
 
   const generate = useCallback(() => {

@@ -1,11 +1,12 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { parseURL } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function UrlParser() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
 
   const parsed = useMemo(() => {
     if (!input.trim()) return null;

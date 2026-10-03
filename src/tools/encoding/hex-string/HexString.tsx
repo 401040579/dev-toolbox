@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToolLayout } from '@/components/tool-layout/ToolLayout';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -10,10 +11,10 @@ const separatorMap: Record<Separator, string> = { space: ' ', none: '', colon: '
 
 export default function HexString() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
-  const [mode, setMode] = useState<Mode>('toHex');
-  const [separator, setSeparator] = useState<Separator>('space');
-  const [uppercase, setUppercase] = useState(false);
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [mode, setMode] = useDraftState<Mode>('mode', 'toHex', { allowed: ["toHex","toString"] });
+  const [separator, setSeparator] = useDraftState<Separator>('separator', 'space', { allowed: ["space","none","colon","dash","0x"] });
+  const [uppercase, setUppercase] = useDraftState('uppercase', false);
 
   const { output, error } = useMemo(() => {
     if (!input) return { output: '', error: null };

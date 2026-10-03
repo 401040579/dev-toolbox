@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -5,9 +6,9 @@ import { RefreshCw } from 'lucide-react';
 
 export default function UuidGenerator() {
   const { t } = useTranslation();
-  const [count, setCount] = useState(1);
-  const [uppercase, setUppercase] = useState(false);
-  const [noDashes, setNoDashes] = useState(false);
+  const [count, setCount] = useDraftState('count', 1, { min: 1, max: 100 });
+  const [uppercase, setUppercase] = useDraftState('uppercase', false);
+  const [noDashes, setNoDashes] = useDraftState('noDashes', false);
   const [uuids, setUuids] = useState<string[]>(() => [crypto.randomUUID()]);
 
   const generate = useCallback(() => {

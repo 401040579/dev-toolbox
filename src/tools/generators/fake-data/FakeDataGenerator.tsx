@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -11,8 +12,8 @@ type DataType = 'all' | 'name' | 'email' | 'phone' | 'address' | 'company' | 'cr
 
 export default function FakeDataGenerator() {
   const { t } = useTranslation();
-  const [dataType, setDataType] = useState<DataType>('all');
-  const [count, setCount] = useState(5);
+  const [dataType, setDataType] = useDraftState<DataType>('dataType', 'all', { allowed: ["all","name","email","phone","address","company","creditCard","date","username","password","url","ipv4"] });
+  const [count, setCount] = useDraftState('count', 5, { min: 1, max: 100 });
   const [output, setOutput] = useState('');
 
   const handleGenerate = () => {

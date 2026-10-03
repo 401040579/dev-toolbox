@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -41,14 +42,14 @@ function calcStrength(password: string): { labelKey: string; color: string; perc
 
 export default function PasswordGenerator() {
   const { t } = useTranslation();
-  const [length, setLength] = useState(16);
-  const [options, setOptions] = useState({
+  const [length, setLength] = useDraftState('length', 16, { min: 4, max: 64 });
+  const [options, setOptions] = useDraftState('options', {
     lowercase: true,
     uppercase: true,
     numbers: true,
     symbols: true,
   });
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useDraftState('count', 1, { min: 1, max: 20 });
   const [passwords, setPasswords] = useState<string[]>(() => [
     generatePassword(16, { lowercase: true, uppercase: true, numbers: true, symbols: true }),
   ]);

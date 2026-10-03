@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { calculate, type CalcMode } from './index';
 
@@ -12,9 +13,9 @@ const MODES: { mode: CalcMode; labelKey: string }[] = [
 
 export default function PercentageCalc() {
   const { t } = useTranslation();
-  const [mode, setMode] = useState<CalcMode>('percentOf');
-  const [a, setA] = useState('25');
-  const [b, setB] = useState('200');
+  const [mode, setMode] = useDraftState<CalcMode>('mode', 'percentOf', { allowed: ["whatPercent","percentOf","percentChange","addPercent","subtractPercent"] });
+  const [a, setA] = useDraftState('a', '25');
+  const [b, setB] = useDraftState('b', '200');
 
   const result = useMemo(() => {
     const numA = parseFloat(a);

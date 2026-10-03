@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { csvToJson, jsonToCsv } from './index';
@@ -18,10 +19,10 @@ type Mode = 'csv-to-json' | 'json-to-csv';
 
 export default function CsvJson() {
   const { t } = useTranslation();
-  const [input, setInput] = useState(SAMPLE_CSV);
-  const [mode, setMode] = useState<Mode>('csv-to-json');
-  const [delimiter, setDelimiter] = useState(',');
-  const [hasHeader, setHasHeader] = useState(true);
+  const [input, setInput] = useDraftState('input', SAMPLE_CSV, { clearValue: '' });
+  const [mode, setMode] = useDraftState<Mode>('mode', 'csv-to-json', { allowed: ["csv-to-json","json-to-csv"] });
+  const [delimiter, setDelimiter] = useDraftState('delimiter', ',');
+  const [hasHeader, setHasHeader] = useDraftState('hasHeader', true);
   const [error, setError] = useState('');
 
   const handleModeChange = (newMode: Mode) => {

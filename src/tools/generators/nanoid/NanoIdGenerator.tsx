@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateNanoIds, NanoIdType } from './index';
@@ -5,10 +6,10 @@ import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function NanoIdGenerator() {
   const { t } = useTranslation();
-  const [type, setType] = useState<NanoIdType>('default');
-  const [size, setSize] = useState(21);
-  const [count, setCount] = useState(5);
-  const [customAlphabet, setCustomAlphabet] = useState('');
+  const [type, setType] = useDraftState<NanoIdType>('type', 'default', { allowed: ["hex","default","url-safe","alphanumeric","custom"] });
+  const [size, setSize] = useDraftState('size', 21, { min: 1, max: 128 });
+  const [count, setCount] = useDraftState('count', 5, { min: 1, max: 100 });
+  const [customAlphabet, setCustomAlphabet] = useDraftState('customAlphabet', '', { clearValue: '' });
   const [ids, setIds] = useState<string[]>(() => generateNanoIds(5, { size: 21 }));
 
   const handleGenerate = () => {

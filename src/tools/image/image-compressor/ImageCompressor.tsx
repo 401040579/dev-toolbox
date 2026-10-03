@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { compressImage, formatFileSize } from './index';
@@ -6,10 +7,10 @@ type OutputFormat = 'image/jpeg' | 'image/png' | 'image/webp';
 
 export default function ImageCompressor() {
   const { t } = useTranslation();
-  const [quality, setQuality] = useState(80);
-  const [maxWidth, setMaxWidth] = useState(1920);
-  const [maxHeight, setMaxHeight] = useState(1080);
-  const [format, setFormat] = useState<OutputFormat>('image/jpeg');
+  const [quality, setQuality] = useDraftState('quality', 80, { min: 1, max: 100 });
+  const [maxWidth, setMaxWidth] = useDraftState('maxWidth', 1920);
+  const [maxHeight, setMaxHeight] = useDraftState('maxHeight', 1080);
+  const [format, setFormat] = useDraftState<OutputFormat>('format', 'image/jpeg', { allowed: ["image/jpeg","image/png","image/webp"] });
   const [original, setOriginal] = useState<{ file: File; url: string; width: number; height: number } | null>(null);
   const [compressed, setCompressed] = useState<{ url: string; size: number; width: number; height: number } | null>(null);
   const [processing, setProcessing] = useState(false);

@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
 import { useTranslation } from 'react-i18next';
 import { calculateRatio, calculateDimension, COMMON_RATIOS } from './index';
 
 export default function AspectRatio() {
   const { t } = useTranslation();
-  const [width, setWidth] = useState('1920');
-  const [height, setHeight] = useState('1080');
-  const [ratioW, setRatioW] = useState(16);
-  const [ratioH, setRatioH] = useState(9);
-  const [calcWidth, setCalcWidth] = useState('1280');
+  const [width, setWidth] = useDraftState('width', '1920');
+  const [height, setHeight] = useDraftState('height', '1080');
+  const [ratioW, setRatioW] = useDraftState('ratioW', 16);
+  const [ratioH, setRatioH] = useDraftState('ratioH', 9);
+  const [calcWidth, setCalcWidth] = useDraftState('calcWidth', '1280');
 
   const w = parseInt(width) || 0;
   const h = parseInt(height) || 0;

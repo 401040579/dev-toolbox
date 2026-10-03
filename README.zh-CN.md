@@ -2,7 +2,7 @@
 
 面向**通信、接口数据和 POS 排障**的浏览器工具箱。定位短信段数变化、解开 Base64 订单事件，或把重复排查流程保存成 Pipeline。
 
-[在线使用](https://app.aiuos.com) · [English](README.md) · [下载 v1.0.1](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.1) · [参与贡献](CONTRIBUTING.md)
+[在线使用](https://app.aiuos.com) · [English](README.md) · [下载 v1.1.0](https://github.com/401040579/dev-toolbox/releases/tag/v1.1.0) · [参与贡献](CONTRIBUTING.md)
 
 ![使用虚构订单消息检查短信编码和分段](docs/screenshots/sms-segment.png)
 
@@ -29,6 +29,13 @@
 
 ![Pipeline 解码虚构 POS 事件](docs/screenshots/pipeline.png)
 
+## v1.1 工作流程
+
+- **草稿恢复**：现有工具和新增工具的文本输入、模式及选项自动保存在当前浏览器，切换工具和刷新后恢复；工具顶部可关闭恢复、清空当前或清空全部。原始文件句柄、生成的凭据和密码/密钥输入框不保存；导入后成为文本的日志和 Data URL 按文本输入处理。草稿单个工具最多 524,288 个 JSON 字符（含选项）；超限或保存失败会明确显示“仅本次会话”，不影响处理。Pipeline 继续使用已有的主动保存。
+- **[JSON 结构对比](https://app.aiuos.com/tools/json/json-diff)**：按字段查看新增、删除和修改，忽略对象键顺序，保留类型、数组顺序及不存在/null 的差异；复制或下载完整 JSON 报告。每侧 1 MiB、20,000 个值、64 层、最多 500 项差异；不能完整保留的数值明确拒绝，精确大数和高精度小数请用字符串。筛选仅影响显示，重复键遵循 JSON.parse 最后值规则。
+- **[日志分析器](https://app.aiuos.com/tools/devtools/log-analyzer)**：粘贴或拖入 .log/.txt/.jsonl，按时间、级别、关键词及精确请求 ID 筛选，点击请求 ID 查看完整过程。使用 Worker，输入上限 10 MiB，每页 100 条，预览每条最多 4,000 字符；复制和导出保留完整原文。超过 100,000 条索引时，剩余原文作为未识别块保留并提示；未识别行不会丢弃。
+- **智能粘贴**：点击顶部“智能粘贴”，识别 JSON、JWT、秒/毫秒时间戳、HTTP(S) URL、可读文本 Base64 或普通文本；选择候选后带入相应工具。输入上限 1 MiB，仅主动点击才读取剪贴板；内容通过标签页内存传递，目标工具按草稿设置保存，URL 不包含输入。
+
 ## 本地运行
 
 使用 **Node.js 22** 和 npm 10 或更新版本。依赖锁文件已提交。
@@ -48,12 +55,12 @@ npm run build
 npm run preview
 ```
 
-[正式版本](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.1)提供静态站点 ZIP、SHA-256 校验文件和 GitHub 源码归档。解压站点 ZIP，执行 `python3 serve.py`，打开 `http://localhost:4173`。请使用本地 HTTP 服务，直接打开 `index.html` 文件不能满足模块加载和 Web Crypto 的运行条件。在干净的版本 tag 上重建制品：`npm ci`、`npm run build`、`npm run release:package`（需要 Python 3）。
+[正式版本](https://github.com/401040579/dev-toolbox/releases/tag/v1.1.0)提供静态站点 ZIP、SHA-256 校验文件和 GitHub 源码归档。解压站点 ZIP，执行 `python3 serve.py`，打开 `http://localhost:4173`。请使用本地 HTTP 服务，直接打开 `index.html` 文件不能满足模块加载和 Web Crypto 的运行条件。在干净的版本 tag 上重建制品：`npm ci`、`npm run build`、`npm run release:package`（需要 Python 3）。
 
 ## 隐私、离线和功能边界
 
 - **工具输入在浏览器处理，不上传。** 二维码预览与 SVG 下载在本地生成；托管服务仍会收到普通站点请求。应用不接入分析服务或追踪 Cookie。
-- 偏好、收藏和主动保存的 Pipeline 使用浏览器本地存储。分享配置写在 URL 片段中，普通 HTTP 请求不会发送该片段，但接收者可读取，浏览器历史也可能保留。外部链接仅在主动点击时打开，并离开应用。
+- 偏好、收藏、开启恢复的工具草稿和主动保存的 Pipeline 使用浏览器本地存储。分享配置写在 URL 片段中，普通 HTTP 请求不会发送该片段，但接收者可读取，浏览器历史也可能保留。外部链接仅在主动点击时打开，并离开应用。
 - Markdown 支持常见 GFM 结构，包括列表、表格、代码和链接。原始 HTML 按文本展示，图片按替代文本展示，防止自动请求资源。
 - SVG 清理仅支持**静态图形**。预览与导出均移除脚本、事件属性、CSS、动画、嵌入图片及外部引用；支持本地渐变、蒙版、裁剪和片段引用。这是轻量清理工具，不能替代完整 SVGO。
 - 生产应用成功在线加载后由 Service Worker 预缓存。首次访问和更新需要联网；存储回收或隐私浏览可能影响离线可用性。新版本会提示重新加载，请先复制未保存输入。较旧缓存版本没有更新提示时，请关闭本站所有标签页和已安装应用窗口，再联网重新打开。
@@ -74,7 +81,7 @@ npm run test:e2e
 npm audit
 ```
 
-CI 完成干净安装、lint、单测、依赖审计、生产构建与 Chromium E2E 后，按现有 GitHub Pages 流程部署 `main`，继续使用 `app.aiuos.com`。构建版本可在 [`version.json`](https://app.aiuos.com/version.json) 核对。参见[贡献指南](CONTRIBUTING.md)、[安全报告](SECURITY.md)、[版本说明](CHANGELOG.md)与[发布验证记录](docs/releases/v1.0.1-validation.md)。
+CI 完成干净安装、lint、单测、依赖审计、生产构建与 Chromium E2E 后，按现有 GitHub Pages 流程部署 `main`，继续使用 `app.aiuos.com`。构建版本可在 [`version.json`](https://app.aiuos.com/version.json) 核对。参见[贡献指南](CONTRIBUTING.md)、[安全报告](SECURITY.md)、[版本说明](CHANGELOG.md)与[发布验证记录](docs/releases/v1.1.0-validation.md)。
 
 ## 许可与来源
 

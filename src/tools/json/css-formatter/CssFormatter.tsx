@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatCSS, minifyCSS } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -7,9 +8,9 @@ const SAMPLE_CSS = `.container{display:flex;flex-direction:column;gap:1rem}.butt
 
 export default function CssFormatter() {
   const { t } = useTranslation();
-  const [input, setInput] = useState(SAMPLE_CSS);
-  const [indent, setIndent] = useState('  ');
-  const [mode, setMode] = useState<'format' | 'minify'>('format');
+  const [input, setInput] = useDraftState('input', SAMPLE_CSS, { clearValue: '' });
+  const [indent, setIndent] = useDraftState('indent', '  ');
+  const [mode, setMode] = useDraftState<'format' | 'minify'>('mode', 'format', { allowed: ["format","minify"] });
 
   const output = useMemo(() => {
     if (!input.trim()) return '';

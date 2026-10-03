@@ -1,16 +1,16 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { UNIT_CATEGORIES, convert, formatConvertedNumber, type UnitCategory } from './index';
 
 export default function UnitConverter() {
   const { t } = useTranslation();
-  const [category, setCategory] = useState<UnitCategory>('length');
-  const [value, setValue] = useState('1');
-  const [fromUnit, setFromUnit] = useState('m');
-  const [toUnit, setToUnit] = useState('ft');
-
+  const [category, setCategory] = useDraftState<UnitCategory>('category', 'length', { allowed: ["length","weight","temperature","area","volume","speed","time"] });
+  const [value, setValue] = useDraftState('value', '1');
   const catData = UNIT_CATEGORIES[category];
   const unitKeys = Object.keys(catData.units);
+  const [fromUnit, setFromUnit] = useDraftState('fromUnit', unitKeys.includes('m') ? 'm' : unitKeys[0]!, { allowed: unitKeys });
+  const [toUnit, setToUnit] = useDraftState('toUnit', unitKeys.includes('ft') ? 'ft' : (unitKeys[1] ?? unitKeys[0]!), { allowed: unitKeys });
 
   // Reset units when category changes
   const handleCategoryChange = (cat: UnitCategory) => {

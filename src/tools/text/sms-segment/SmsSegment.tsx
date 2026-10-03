@@ -1,4 +1,5 @@
-import { useMemo, useRef, useState } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AlertTriangle, Info, Sparkles } from 'lucide-react';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -44,10 +45,10 @@ function statusToneForRemaining(percent: number): 'ok' | 'warn' | 'edge' {
 
 export default function SmsSegment() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
-  const [encoding, setEncoding] = useState<SmsEncodingMode>('auto');
-  const [smartEncoding, setSmartEncoding] = useState(false);
-  const [showSegments, setShowSegments] = useState(true);
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [encoding, setEncoding] = useDraftState<SmsEncodingMode>('encoding', 'auto', { allowed: ["auto","GSM-7","UCS-2"] });
+  const [smartEncoding, setSmartEncoding] = useDraftState('smartEncoding', false);
+  const [showSegments, setShowSegments] = useDraftState('showSegments', true);
 
   const result = useMemo(
     () => calculateSegments(input, { encoding, smartEncoding }),

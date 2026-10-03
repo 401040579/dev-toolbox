@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { parseMarkdown } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -35,7 +36,7 @@ That's all!
 
 export default function MarkdownPreview() {
   const { t } = useTranslation();
-  const [input, setInput] = useState(SAMPLE_MARKDOWN);
+  const [input, setInput] = useDraftState('input', SAMPLE_MARKDOWN, { clearValue: '' });
 
   const html = useMemo(() => parseMarkdown(input), [input]);
 

@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { escapeString, unescapeString, type EscapeFormat } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -16,9 +17,9 @@ const FORMATS: { value: EscapeFormat; label: string }[] = [
 
 export default function StringEscape() {
   const { t } = useTranslation();
-  const [mode, setMode] = useState<Mode>('escape');
-  const [format, setFormat] = useState<EscapeFormat>('json');
-  const [input, setInput] = useState('');
+  const [mode, setMode] = useDraftState<Mode>('mode', 'escape', { allowed: ["escape","unescape"] });
+  const [format, setFormat] = useDraftState<EscapeFormat>('format', 'json', { allowed: ["url","json","javascript","html","sql","csv"] });
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
 
   const output = useMemo(() => {
     if (!input) return '';

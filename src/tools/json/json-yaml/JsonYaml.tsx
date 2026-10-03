@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToolLayout } from '@/components/tool-layout/ToolLayout';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -6,8 +7,8 @@ import { convertJsonYaml, type JsonYamlMode } from './conversion';
 
 export default function JsonYaml() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
-  const [mode, setMode] = useState<JsonYamlMode>('json-to-yaml');
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [mode, setMode] = useDraftState<JsonYamlMode>('mode', 'json-to-yaml', { allowed: ["json-to-yaml","yaml-to-json"] });
 
   const { output, error } = useMemo(() => {
     if (!input.trim()) return { output: '', error: null };
