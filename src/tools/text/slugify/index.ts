@@ -36,7 +36,7 @@ export function slugify(input: string, options: Partial<SlugifyOptions> = {}): s
   let result = input;
 
   // Replace accented characters
-  result = result.replace(/[^\x00-\x7F]/g, (char) => CHAR_MAP[char] || char);
+  result = result.replace(/[\u0080-\uFFFF]/g, (char) => CHAR_MAP[char] || char);
 
   // Convert to lowercase if needed
   if (opts.lowercase) {

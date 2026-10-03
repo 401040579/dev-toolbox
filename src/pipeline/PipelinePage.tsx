@@ -15,29 +15,34 @@ export default function PipelinePage() {
   const { nodes, input, setInput, addNode, clearPipeline, loadPipeline } = usePipelineStore();
   const allTransforms = getAllTransforms();
   const { saved, savePipeline, deleteSavedPipeline } = useSavedPipelinesStore();
+  const [shareError, setShareError] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
   const [showAddMenu, setShowAddMenu] = useState(false);
   const [showSaved, setShowSaved] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [saveName, setSaveName] = useState('');
   const { copy: copyUrl, copied: urlCopied } = useCopyToClipboard();
+  const configKey = JSON.stringify(nodes.map(({ id, transformId, options }) => ({ id, transformId, options })));
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   // Load pipeline from URL hash on mount
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash.startsWith('#config=')) {
-      const encoded = hash.slice('#config='.length);
-      const data = deserializePipeline(encoded);
-      if (data) {
-        loadPipeline(data.nodes, data.input);
+    const loadFromHash = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith('#config=')) {
+        const data = deserializePipeline(hash.slice('#config='.length));
+        if (data) loadPipeline(data.nodes, data.input);
+        else clearPipeline();
       }
-    }
-  }, [loadPipeline]);
+    };
+    loadFromHash();
+    window.addEventListener('hashchange', loadFromHash);
+    return () => window.removeEventListener('hashchange', loadFromHash);
+  }, [loadPipeline, clearPipeline]);
 
   // Auto-execute on changes with debounce
   useEffect(() => {
-    if (nodes.length === 0) return;
+    if (JSON.parse(configKey).length === 0) return;
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
       executePipeline();
@@ -45,10 +50,11 @@ export default function PipelinePage() {
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
-  }, [nodes, input]);
+  }, [configKey, input]);
 
   const handleShare = useCallback(() => {
     const url = getPipelineShareUrl(nodes, input);
+    setShareError(!url);
     if (url) {
       copyUrl(url);
     }
@@ -114,6 +120,8 @@ export default function PipelinePage() {
         </div>
       </div>
 
+      {shareError && <p role="alert" className="px-4 py-2 text-xs text-error">{t('pipeline.shareTooLarge')}</p>}
+      <p className="px-4 sm:px-6 py-2 text-xs text-text-muted border-b border-border">{t('pipeline.shareNotice')}</p>
       <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden">
         {/* Input panel */}
         <div className="flex flex-col lg:w-80 border-b lg:border-b-0 lg:border-r border-border">

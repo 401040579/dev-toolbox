@@ -2,14 +2,6 @@ import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const FIELD_NAMES = ['Minute', 'Hour', 'Day of Month', 'Month', 'Day of Week'] as const;
-const FIELD_RANGES = [
-  { min: 0, max: 59 },
-  { min: 0, max: 23 },
-  { min: 1, max: 31 },
-  { min: 1, max: 12 },
-  { min: 0, max: 6 },
-] as const;
-
 const MONTH_NAMES = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -68,11 +60,11 @@ function getNextRuns(expression: string, count: number): Date[] {
     const dayOfWeek = check.getDay();
 
     if (
-      matchField(parts[0]!, minute, FIELD_RANGES[0]) &&
-      matchField(parts[1]!, hour, FIELD_RANGES[1]) &&
-      matchField(parts[2]!, dayOfMonth, FIELD_RANGES[2]) &&
-      matchField(parts[3]!, month, FIELD_RANGES[3]) &&
-      matchField(parts[4]!, dayOfWeek, FIELD_RANGES[4])
+      matchField(parts[0]!, minute) &&
+      matchField(parts[1]!, hour) &&
+      matchField(parts[2]!, dayOfMonth) &&
+      matchField(parts[3]!, month) &&
+      matchField(parts[4]!, dayOfWeek)
     ) {
       runs.push(new Date(check));
     }
@@ -83,7 +75,7 @@ function getNextRuns(expression: string, count: number): Date[] {
   return runs;
 }
 
-function matchField(field: string, value: number, _range: { min: number; max: number }): boolean {
+function matchField(field: string, value: number): boolean {
   if (field === '*') return true;
   if (field.startsWith('*/')) {
     const step = Number(field.slice(2));

@@ -73,7 +73,7 @@ export function formatSQL(
     const compoundKeyword = upperToken + ' ' + (nextToken?.toUpperCase() || '');
     const isCompound = allKeywords.includes(compoundKeyword);
 
-    let formattedToken = isKeyword && uppercase ? upperToken : token;
+    const formattedToken = isKeyword && uppercase ? upperToken : token;
 
     // Handle parentheses
     if (token === '(') {

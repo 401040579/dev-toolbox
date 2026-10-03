@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "Dev Toolbox",
-    "tagline": "Offline-first developer utilities. All processing happens in your browser."
+    "tagline": "Practical tools for messaging, API payloads and POS troubleshooting."
   },
   "nav": {
     "home": "Home",
@@ -162,7 +162,7 @@
       "invalidFields": "Cron expression must have exactly 5 fields",
       "invalidExpression": "Invalid cron expression",
       "explanation": "Explanation",
-      "nextRuns": "Next {count} Runs"
+      "nextRuns": "Next {{count}} Runs"
     },
     "jsonFormatter": {
       "title": "JSON Formatter",
@@ -174,8 +174,8 @@
       "placeholder": "Paste JSON here...\n\n{\"key\": \"value\"}",
       "processing": "Processing...",
       "invalidJson": "Invalid JSON",
-      "keys": "{count} keys",
-      "minified": "{size} minified",
+      "keys": "{{count}} keys",
+      "minified": "{{size}} minified",
       "outputPlaceholder": "Formatted JSON will appear here"
     },
     "jsonYaml": {
@@ -225,7 +225,8 @@
       "sizeLabel": "Size",
       "downloadSvg": "Download SVG",
       "imageAlt": "QR Code",
-      "emptyState": "Enter text above to generate a QR code"
+      "emptyState": "Enter text above to generate a QR code",
+      "tooLong": "This content is too large for a QR code. Shorten it and try again."
     },
     "hmac": {
       "title": "HMAC Generator",
@@ -244,9 +245,9 @@
       "testStringLabel": "Test String",
       "testPlaceholder": "Enter text to test against...",
       "matching": "Matching...",
-      "matches": "{count} match",
-      "matchesPlural": "{count} matches",
-      "atIndex": "at index {index}",
+      "matches": "{{count}} match",
+      "matchesPlural": "{{count}} matches",
+      "atIndex": "at index {{index}}",
       "noMatches": "No matches found"
     },
     "caseConverter": {
@@ -273,8 +274,8 @@
       "originalPlaceholder": "Paste original text...",
       "modifiedPlaceholder": "Paste modified text...",
       "computing": "Computing diff...",
-      "added": "+{count} added",
-      "removed": "-{count} removed"
+      "added": "+{{count}} added",
+      "removed": "-{{count}} removed"
     },
     "lineTools": {
       "title": "Line Tools",
@@ -671,7 +672,8 @@
       "description": "Preview and edit Markdown in real-time",
       "editor": "Editor",
       "preview": "Preview",
-      "placeholder": "Enter Markdown text..."
+      "placeholder": "Enter Markdown text...",
+      "safetyNote": "Raw HTML is shown as text. Images are shown as alt text to avoid automatic requests. External links open only when clicked."
     },
     "smsSegment": {
       "title": "SMS Segment Calculator",
@@ -1021,7 +1023,10 @@
         "removeXMLDecl": "Remove XML declaration",
         "minify": "Minify",
         "prettify": "Prettify"
-      }
+      },
+      "safetyNote": "Static SVG only: scripts, event handlers, CSS, animation, embedded images and external resources are removed from preview and export.",
+      "invalidSvg": "Invalid SVG. Use one SVG root without a DOCTYPE.",
+      "download": "Download SVG"
     },
     "colorPicker": {
       "title": "Color Picker & Converter",
@@ -1248,7 +1253,7 @@
     "output": "Output",
     "inputPlaceholder": "Enter input data...",
     "outputPlaceholder": "Pipeline output will appear here",
-    "nodes": "Pipeline ({count} nodes)",
+    "nodes": "Pipeline ({{count}} nodes)",
     "addTransform": "Add transform",
     "run": "Run",
     "share": "Share",
@@ -1262,21 +1267,27 @@
     "noSaved": "No saved pipelines yet",
     "savedPipelines": "Saved pipelines:",
     "quickStart": "Quick start templates:",
-    "nodesInfo": "{count} nodes",
-    "outputPreview": "Output preview:"
+    "nodesInfo": "{{count}} nodes",
+    "outputPreview": "Output preview:",
+    "shareNotice": "Share links include the complete input and settings. Use synthetic data; anyone with the link can read it.",
+    "shareTooLarge": "This Pipeline cannot fit in a share link (32 steps, 250 KB configuration, 8,000 URL characters maximum). Reduce the input or steps."
   },
   "pipelineTemplates": {
-    "base64Json": {
+    "base64-decode-prettify": {
       "name": "Base64 → JSON Pretty",
       "description": "Decode Base64, then format as pretty JSON"
     },
-    "jsonBase64": {
+    "json-minify-base64": {
       "name": "JSON Minify → Base64",
       "description": "Minify JSON then encode to Base64"
     },
-    "textSha256": {
+    "text-to-sha256": {
       "name": "Text → SHA-256",
       "description": "Hash text input with SHA-256"
+    },
+    "sms-smart-encoding": {
+      "name": "SMS → Smart Encoding",
+      "description": "Normalize smart punctuation before estimating SMS segments"
     }
   },
   "common": {
@@ -1293,17 +1304,21 @@
     "navigation": "Navigation",
     "toolsSection": "Tools",
     "loading": "Loading...",
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "switchLanguage": "Switch language",
+    "updateReady": "A new version is ready.",
+    "updateNotice": "Copy any unsaved input before reloading.",
+    "updateReload": "Reload to update"
   },
   "about": {
     "title": "About",
-    "description": "Dev Toolbox is a collection of offline-first developer utilities built with modern web technologies.",
+    "description": "A browser toolbox for SMS encoding, API payload inspection and POS troubleshooting, with reusable local Pipelines.",
     "offlineFirst": "Offline-First",
-    "offlineDesc": "All tools run entirely in your browser. No server requests, no data uploads. Works offline as a PWA.",
+    "offlineDesc": "After a successful online visit and service-worker caching, tools can work offline. First load and updates need a connection; offline availability depends on browser storage.",
     "privacy": "Privacy",
-    "privacyDesc": "Your data never leaves your device. All processing happens client-side using Web APIs. No analytics, no tracking, no cookies.",
+    "privacyDesc": "Tool inputs are processed in your browser without uploads. The host receives ordinary site requests. Preferences and saved Pipelines use local storage. Sharing a Pipeline puts its input and settings in the URL fragment: anyone with the link can read them. External links leave the app when clicked. No app analytics or tracking cookies.",
     "security": "Security",
-    "securityDesc": "Cryptographic operations use the Web Crypto API — the same secure primitives used by browsers for TLS. No third-party crypto libraries.",
+    "securityDesc": "Supported modern cryptographic operations use the Web Crypto API. MD5 and CRC are intended for legacy compatibility and checksums. Verify outputs against your application protocol.",
     "techStack": "Tech Stack",
     "openSource": "Open Source",
     "openSourceDesc": "Dev Toolbox is open source. Contributions, bug reports, and feature requests are welcome.",
@@ -1326,7 +1341,22 @@
   },
   "home": {
     "pipelineDesc": "Chain transforms together — Base64 → JSON → Hash",
-    "toolCount": "{count} tool",
-    "toolCountPlural": "{count} tools"
+    "toolCount": "{{count}} tool",
+    "toolCountPlural": "{{count}} tools",
+    "tasksTitle": "Start with a real task",
+    "tasks": {
+      "sms": {
+        "title": "Explain an SMS segment jump",
+        "description": "Find Unicode punctuation, compare Smart Encoding, inspect segment boundaries."
+      },
+      "payload": {
+        "title": "Unwrap an API payload",
+        "description": "Decode Base64 → format JSON with a synthetic order event Pipeline."
+      },
+      "incident": {
+        "title": "Inspect a demo order event",
+        "description": "Format JSON, compare fields and keep an incident note free of customer data."
+      }
+    }
   }
 }

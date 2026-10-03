@@ -1,0 +1,79 @@
+# Dev Toolbox
+
+面向**通信、接口数据和 POS 排障**的浏览器工具箱。定位短信段数变化、解开 Base64 订单事件，或把重复排查流程保存成 Pipeline。
+
+[在线使用](https://app.aiuos.com) · [English](README.md) · [下载 v1.0.0](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.0) · [参与贡献](CONTRIBUTING.md)
+
+![使用虚构订单消息检查短信编码和分段](docs/screenshots/sms-segment.png)
+
+## 从三个任务开始
+
+| 任务 | 入口 | 结果 |
+| --- | --- | --- |
+| 取餐短信突然按更多段计费 | [SMS Segment Calculator](https://app.aiuos.com/tools/text/sms-segment) | GSM-7 / UCS-2 估算、非 GSM 字符高亮、智能编码对比和分段边界 |
+| Webhook 或日志字段是 Base64 JSON | [Pipeline](https://app.aiuos.com/pipeline) → 模板 → Base64 → JSON 格式化 | 可读事件数据、可复用步骤和可分享的虚构样例 |
+| 虚构订单事件难以核对 | [JSON Formatter](https://app.aiuos.com/tools/json/json-formatter)、Diff、Epoch、Hash | 格式化字段、差异、时间戳和排障记录用的指纹 |
+
+也提供本地二维码生成、Markdown 预览、静态 SVG 清理及编码等小工具。应用无需后端或账号，围绕实际检查任务使用。
+
+## 五分钟上手
+
+1. 打开[短信计算器](https://app.aiuos.com/tools/text/sms-segment)，粘贴这条**虚构**消息：
+   ```text
+   Order DEMO-1042 is “ready”—collect at the demo desk. Reply “YES” to confirm your pickup time. Thank you!
+   ```
+   开关「智能编码」，比较编码和段数。弯引号和长破折号会改变编码，规范化后可能减少估算段数。
+2. 打开 [Pipeline](https://app.aiuos.com/pipeline)，选择「模板 → Base64 → JSON 格式化」。内置事件使用 `DEMO-1042` 和 `DEMO-STORE`。修改字段、添加转换并检查每一步输出。
+3. 试用「模板 → 短信 → 智能编码」，复制结果到短信计算器，检查规范化后的文本。
+4. 可以在本地保存 Pipeline，或分享虚构样例。**分享 URL 包含完整输入和配置，持有链接的人均可读取。** 分享样例请勿使用客户、支付、凭据或生产数据。
+
+![Pipeline 解码虚构 POS 事件](docs/screenshots/pipeline.png)
+
+## 本地运行
+
+使用 **Node.js 22** 和 npm 10 或更新版本。依赖锁文件已提交。
+
+```bash
+git clone https://github.com/401040579/dev-toolbox.git
+cd dev-toolbox
+# 使用 nvm 时：nvm use
+npm ci
+npm run dev
+```
+
+打开 Vite 输出的地址。构建生产版本：
+
+```bash
+npm run build
+npm run preview
+```
+
+[正式版本](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.0)提供静态站点 ZIP、SHA-256 校验文件和 GitHub 源码归档。解压站点 ZIP，执行 `python3 serve.py`，打开 `http://localhost:4173`。请使用本地 HTTP 服务，直接打开 `index.html` 文件不能满足模块加载和 Web Crypto 的运行条件。在干净的版本 tag 上重建制品：`npm ci`、`npm run build`、`npm run release:package`（需要 Python 3）。
+
+## 隐私、离线和功能边界
+
+- **工具输入在浏览器处理，不上传。** 二维码预览与 SVG 下载在本地生成；托管服务仍会收到普通站点请求。应用不接入分析服务或追踪 Cookie。
+- 偏好、收藏和主动保存的 Pipeline 使用浏览器本地存储。分享配置写在 URL 片段中，普通 HTTP 请求不会发送该片段，但接收者可读取，浏览器历史也可能保留。外部链接仅在主动点击时打开，并离开应用。
+- Markdown 支持常见 GFM 结构，包括列表、表格、代码和链接。原始 HTML 按文本展示，图片按替代文本展示，防止自动请求资源。
+- SVG 清理仅支持**静态图形**。预览与导出均移除脚本、事件属性、CSS、动画、嵌入图片及外部引用；支持本地渐变、蒙版、裁剪和片段引用。这是轻量清理工具，不能替代完整 SVGO。
+- 生产应用成功在线加载后由 Service Worker 预缓存。首次访问和更新需要联网；存储回收或隐私浏览可能影响离线可用性。新版本会提示重新加载，请先复制未保存输入。较旧缓存版本没有更新提示时，请关闭本站所有标签页和已安装应用窗口，再联网重新打开。
+- 短信结果是估算，不能保证与运营商账单一致；供应商编码、拼接头和计费规则可能不同。「Password Hash」采用 PBKDF2-SHA256，并非 bcrypt；JWT 解码不验证令牌真实性；MD5、CRC 用于旧系统兼容与校验。重要数据应按实际协议核对轻量格式化器、转换器的结果。
+- 分享配置最多支持 32 步、250,000 个 JSON 字符和 8,000 个 URL 字符，超限时显示提示。自动浏览器验证针对 Chromium；Firefox、Safari 和移动端 PWA 安装尚未独立认证。
+
+## 验证与贡献
+
+```bash
+npm run lint
+npm run typecheck
+npm test
+npm run build
+npx playwright install chromium
+npm run test:e2e
+npm audit
+```
+
+CI 完成干净安装、lint、单测、依赖审计、生产构建与 Chromium E2E 后，按现有 GitHub Pages 流程部署 `main`，继续使用 `app.aiuos.com`。构建版本可在 [`version.json`](https://app.aiuos.com/version.json) 核对。参见[贡献指南](CONTRIBUTING.md)、[安全报告](SECURITY.md)、[版本说明](CHANGELOG.md)与[发布验证记录](docs/releases/v1.0.0-validation.md)。
+
+## 许可与来源
+
+自有代码采用 [MIT](LICENSE)。Twilio 的短信字符表、智能编码映射及分段方法保留 Twilio MIT 归属。Lucide、DOMPurify、Marked、node-qrcode 等依赖保留各自许可证。[第三方归属](THIRD_PARTY_NOTICES.md)列出来源版本及完整声明，静态制品也包含这些声明。截图仅含虚构数据，未使用 Twilio 标志或客户记录。

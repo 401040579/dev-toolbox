@@ -1,17 +1,25 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { optimizeSvg, getSvgStats, DEFAULT_OPTIONS, type SvgOptimizeOptions } from './index';
+import { downloadText } from '@/lib/download';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function SvgOptimizer() {
   const { t } = useTranslation();
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
+  const [error, setError] = useState('');
   const [options, setOptions] = useState<SvgOptimizeOptions>({ ...DEFAULT_OPTIONS });
 
   const handleOptimize = () => {
     if (!input.trim()) return;
-    setOutput(optimizeSvg(input, options));
+    setError('');
+    try {
+      setOutput(optimizeSvg(input, options));
+    } catch {
+      setOutput('');
+      setError(t('tools.svgOptimizer.invalidSvg'));
+    }
   };
 
   const toggleOption = (key: keyof SvgOptimizeOptions) => {
@@ -94,6 +102,9 @@ export default function SvgOptimizer() {
           </div>
         </div>
 
+        <p className="text-xs text-text-muted">{t('tools.svgOptimizer.safetyNote')}</p>
+        {error && <p role="alert" className="text-error text-sm">{error}</p>}
+        {output && <button onClick={() => downloadText(output, 'optimized.svg', 'image/svg+xml')} className="btn btn-secondary">{t('tools.svgOptimizer.download')}</button>}
         <button onClick={handleOptimize} className="btn btn-primary">
           {t('tools.svgOptimizer.optimize')}
         </button>
@@ -101,10 +112,9 @@ export default function SvgOptimizer() {
         {output && (
           <div className="p-4 rounded-lg bg-surface-alt">
             <h3 className="text-sm font-medium text-text-primary mb-2">{t('tools.svgOptimizer.preview')}</h3>
-            <div
-              className="flex justify-center p-4 bg-white rounded border border-border"
-              dangerouslySetInnerHTML={{ __html: output }}
-            />
+            <div className="flex justify-center p-4 bg-white rounded border border-border">
+              <img alt={t('tools.svgOptimizer.preview')} src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(output)}`} className="max-w-full max-h-96" />
+            </div>
           </div>
         )}
       </div>

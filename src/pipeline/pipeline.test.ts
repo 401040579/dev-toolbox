@@ -171,3 +171,31 @@ describe('Pipeline Engine', () => {
     // No errors thrown
   });
 });
+
+describe('untrusted share configuration', () => {
+  it.each([
+    { input: {}, nodes: [] },
+    { input: '', nodes: [null] },
+    { input: '', nodes: [{ transformId: 'missing', options: {} }] },
+    { input: '', nodes: [{ transformId: 'base64-encode', options: { injected: '<svg onload=alert(1)>' } }] },
+    { input: '', nodes: Array(33).fill({ transformId: 'base64-encode', options: {} }) },
+  ])('rejects invalid configuration %#', async (data) => {
+    const { default: lz } = await import('lz-string');
+    expect(deserializePipeline(lz.compressToEncodedURIComponent(JSON.stringify(data)))).toBeNull();
+  });
+});
+
+describe('Pipeline stale results', () => {
+  it('discards async results after input changes', async () => {
+    const store = usePipelineStore.getState();
+    store.clearPipeline();
+    store.setInput('old input');
+    store.addNode('hash-sha256');
+    const pending = executePipeline();
+    store.setInput('new input');
+    await pending;
+    expect(usePipelineStore.getState().nodes[0]?.output).toBeUndefined();
+    await executePipeline();
+    expect(usePipelineStore.getState().nodes[0]?.status).toBe('success');
+  });
+});

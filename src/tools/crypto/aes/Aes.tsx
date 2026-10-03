@@ -34,7 +34,7 @@ export default function Aes() {
         const result = await aesDecrypt(input, password, mode, keySize);
         setOutput(result);
       }
-    } catch (e) {
+    } catch {
       setError(operation === 'decrypt'
         ? t('tools.aes.errorDecrypt')
         : t('tools.aes.errorEncrypt'));

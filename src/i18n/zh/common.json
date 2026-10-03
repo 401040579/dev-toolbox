@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "开发工具箱",
-    "tagline": "离线优先的开发者工具。所有处理均在浏览器中完成。"
+    "tagline": "为通信、接口数据和 POS 排障准备的实用工具。"
   },
   "nav": {
     "home": "首页",
@@ -162,7 +162,7 @@
       "invalidFields": "Cron 表达式必须包含 5 个字段",
       "invalidExpression": "无效的 Cron 表达式",
       "explanation": "说明",
-      "nextRuns": "接下来 {count} 次执行"
+      "nextRuns": "接下来 {{count}} 次执行"
     },
     "jsonFormatter": {
       "title": "JSON 格式化",
@@ -174,8 +174,8 @@
       "placeholder": "粘贴 JSON...\n\n{\"key\": \"value\"}",
       "processing": "处理中...",
       "invalidJson": "无效的 JSON",
-      "keys": "{count} 个键",
-      "minified": "压缩后 {size}",
+      "keys": "{{count}} 个键",
+      "minified": "压缩后 {{size}}",
       "outputPlaceholder": "格式化后的 JSON 将显示在这里"
     },
     "jsonYaml": {
@@ -225,7 +225,8 @@
       "sizeLabel": "尺寸",
       "downloadSvg": "下载 SVG",
       "imageAlt": "二维码",
-      "emptyState": "在上方输入内容以生成二维码"
+      "emptyState": "在上方输入内容以生成二维码",
+      "tooLong": "内容超过二维码容量，请缩短后重试。"
     },
     "hmac": {
       "title": "HMAC 生成器",
@@ -244,9 +245,9 @@
       "testStringLabel": "测试字符串",
       "testPlaceholder": "输入要测试的文本...",
       "matching": "匹配中...",
-      "matches": "{count} 个匹配",
-      "matchesPlural": "{count} 个匹配",
-      "atIndex": "位置 {index}",
+      "matches": "{{count}} 个匹配",
+      "matchesPlural": "{{count}} 个匹配",
+      "atIndex": "位置 {{index}}",
       "noMatches": "未找到匹配"
     },
     "caseConverter": {
@@ -273,8 +274,8 @@
       "originalPlaceholder": "粘贴原始文本...",
       "modifiedPlaceholder": "粘贴修改后的文本...",
       "computing": "计算差异中...",
-      "added": "+{count} 新增",
-      "removed": "-{count} 删除"
+      "added": "+{{count}} 新增",
+      "removed": "-{{count}} 删除"
     },
     "lineTools": {
       "title": "行处理工具",
@@ -671,7 +672,8 @@
       "description": "实时预览和编辑 Markdown",
       "editor": "编辑器",
       "preview": "预览",
-      "placeholder": "输入 Markdown 文本..."
+      "placeholder": "输入 Markdown 文本...",
+      "safetyNote": "原始 HTML 按文本显示；图片按替代文本显示，避免自动请求。外部链接仅在点击时打开。"
     },
     "smsSegment": {
       "title": "短信分段计算器",
@@ -1021,7 +1023,10 @@
         "removeXMLDecl": "删除 XML 声明",
         "minify": "压缩",
         "prettify": "美化"
-      }
+      },
+      "safetyNote": "仅支持静态 SVG：预览和导出会移除脚本、事件属性、CSS、动画、嵌入图片和外部资源。",
+      "invalidSvg": "SVG 格式无效。请使用单个 SVG 根节点，且不要包含 DOCTYPE。",
+      "download": "下载 SVG"
     },
     "colorPicker": {
       "title": "颜色选择器和转换器",
@@ -1248,7 +1253,7 @@
     "output": "输出",
     "inputPlaceholder": "输入数据...",
     "outputPlaceholder": "管道输出将显示在这里",
-    "nodes": "管道 ({count} 个节点)",
+    "nodes": "管道 ({{count}} 个节点)",
     "addTransform": "添加转换",
     "run": "运行",
     "share": "分享",
@@ -1262,21 +1267,27 @@
     "noSaved": "暂无保存的管道",
     "savedPipelines": "已保存的管道：",
     "quickStart": "快速开始模板：",
-    "nodesInfo": "{count} 个节点",
-    "outputPreview": "输出预览："
+    "nodesInfo": "{{count}} 个节点",
+    "outputPreview": "输出预览：",
+    "shareNotice": "分享链接包含完整输入和设置。请使用虚构数据，持有链接的人均可读取。",
+    "shareTooLarge": "此 Pipeline 超出分享链接限制（最多 32 步、250 KB 配置、8,000 个 URL 字符），请缩短输入或减少步骤。"
   },
   "pipelineTemplates": {
-    "base64Json": {
+    "base64-decode-prettify": {
       "name": "Base64 → JSON 格式化",
       "description": "解码 Base64，然后格式化为 JSON"
     },
-    "jsonBase64": {
+    "json-minify-base64": {
       "name": "JSON 压缩 → Base64",
       "description": "压缩 JSON 然后编码为 Base64"
     },
-    "textSha256": {
+    "text-to-sha256": {
       "name": "文本 → SHA-256",
       "description": "用 SHA-256 哈希文本"
+    },
+    "sms-smart-encoding": {
+      "name": "短信 → 智能编码",
+      "description": "先规范智能标点，再估算短信段数"
     }
   },
   "common": {
@@ -1293,17 +1304,21 @@
     "navigation": "导航",
     "toolsSection": "工具",
     "loading": "加载中...",
-    "tryAgain": "重试"
+    "tryAgain": "重试",
+    "switchLanguage": "切换语言",
+    "updateReady": "新版本已就绪。",
+    "updateNotice": "重新加载前，请复制尚未保存的输入。",
+    "updateReload": "重新加载并更新"
   },
   "about": {
     "title": "关于",
-    "description": "Dev Toolbox 是一个使用现代 Web 技术构建的离线优先开发者工具集。",
+    "description": "面向短信编码、接口数据检查和 POS 排障的浏览器工具箱，支持可复用的本地 Pipeline。",
     "offlineFirst": "离线优先",
-    "offlineDesc": "所有工具完全在浏览器中运行。无服务器请求，无数据上传。支持 PWA 离线使用。",
+    "offlineDesc": "成功在线访问并完成 Service Worker 缓存后，工具可离线使用。首次加载和更新需要联网；离线可用性取决于浏览器存储。",
     "privacy": "隐私保护",
-    "privacyDesc": "您的数据永远不会离开设备。所有处理都在客户端使用 Web API 完成。无分析、无追踪、无 Cookie。",
+    "privacyDesc": "工具输入在浏览器处理，不上传。托管服务会收到普通页面请求；偏好与保存的 Pipeline 存于本地。分享 Pipeline 会把输入和设置写入 URL 片段，持有链接的人均可读取。点击外部链接会离开应用。应用不使用分析服务或追踪 Cookie。",
     "security": "安全可靠",
-    "securityDesc": "加密操作使用 Web Crypto API —— 与浏览器 TLS 使用的相同安全原语。不依赖第三方加密库。",
+    "securityDesc": "支持的现代加密操作使用 Web Crypto API；MD5、CRC 用于旧系统兼容和校验。请按应用协议核对工具输出。",
     "techStack": "技术栈",
     "openSource": "开源项目",
     "openSourceDesc": "Dev Toolbox 是开源项目。欢迎贡献代码、报告问题和提出功能建议。",
@@ -1326,7 +1341,22 @@
   },
   "home": {
     "pipelineDesc": "将转换链接在一起 — Base64 → JSON → 哈希",
-    "toolCount": "{count} 个工具",
-    "toolCountPlural": "{count} 个工具"
+    "toolCount": "{{count}} 个工具",
+    "toolCountPlural": "{{count}} 个工具",
+    "tasksTitle": "从具体任务开始",
+    "tasks": {
+      "sms": {
+        "title": "定位短信段数变化",
+        "description": "找出 Unicode 标点，比较智能编码并检查分段边界。"
+      },
+      "payload": {
+        "title": "解开接口数据",
+        "description": "用虚构订单示例串联 Base64 解码与 JSON 格式化。"
+      },
+      "incident": {
+        "title": "检查虚构订单事件",
+        "description": "格式化 JSON、比较字段，排障记录使用虚构数据。"
+      }
+    }
   }
 }

@@ -3,3 +3,10 @@ dist
 *.tsbuildinfo
 *.local
 .DS_Store
+
+.playwright-results/
+playwright-report/
+release-assets/
+
+.claude/
+test-results/

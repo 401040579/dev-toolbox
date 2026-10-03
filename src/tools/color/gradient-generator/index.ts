@@ -16,19 +16,25 @@ export interface GradientConfig {
 }
 
 export function generateCSS(config: GradientConfig): string {
+  // A color value must never expand into additional background layers.
+  const safeColor = (value: string) => {
+    const candidate = value.trim();
+    const syntax = /^(?:#[\da-f]{3,8}|[a-z]+|(?:rgb|rgba|hsl|hsla)\([\d\s.,%+/-]+\))$/i;
+    return syntax.test(candidate) ? candidate : 'transparent';
+  };
   const stopsStr = config.stops
-    .map((s) => `${s.color} ${s.position}%`)
+    .map((s) => `${safeColor(s.color)} ${Number.isFinite(s.position) ? s.position : 0}%`)
     .join(', ');
 
   switch (config.type) {
     case 'linear':
-      return `linear-gradient(${config.angle}deg, ${stopsStr})`;
+      return `linear-gradient(${Number.isFinite(config.angle) ? config.angle : 0}deg, ${stopsStr})`;
     case 'radial':
       return `radial-gradient(circle, ${stopsStr})`;
     case 'conic':
-      return `conic-gradient(from ${config.angle}deg, ${stopsStr})`;
+      return `conic-gradient(from ${Number.isFinite(config.angle) ? config.angle : 0}deg, ${stopsStr})`;
     default:
-      return `linear-gradient(${config.angle}deg, ${stopsStr})`;
+      return `linear-gradient(${Number.isFinite(config.angle) ? config.angle : 0}deg, ${stopsStr})`;
   }
 }
 

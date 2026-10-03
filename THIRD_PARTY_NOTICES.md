@@ -1,0 +1,11 @@
+# Third-party attribution
+
+Dev Toolbox's original code is MIT licensed. Third-party code keeps its own license. The downloadable site includes [complete notices](public/THIRD_PARTY_NOTICES.txt), generated from installed, locked production dependencies, browser helpers and generated Workbox runtime by `npm run notices`.
+
+- **Twilio message-segment-calculator**, MIT, Copyright (c) 2021 Twilio Inc. The GSM character mapping, Smart Encoding mapping and segmentation approach in `src/tools/text/sms-segment/index.ts` derive from [upstream f640391](https://github.com/TwilioDevEd/message-segment-calculator/tree/f640391f395920f3d1c654434a90982f1b3af105). `UnicodeToGSM.ts` (137 entries) and `SmartEncodingMap.ts` (271 entries) were compared against that revision. [Full license](docs/licenses/Twilio-MIT.txt). The tool does not call Twilio or include Twilio logos.
+- **Lucide React**, ISC, includes Feather / Cole Bemis and Lucide Contributors attribution; see the complete notices.
+- **DOMPurify**, used under Apache-2.0. Its Apache and alternate MPL license texts are preserved in the complete notices. **Marked** and **node-qrcode** retain MIT notices.
+- Some published packages omit license files. Their npm metadata identifies MIT; verbatim upstream license snapshots are preserved: [Radix](docs/licenses/Radix-MIT.txt) from [f7ecd5a](https://github.com/radix-ui/primitives/tree/f7ecd5ab16f5e1e820eb5786a1419a98a2d594ae), [html-parse-stringify](docs/licenses/html-parse-stringify-MIT.txt) from [ada9e14](https://github.com/henrikjoreteg/html-parse-stringify/tree/ada9e1448f34a57c17e7e23ba4af6d217e3d7baf), and [react-remove-scroll-bar](docs/licenses/react-remove-scroll-bar-MIT.txt) from [8ca9ba5](https://github.com/theKashey/react-remove-scroll-bar/tree/8ca9ba5ea52de03308fe8ced94f7b159a44d28ff).
+- The DT favicon and application icons are project artwork. Documentation screenshots use synthetic demonstration data. System fonts are requested by family name; no external font files are downloaded or bundled.
+
+Development dependencies retain their license texts in their npm distributions. Updating dependencies requires regenerating and reviewing notices. Do not replace third-party copyright holders with this project's MIT notice.

@@ -99,7 +99,7 @@ export function parseIPv6(ip: string): IPv6Info | null {
     const full = normalized.join(':');
 
     // Compress
-    let compressed = full
+    const compressed = full
       .replace(/\b0000:/g, '0:')
       .replace(/:0000\b/g, ':0')
       .replace(/(:0)+/, '::')
