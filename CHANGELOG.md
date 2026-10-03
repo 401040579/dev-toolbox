@@ -7,6 +7,7 @@
 - Release camera tracks on stop, hidden pages, mode changes, navigation, late permission grants and failures; bound incomplete/completed state and reject malformed protocol input before decoder allocation.
 - Send compressed images directly through a one-time memory handoff; correct stale image results, output-format labeling, object URL cleanup and visible failure feedback.
 - Cache bundled scanning/FEC engines for offline cold visits; preserve wrapper and underlying WASM licenses.
+- Restore shared action-button styles, distinguish selected/disabled controls and localize the QR file picker without browser-native English text.
 
 新增二维码传文件，完整支持发送、连续接收、图片压缩入口和离线扫码。单个文件最多 5 MiB，每批 8 个 / 10 MiB；手机真机及硬件速度尚未验收。见 [v1.2 验证记录](docs/releases/v1.2.0-validation.md)。
 

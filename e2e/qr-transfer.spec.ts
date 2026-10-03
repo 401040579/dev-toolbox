@@ -145,6 +145,11 @@ test('compressed image handoff preserves its output format, is consumed once and
 
 test('send controls, file bounds, translations and mobile layout', async ({ page }) => {
   await page.goto('/tools/image/qr-file-transfer');
+  const background = (element: Element) => getComputedStyle(element).backgroundColor;
+  expect(await page.getByRole('tab', { name: 'Send', exact: true }).evaluate(background)).not.toBe(await page.getByRole('tab', { name: 'Receive', exact: true }).evaluate(background));
+  expect(await page.getByRole('button', { name: 'Start sending', exact: true }).evaluate((element) => Number(getComputedStyle(element).opacity))).toBeLessThan(1);
+  const picker = await page.getByLabel('Choose files to send', { exact: true }).boundingBox();
+  expect(picker!.width).toBeLessThanOrEqual(1); expect(picker!.height).toBeLessThanOrEqual(1);
   await page.getByLabel('Choose files to send', { exact: true }).setInputFiles({ name: 'large.bin', mimeType: 'application/octet-stream', buffer: Buffer.alloc(5 * 1024 * 1024 + 1) });
   await expect(page.getByRole('alert')).toContainText('5 MiB');
   await page.getByLabel('Choose files to send', { exact: true }).setInputFiles({ name: 'demo.txt', mimeType: 'text/plain', buffer: Buffer.from('offline-demo') });
@@ -161,6 +166,19 @@ test('send controls, file bounds, translations and mobile layout', async ({ page
   expect(await page.locator('main canvas').evaluate((canvas) => (canvas as HTMLCanvasElement).toDataURL())).toBe(frame);
   await page.getByRole('button', { name: 'Resume', exact: true }).click();
   await page.getByRole('button', { name: 'Stop sending', exact: true }).click();
+  const contrast = (element: Element) => {
+    const style = getComputedStyle(element);
+    const luminance = (color: string) => {
+      const channels = color.match(/\d+(?:\.\d+)?/g)!.slice(0, 3).map((value) => { const c = Number(value) / 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); });
+      return channels[0]! * 0.2126 + channels[1]! * 0.7152 + channels[2]! * 0.0722;
+    };
+    const a = luminance(style.color), b = luminance(style.backgroundColor);
+    return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+  };
+  await expect.poll(() => page.getByRole('button', { name: 'Start sending', exact: true }).evaluate(contrast)).toBeGreaterThanOrEqual(4.5);
+  await page.getByRole('button', { name: 'Switch to light mode', exact: true }).click();
+  await expect.poll(() => page.getByRole('button', { name: 'Start sending', exact: true }).evaluate(contrast)).toBeGreaterThanOrEqual(4.5);
+  await page.getByRole('button', { name: 'Switch to dark mode', exact: true }).click();
   await page.getByRole('button', { name: 'Switch language' }).click();
   await expect(page.getByRole('heading', { name: '二维码传文件', exact: true })).toBeVisible();
   await page.setViewportSize({ width: 390, height: 844 });

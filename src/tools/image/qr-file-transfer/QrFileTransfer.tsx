@@ -135,9 +135,9 @@ function SendPanel() {
   const expand = () => { setFullscreen(true); void paneRef.current?.requestFullscreen?.().catch(() => {}); };
 
   return <div className="space-y-5">
-    <label className="block rounded-lg border-2 border-dashed border-border p-5 cursor-pointer hover:border-accent">
-      <span className="font-medium">{t('tools.qrTransfer.choose')}</span>
-      <input aria-label={t('tools.qrTransfer.choose')} type="file" multiple className="block mt-3 max-w-full text-sm" onChange={(event) => { chooseFiles(Array.from(event.target.files ?? [])); event.target.value = ''; }} />
+    <label className="block rounded-lg border-2 border-dashed border-border p-5 cursor-pointer hover:border-accent focus-within:outline-2 focus-within:outline-accent focus-within:outline-offset-2">
+      <span className="btn btn-secondary">{t('tools.qrTransfer.choose')}</span>
+      <input aria-label={t('tools.qrTransfer.choose')} type="file" multiple className="sr-only" onChange={(event) => { chooseFiles(Array.from(event.target.files ?? [])); event.target.value = ''; }} />
       <span className="block text-xs text-text-muted mt-2">{t('tools.qrTransfer.limits', { file: formatFileSize(MAX_FILE_BYTES), total: formatFileSize(MAX_BATCH_BYTES), count: MAX_FILES })}</span>
     </label>
     {!!files.length && <ol className="text-sm space-y-2" aria-label={t('tools.qrTransfer.queue')}>
