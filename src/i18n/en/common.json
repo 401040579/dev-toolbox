@@ -1732,7 +1732,9 @@
     "copyFailed": "Could not copy. Select the output and copy it manually.",
     "copyError": "Copy failed",
     "bits": "{{count}}-bit",
-    "clear": "Clear"
+    "clear": "Clear",
+    "switchToLightMode": "Switch to light mode",
+    "switchToDarkMode": "Switch to dark mode"
   },
   "about": {
     "title": "About",

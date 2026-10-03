@@ -1732,7 +1732,9 @@
     "copyFailed": "复制失败，请选中输出内容手动复制。",
     "copyError": "复制失败",
     "bits": "{{count}} 位",
-    "clear": "清空"
+    "clear": "清空",
+    "switchToLightMode": "切换到浅色模式",
+    "switchToDarkMode": "切换到深色模式"
   },
   "about": {
     "title": "关于",

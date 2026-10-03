@@ -52,9 +52,14 @@ for (const language of ['en', 'zh'] as const) {
 test('language switch updates navigation, search, Pipeline details and existing errors', async ({ page }) => {
   await page.goto('/tools/text/slugify');
   await expect(page.getByRole('combobox')).toContainText('Underscore');
+  await expect(page.getByRole('button', { name: en.common.switchToLightMode, exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Switch language' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
   await expect(page.getByRole('combobox')).toContainText('下划线');
+  await page.getByRole('button', { name: zh.common.switchToLightMode, exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await page.getByRole('button', { name: zh.common.switchToDarkMode, exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.goto('/tools/text');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(zh.categories.text);
   await expect(page.getByRole('link', { name: /文本统计/ })).toBeVisible();
