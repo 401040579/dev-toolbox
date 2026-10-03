@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.1 — 2026-10-02
+
+Polish the existing tools before expanding the catalog.
+
+- Complete English/Chinese tool cards, categories, search, Pipeline transforms/options and missing controls; language changes update existing error messages and document language.
+- Replace lossy YAML/TOML implementations with maintained, bounded parsers; preserve object arrays, empty collections and special keys, and prevent TOML prototype pollution.
+- Correct large-number unit conversion, literal/empty slug separators, numeric Cron validation, upcoming-run calculation and strict IP parsing/IPv6 compression.
+- Report clipboard/storage failures accurately; preserve saved Pipelines when persistence fails, and save on ordinary HTTP origins without requiring `randomUUID`.
+- Reject malformed JWT payloads without crashing; describe expiration separately from authentication.
+- Clear six hook warnings, load structured parsers on demand and add bilingual coverage plus browser regressions. See [validation evidence](docs/releases/v1.0.1-validation.md).
+
+完善现有工具的中英文覆盖与失败反馈，修复转换结果、Cron、Slug、Pipeline 保存及 JWT 异常输入问题；本版本不新增工具。
+
 ## 1.0.0 — 2026-10-02
 
 First formal open-source release, focused on messaging, API payloads and POS troubleshooting.

@@ -2,7 +2,7 @@
 
 面向**通信、接口数据和 POS 排障**的浏览器工具箱。定位短信段数变化、解开 Base64 订单事件，或把重复排查流程保存成 Pipeline。
 
-[在线使用](https://app.aiuos.com) · [English](README.md) · [下载 v1.0.0](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.0) · [参与贡献](CONTRIBUTING.md)
+[在线使用](https://app.aiuos.com) · [English](README.md) · [下载 v1.0.1](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.1) · [参与贡献](CONTRIBUTING.md)
 
 ![使用虚构订单消息检查短信编码和分段](docs/screenshots/sms-segment.png)
 
@@ -48,7 +48,7 @@ npm run build
 npm run preview
 ```
 
-[正式版本](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.0)提供静态站点 ZIP、SHA-256 校验文件和 GitHub 源码归档。解压站点 ZIP，执行 `python3 serve.py`，打开 `http://localhost:4173`。请使用本地 HTTP 服务，直接打开 `index.html` 文件不能满足模块加载和 Web Crypto 的运行条件。在干净的版本 tag 上重建制品：`npm ci`、`npm run build`、`npm run release:package`（需要 Python 3）。
+[正式版本](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.1)提供静态站点 ZIP、SHA-256 校验文件和 GitHub 源码归档。解压站点 ZIP，执行 `python3 serve.py`，打开 `http://localhost:4173`。请使用本地 HTTP 服务，直接打开 `index.html` 文件不能满足模块加载和 Web Crypto 的运行条件。在干净的版本 tag 上重建制品：`npm ci`、`npm run build`、`npm run release:package`（需要 Python 3）。
 
 ## 隐私、离线和功能边界
 
@@ -57,7 +57,9 @@ npm run preview
 - Markdown 支持常见 GFM 结构，包括列表、表格、代码和链接。原始 HTML 按文本展示，图片按替代文本展示，防止自动请求资源。
 - SVG 清理仅支持**静态图形**。预览与导出均移除脚本、事件属性、CSS、动画、嵌入图片及外部引用；支持本地渐变、蒙版、裁剪和片段引用。这是轻量清理工具，不能替代完整 SVGO。
 - 生产应用成功在线加载后由 Service Worker 预缓存。首次访问和更新需要联网；存储回收或隐私浏览可能影响离线可用性。新版本会提示重新加载，请先复制未保存输入。较旧缓存版本没有更新提示时，请关闭本站所有标签页和已安装应用窗口，再联网重新打开。
-- 短信结果是估算，不能保证与运营商账单一致；供应商编码、拼接头和计费规则可能不同。「Password Hash」采用 PBKDF2-SHA256，并非 bcrypt；JWT 解码不验证令牌真实性；MD5、CRC 用于旧系统兼容与校验。重要数据应按实际协议核对轻量格式化器、转换器的结果。
+- 短信结果是估算，不能保证与运营商账单一致；供应商编码、拼接头和计费规则可能不同。「Password Hash」采用 PBKDF2-SHA256，并非 bcrypt；JWT/OAuth 解码不验证令牌真实性，「未过期」仅描述时间字段；MD5、CRC 用于旧系统兼容与校验。
+- JSON/YAML 转换使用 YAML 1.2 核心类型。TOML 要求根节点为对象，不支持 null；未加引号的日期/时间会被拒绝，保留文本请加引号。两个转换器均明确拒绝不支持的类型、非有限数及超过 JavaScript 安全范围的整数，避免静默改写。限制：输入 1 MiB、输出 4 MiB、64 层、50,000 个值、100 次 YAML 别名展开。
+- Cron 工具支持五个数字字段及列表、范围、步长，星期日可用 `0`/`7`；明确拒绝名称字段和方言扩展。未来执行时间按浏览器本地时区计算，最多查找 366 天，不模拟特定服务器的夏令时处理规则。
 - 分享配置最多支持 32 步、250,000 个 JSON 字符和 8,000 个 URL 字符，超限时显示提示。自动浏览器验证针对 Chromium；Firefox、Safari 和移动端 PWA 安装尚未独立认证。
 
 ## 验证与贡献
@@ -72,7 +74,7 @@ npm run test:e2e
 npm audit
 ```
 
-CI 完成干净安装、lint、单测、依赖审计、生产构建与 Chromium E2E 后，按现有 GitHub Pages 流程部署 `main`，继续使用 `app.aiuos.com`。构建版本可在 [`version.json`](https://app.aiuos.com/version.json) 核对。参见[贡献指南](CONTRIBUTING.md)、[安全报告](SECURITY.md)、[版本说明](CHANGELOG.md)与[发布验证记录](docs/releases/v1.0.0-validation.md)。
+CI 完成干净安装、lint、单测、依赖审计、生产构建与 Chromium E2E 后，按现有 GitHub Pages 流程部署 `main`，继续使用 `app.aiuos.com`。构建版本可在 [`version.json`](https://app.aiuos.com/version.json) 核对。参见[贡献指南](CONTRIBUTING.md)、[安全报告](SECURITY.md)、[版本说明](CHANGELOG.md)与[发布验证记录](docs/releases/v1.0.1-validation.md)。
 
 ## 许可与来源
 
