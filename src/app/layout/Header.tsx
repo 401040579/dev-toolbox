@@ -35,7 +35,7 @@ export function Header({ onOpenCommandPalette }: HeaderProps) {
       <button
         onClick={toggleLanguage}
         className="ml-2 p-2 rounded-md text-text-secondary hover:text-text-primary hover:bg-surface-hover transition-colors"
-        aria-label="Switch language"
+        aria-label={t('common.switchLanguage')}
         title={i18n.language === 'zh' ? 'English' : '中文'}
       >
         <Languages size={16} />

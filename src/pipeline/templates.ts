@@ -8,6 +8,13 @@ export interface PipelineTemplate {
 
 export const PIPELINE_TEMPLATES: PipelineTemplate[] = [
   {
+    id: 'sms-smart-encoding',
+    name: 'SMS → Smart Encoding',
+    description: 'Normalize smart punctuation before estimating SMS segments',
+    nodes: [{ transformId: 'sms-smart-encode', options: {} }],
+    sampleInput: 'Order DEMO-1042 is “ready”—collect at the demo desk. Reply “YES” to confirm your pickup time. Thank you!',
+  },
+  {
     id: 'base64-decode-prettify',
     name: 'Base64 → JSON Pretty',
     description: 'Decode Base64, then format as pretty JSON',
@@ -15,7 +22,7 @@ export const PIPELINE_TEMPLATES: PipelineTemplate[] = [
       { transformId: 'base64-decode', options: {} },
       { transformId: 'json-prettify', options: {} },
     ],
-    sampleInput: 'eyJuYW1lIjoiRGV2VG9vbGJveCIsInZlcnNpb24iOiIxLjAifQ==',
+    sampleInput: 'eyJldmVudCI6Im9yZGVyLnJlYWR5Iiwib3JkZXJJZCI6IkRFTU8tMTA0MiIsInN0b3JlSWQiOiJERU1PLVNUT1JFIiwidG90YWwiOjEyLjUsImN1cnJlbmN5IjoiVVNEIn0=',
   },
   {
     id: 'json-minify-base64',
@@ -25,13 +32,13 @@ export const PIPELINE_TEMPLATES: PipelineTemplate[] = [
       { transformId: 'json-minify', options: {} },
       { transformId: 'base64-encode', options: {} },
     ],
-    sampleInput: '{\n  "name": "DevToolbox",\n  "version": "1.0"\n}',
+    sampleInput: '{\n  "orderId": "DEMO-1042",\n  "status": "ready",\n  "storeId": "DEMO-STORE"\n}',
   },
   {
     id: 'text-to-sha256',
     name: 'Text → SHA-256',
     description: 'Hash text input with SHA-256',
     nodes: [{ transformId: 'hash-sha256', options: {} }],
-    sampleInput: 'Hello, World!',
+    sampleInput: 'DEMO-1042|ready|12.50|USD',
   },
 ];

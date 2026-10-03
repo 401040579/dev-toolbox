@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "Dev Toolbox",
-    "tagline": "Offline-first developer utilities. All processing happens in your browser."
+    "tagline": "Practical tools for messaging, API payloads and POS troubleshooting."
   },
   "nav": {
     "home": "Home",
@@ -1284,6 +1284,10 @@
     "text-to-sha256": {
       "name": "Text → SHA-256",
       "description": "Hash text input with SHA-256"
+    },
+    "sms-smart-encoding": {
+      "name": "SMS → Smart Encoding",
+      "description": "Normalize smart punctuation before estimating SMS segments"
     }
   },
   "common": {
@@ -1300,11 +1304,15 @@
     "navigation": "Navigation",
     "toolsSection": "Tools",
     "loading": "Loading...",
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "switchLanguage": "Switch language",
+    "updateReady": "A new version is ready.",
+    "updateNotice": "Copy any unsaved input before reloading.",
+    "updateReload": "Reload to update"
   },
   "about": {
     "title": "About",
-    "description": "Dev Toolbox is a collection of offline-first developer utilities built with modern web technologies.",
+    "description": "A browser toolbox for SMS encoding, API payload inspection and POS troubleshooting, with reusable local Pipelines.",
     "offlineFirst": "Offline-First",
     "offlineDesc": "After a successful online visit and service-worker caching, tools can work offline. First load and updates need a connection; offline availability depends on browser storage.",
     "privacy": "Privacy",
@@ -1334,6 +1342,21 @@
   "home": {
     "pipelineDesc": "Chain transforms together — Base64 → JSON → Hash",
     "toolCount": "{{count}} tool",
-    "toolCountPlural": "{{count}} tools"
+    "toolCountPlural": "{{count}} tools",
+    "tasksTitle": "Start with a real task",
+    "tasks": {
+      "sms": {
+        "title": "Explain an SMS segment jump",
+        "description": "Find Unicode punctuation, compare Smart Encoding, inspect segment boundaries."
+      },
+      "payload": {
+        "title": "Unwrap an API payload",
+        "description": "Decode Base64 → format JSON with a synthetic order event Pipeline."
+      },
+      "incident": {
+        "title": "Inspect a demo order event",
+        "description": "Format JSON, compare fields and keep an incident note free of customer data."
+      }
+    }
   }
 }

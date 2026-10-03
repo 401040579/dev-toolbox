@@ -24,7 +24,7 @@ test.describe('Home Page', () => {
   test('navigates to a category', async ({ page }) => {
     await page.goto('/');
     const main = page.locator('main');
-    await main.getByRole('link', { name: /encoding/i }).first().click();
+    await main.getByRole('link', { name: /^Encoding\b/i }).first().click();
     await expect(page).toHaveURL(/\/tools\/encoding/);
   });
 

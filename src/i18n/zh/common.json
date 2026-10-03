@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "开发工具箱",
-    "tagline": "离线优先的开发者工具。所有处理均在浏览器中完成。"
+    "tagline": "为通信、接口数据和 POS 排障准备的实用工具。"
   },
   "nav": {
     "home": "首页",
@@ -1284,6 +1284,10 @@
     "text-to-sha256": {
       "name": "文本 → SHA-256",
       "description": "用 SHA-256 哈希文本"
+    },
+    "sms-smart-encoding": {
+      "name": "短信 → 智能编码",
+      "description": "先规范智能标点，再估算短信段数"
     }
   },
   "common": {
@@ -1300,11 +1304,15 @@
     "navigation": "导航",
     "toolsSection": "工具",
     "loading": "加载中...",
-    "tryAgain": "重试"
+    "tryAgain": "重试",
+    "switchLanguage": "切换语言",
+    "updateReady": "新版本已就绪。",
+    "updateNotice": "重新加载前，请复制尚未保存的输入。",
+    "updateReload": "重新加载并更新"
   },
   "about": {
     "title": "关于",
-    "description": "Dev Toolbox 是一个使用现代 Web 技术构建的离线优先开发者工具集。",
+    "description": "面向短信编码、接口数据检查和 POS 排障的浏览器工具箱，支持可复用的本地 Pipeline。",
     "offlineFirst": "离线优先",
     "offlineDesc": "成功在线访问并完成 Service Worker 缓存后，工具可离线使用。首次加载和更新需要联网；离线可用性取决于浏览器存储。",
     "privacy": "隐私保护",
@@ -1334,6 +1342,21 @@
   "home": {
     "pipelineDesc": "将转换链接在一起 — Base64 → JSON → 哈希",
     "toolCount": "{{count}} 个工具",
-    "toolCountPlural": "{{count}} 个工具"
+    "toolCountPlural": "{{count}} 个工具",
+    "tasksTitle": "从具体任务开始",
+    "tasks": {
+      "sms": {
+        "title": "定位短信段数变化",
+        "description": "找出 Unicode 标点，比较智能编码并检查分段边界。"
+      },
+      "payload": {
+        "title": "解开接口数据",
+        "description": "用虚构订单示例串联 Base64 解码与 JSON 格式化。"
+      },
+      "incident": {
+        "title": "检查虚构订单事件",
+        "description": "格式化 JSON、比较字段，排障记录使用虚构数据。"
+      }
+    }
   }
 }

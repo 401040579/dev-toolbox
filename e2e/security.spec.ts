@@ -6,9 +6,10 @@ import { readFile } from 'node:fs/promises';
 async function observe(page: Page) {
   const requests: string[] = [];
   const dialogs: string[] = [];
-  await page.route('https://**/*', (route) => route.abort());
+  const origin = new URL(process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:4173').origin + '/';
+  await page.route('**/*', (route) => route.request().url().startsWith(origin) ? route.continue() : route.abort());
   page.on('request', (request) => {
-    if (!request.url().startsWith('http://localhost:4173/')) requests.push(request.url());
+    if (!request.url().startsWith(origin) || request.url().includes('SENTINEL') || request.postData()?.includes('SENTINEL')) requests.push(request.url());
   });
   page.on('dialog', async (dialog) => { dialogs.push(dialog.message()); await dialog.dismiss(); });
   return { requests, dialogs };

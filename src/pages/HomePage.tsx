@@ -82,6 +82,22 @@ export default function HomePage() {
         />
       </Link>
 
+      <section>
+        <h2 className="text-sm font-medium text-text-secondary mb-3">{t('home.tasksTitle')}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {[
+            ['sms', '/tools/text/sms-segment'],
+            ['payload', '/pipeline'],
+            ['incident', '/tools/json/json-formatter'],
+          ].map(([key, path]) => (
+            <Link key={key} to={path!} className="p-4 rounded-lg border border-border bg-surface hover:border-accent-muted transition-colors">
+              <div className="font-medium text-text-primary text-sm">{t(`home.tasks.${key}.title`)}</div>
+              <p className="text-xs text-text-secondary mt-1">{t(`home.tasks.${key}.description`)}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* Favorites */}
       {favoriteTools.length > 0 && (
         <section>

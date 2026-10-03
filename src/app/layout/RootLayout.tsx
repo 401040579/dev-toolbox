@@ -1,3 +1,4 @@
+import { PwaUpdate } from '@/components/pwa-update/PwaUpdate';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Suspense, useState, useCallback } from 'react';
 import { Sidebar } from './Sidebar';
@@ -38,6 +39,7 @@ export function RootLayout() {
         </main>
         <MobileNav />
       </div>
+      <PwaUpdate />
       <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
     </div>
   );
