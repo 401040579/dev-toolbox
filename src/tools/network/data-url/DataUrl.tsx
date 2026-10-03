@@ -109,7 +109,7 @@ export default function DataUrl() {
                   className="w-48"
                 >
                   {MIME_TYPES.map(({ value, label }) => (
-                    <option key={value} value={value}>{label}</option>
+                    <option key={value} value={value}>{value === 'text/plain' ? t('tools.dataUrl.plainText') : label}</option>
                   ))}
                 </select>
               </div>
@@ -231,7 +231,7 @@ export default function DataUrl() {
                     <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
                       {t('tools.dataUrl.preview')}
                     </label>
-                    <img src={dataUrl} alt="Preview" className="max-w-full max-h-64 rounded border border-border" />
+                    <img src={dataUrl} alt={t('common.previewImage')} className="max-w-full max-h-64 rounded border border-border" />
                   </div>
                 )}
               </div>

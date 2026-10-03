@@ -139,27 +139,27 @@ import jsonYamlTool from './json/json-yaml';
 describe('JSON → YAML', () => {
   const toYaml = jsonYamlTool.transforms![0]!.transform;
 
-  it('converts simple object', () => {
-    const result = toYaml('{"name":"test","count":42}') as string;
+  it('converts simple object', async () => {
+    const result = await toYaml('{"name":"test","count":42}') as string;
     expect(result).toContain('name: test');
     expect(result).toContain('count: 42');
   });
 
-  it('converts arrays', () => {
-    const result = toYaml('{"items":[1,2,3]}') as string;
+  it('converts arrays', async () => {
+    const result = await toYaml('{"items":[1,2,3]}') as string;
     expect(result).toContain('items:');
     expect(result).toContain('- 1');
   });
 
-  it('handles null and booleans', () => {
-    const result = toYaml('{"a":null,"b":true,"c":false}') as string;
+  it('handles null and booleans', async () => {
+    const result = await toYaml('{"a":null,"b":true,"c":false}') as string;
     expect(result).toContain('a: null');
     expect(result).toContain('b: true');
     expect(result).toContain('c: false');
   });
 
-  it('throws on invalid JSON input', () => {
-    expect(() => toYaml('not json')).toThrow();
+  it('throws on invalid JSON input', async () => {
+    await expect(toYaml('not json')).rejects.toThrow();
   });
 });
 

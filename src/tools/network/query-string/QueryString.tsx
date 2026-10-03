@@ -108,8 +108,8 @@ export default function QueryString() {
                 <table className="w-full text-sm">
                   <thead className="bg-surface-alt">
                     <tr>
-                      <th className="px-4 py-2 text-left text-text-muted font-medium">Key</th>
-                      <th className="px-4 py-2 text-left text-text-muted font-medium">Value</th>
+                      <th className="px-4 py-2 text-left text-text-muted font-medium">{t('common.key')}</th>
+                      <th className="px-4 py-2 text-left text-text-muted font-medium">{t('common.value')}</th>
                       <th className="w-12"></th>
                     </tr>
                   </thead>
@@ -149,14 +149,14 @@ export default function QueryString() {
                     type="text"
                     value={param.key}
                     onChange={(e) => updateParam(index, 'key', e.target.value)}
-                    placeholder="key"
+                    placeholder={t('common.key')}
                     className="flex-1 font-mono"
                   />
                   <input
                     type="text"
                     value={param.value}
                     onChange={(e) => updateParam(index, 'value', e.target.value)}
-                    placeholder="value"
+                    placeholder={t('common.value')}
                     className="flex-1 font-mono"
                   />
                   <button

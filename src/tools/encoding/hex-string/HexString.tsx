@@ -6,20 +6,14 @@ import { CopyButton } from '@/components/copy-button/CopyButton';
 type Mode = 'toHex' | 'toString';
 type Separator = 'space' | 'none' | 'colon' | 'dash' | '0x';
 
+const separatorMap: Record<Separator, string> = { space: ' ', none: '', colon: ':', dash: '-', '0x': ' 0x' };
+
 export default function HexString() {
   const { t } = useTranslation();
   const [input, setInput] = useState('');
   const [mode, setMode] = useState<Mode>('toHex');
   const [separator, setSeparator] = useState<Separator>('space');
   const [uppercase, setUppercase] = useState(false);
-
-  const separatorMap: Record<Separator, string> = {
-    space: ' ',
-    none: '',
-    colon: ':',
-    dash: '-',
-    '0x': ' 0x',
-  };
 
   const { output, error } = useMemo(() => {
     if (!input) return { output: '', error: null };

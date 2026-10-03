@@ -26,7 +26,7 @@ export default function DockerCompose() {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {TEMPLATES.map((tmpl, i) => (
               <button
-                key={i}
+                key={tmpl.id}
                 onClick={() => { setSelected(i); setCustomYaml(''); }}
                 className={`p-3 rounded-lg text-left border transition-colors ${
                   selected === i
@@ -35,7 +35,7 @@ export default function DockerCompose() {
                 }`}
               >
                 <p className="text-sm font-medium text-text-primary">{tmpl.name}</p>
-                <p className="text-xs text-text-muted mt-0.5">{tmpl.description}</p>
+                <p className="text-xs text-text-muted mt-0.5">{t(`tools.dockerCompose.templates.${tmpl.id}`)}</p>
               </button>
             ))}
           </div>

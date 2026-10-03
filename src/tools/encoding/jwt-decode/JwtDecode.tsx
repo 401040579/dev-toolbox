@@ -32,19 +32,23 @@ export default function JwtDecode() {
 
       const header = JSON.parse(decodeBase64Url(parts[0]!));
       const payload = JSON.parse(decodeBase64Url(parts[1]!));
+      if (!header || !payload || typeof header !== 'object' || typeof payload !== 'object' || Array.isArray(header) || Array.isArray(payload)) {
+        return { decoded: null, error: t('tools.jwt.invalidPayload') };
+      }
       const signature = parts[2]!;
 
       return { decoded: { header, payload, signature }, error: null };
     } catch (e) {
       return { decoded: null, error: (e as Error).message };
     }
-  }, [input]);
+  }, [input, t]);
 
   const expInfo = useMemo(() => {
     if (!result?.decoded) return null;
     const exp = result.decoded.payload['exp'];
-    if (typeof exp !== 'number') return null;
+    if (typeof exp !== 'number' || !Number.isFinite(exp)) return null;
     const expDate = new Date(exp * 1000);
+    if (!Number.isFinite(expDate.getTime())) return null;
     const isExpired = expDate.getTime() < Date.now();
     return { date: expDate.toISOString(), isExpired };
   }, [result]);
@@ -59,6 +63,7 @@ export default function JwtDecode() {
       </div>
 
       <div className="flex-1 overflow-auto p-6 space-y-6">
+        <p className="text-xs text-text-muted">{t('tools.jwt.verificationNote')}</p>
         <div>
           <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
             {t('tools.jwt.tokenLabel')}

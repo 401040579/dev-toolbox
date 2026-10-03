@@ -157,11 +157,11 @@ export default function AsciiTable() {
                   <table className="w-full text-sm">
                     <thead className="bg-surface-alt">
                       <tr>
-                        <th className="text-left px-4 py-2 text-text-muted font-medium">Char</th>
-                        <th className="text-left px-4 py-2 text-text-muted font-medium">Dec</th>
-                        <th className="text-left px-4 py-2 text-text-muted font-medium">Hex</th>
-                        <th className="text-left px-4 py-2 text-text-muted font-medium">Binary</th>
-                        <th className="text-left px-4 py-2 text-text-muted font-medium">Oct</th>
+                        <th className="text-left px-4 py-2 text-text-muted font-medium">{t('tools.asciiTable.char')}</th>
+                        <th className="text-left px-4 py-2 text-text-muted font-medium">{t('tools.asciiTable.dec')}</th>
+                        <th className="text-left px-4 py-2 text-text-muted font-medium">{t('tools.asciiTable.hex')}</th>
+                        <th className="text-left px-4 py-2 text-text-muted font-medium">{t('tools.asciiTable.binary')}</th>
+                        <th className="text-left px-4 py-2 text-text-muted font-medium">{t('tools.asciiTable.oct')}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border">
@@ -188,18 +188,18 @@ export default function AsciiTable() {
               <table className="w-full text-xs">
                 <thead className="bg-surface-alt sticky top-0">
                   <tr>
-                    <th className="px-2 py-1.5 text-text-muted font-medium">Dec</th>
-                    <th className="px-2 py-1.5 text-text-muted font-medium">Hex</th>
-                    <th className="px-2 py-1.5 text-text-muted font-medium">Char</th>
-                    <th className="px-2 py-1.5 text-text-muted font-medium border-l border-border">Dec</th>
-                    <th className="px-2 py-1.5 text-text-muted font-medium">Hex</th>
-                    <th className="px-2 py-1.5 text-text-muted font-medium">Char</th>
-                    <th className="px-2 py-1.5 text-text-muted font-medium border-l border-border">Dec</th>
-                    <th className="px-2 py-1.5 text-text-muted font-medium">Hex</th>
-                    <th className="px-2 py-1.5 text-text-muted font-medium">Char</th>
-                    <th className="px-2 py-1.5 text-text-muted font-medium border-l border-border">Dec</th>
-                    <th className="px-2 py-1.5 text-text-muted font-medium">Hex</th>
-                    <th className="px-2 py-1.5 text-text-muted font-medium">Char</th>
+                    <th className="px-2 py-1.5 text-text-muted font-medium">{t('tools.asciiTable.dec')}</th>
+                    <th className="px-2 py-1.5 text-text-muted font-medium">{t('tools.asciiTable.hex')}</th>
+                    <th className="px-2 py-1.5 text-text-muted font-medium">{t('tools.asciiTable.char')}</th>
+                    <th className="px-2 py-1.5 text-text-muted font-medium border-l border-border">{t('tools.asciiTable.dec')}</th>
+                    <th className="px-2 py-1.5 text-text-muted font-medium">{t('tools.asciiTable.hex')}</th>
+                    <th className="px-2 py-1.5 text-text-muted font-medium">{t('tools.asciiTable.char')}</th>
+                    <th className="px-2 py-1.5 text-text-muted font-medium border-l border-border">{t('tools.asciiTable.dec')}</th>
+                    <th className="px-2 py-1.5 text-text-muted font-medium">{t('tools.asciiTable.hex')}</th>
+                    <th className="px-2 py-1.5 text-text-muted font-medium">{t('tools.asciiTable.char')}</th>
+                    <th className="px-2 py-1.5 text-text-muted font-medium border-l border-border">{t('tools.asciiTable.dec')}</th>
+                    <th className="px-2 py-1.5 text-text-muted font-medium">{t('tools.asciiTable.hex')}</th>
+                    <th className="px-2 py-1.5 text-text-muted font-medium">{t('tools.asciiTable.char')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">

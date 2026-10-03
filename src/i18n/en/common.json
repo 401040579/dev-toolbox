@@ -66,10 +66,12 @@
       "placeholder": "Paste JWT token here (eyJhbGciOiJ...)",
       "invalidJwt": "Invalid JWT: expected 3 parts separated by dots",
       "expired": "Expired",
-      "valid": "Valid",
+      "valid": "Not expired",
       "header": "Header",
       "payload": "Payload",
-      "signature": "Signature"
+      "signature": "Signature",
+      "verificationNote": "Decoded claims only. A future expiration does not prove authenticity or authorization.",
+      "invalidPayload": "Invalid JWT: header and payload must be JSON objects"
     },
     "epoch": {
       "title": "Epoch Converter",
@@ -162,7 +164,20 @@
       "invalidFields": "Cron expression must have exactly 5 fields",
       "invalidExpression": "Invalid cron expression",
       "explanation": "Explanation",
-      "nextRuns": "Next {{count}} Runs"
+      "nextRuns": "Next {{count}} Runs",
+      "fields": {
+        "minute": "Minute",
+        "hour": "Hour",
+        "dayOfMonth": "Day of Month",
+        "month": "Month",
+        "dayOfWeek": "Day of Week"
+      },
+      "every": "{{field}}: every value",
+      "values": "{{field}}: {{values}}",
+      "supportedNote": "Five numeric fields with lists, ranges and steps. Times use this browser’s local time zone; when both day fields are restricted, either may match. Search is limited to the next 366 days.",
+      "noRuns": "No matching runs in the next 366 days.",
+      "nextRuns_one": "Next {{count}} Run",
+      "nextRuns_other": "Next {{count}} Runs"
     },
     "jsonFormatter": {
       "title": "JSON Formatter",
@@ -184,7 +199,9 @@
       "jsonToYaml": "JSON → YAML",
       "yamlToJson": "YAML → JSON",
       "jsonPlaceholder": "Paste JSON here...",
-      "yamlPlaceholder": "Paste YAML here..."
+      "yamlPlaceholder": "Paste YAML here...",
+      "error": "Conversion failed",
+      "supportedNote": "YAML 1.2 Core with JSON-compatible values and string keys. Dates stay strings; custom tags, duplicate keys, multiple documents and cyclic aliases are rejected. Input: 1 MiB, 64 levels, 50,000 values; output: 4 MiB."
     },
     "uuid": {
       "title": "UUID Generator",
@@ -352,7 +369,12 @@
       "codeLabel": "ASCII Codes",
       "charPlaceholder": "Enter characters... Hello",
       "codePlaceholder": "Enter ASCII codes... 72 101 108 108 111",
-      "error": "Failed to convert"
+      "error": "Failed to convert",
+      "char": "Char",
+      "dec": "Decimal",
+      "hex": "Hex",
+      "binary": "Binary",
+      "oct": "Octal"
     },
     "punycode": {
       "title": "Punycode Encode/Decode",
@@ -465,7 +487,10 @@
       "verifyMatch": "✓ Password matches!",
       "verifyNoMatch": "✗ Password does not match",
       "verifyError": "Invalid hash format",
-      "info": "Uses PBKDF2-SHA256 with random salt. Format: $pbkdf2-sha256$iterations$salt$hash"
+      "info": "Uses PBKDF2-SHA256 with random salt. Format: $pbkdf2-sha256$iterations$salt$hash",
+      "fast": "10,000 (Fast)",
+      "recommended": "100,000 (Recommended)",
+      "slow": "500,000 (Slow)"
     },
     "urlParser": {
       "title": "URL Parser",
@@ -514,7 +539,25 @@
       "full": "Full Form",
       "compressed": "Compressed",
       "ipAddress": "IP Address",
-      "commonIps": "Common IPs"
+      "commonIps": "Common IPs",
+      "classes": {
+        "A": "A",
+        "B": "B",
+        "C": "C",
+        "D (Multicast)": "D (Multicast)",
+        "E (Reserved)": "E (Reserved)",
+        "Unknown": "Unknown"
+      },
+      "types": {
+        "Public": "Public",
+        "Private": "Private",
+        "Loopback": "Loopback",
+        "Multicast": "Multicast",
+        "Global Unicast": "Global Unicast",
+        "Link-Local": "Link-Local",
+        "Unique Local": "Unique Local",
+        "Unspecified": "Unspecified"
+      }
     },
     "cidr": {
       "title": "CIDR Calculator",
@@ -533,7 +576,8 @@
       "usableHosts": "Usable Hosts",
       "ipClass": "IP Class",
       "commonSubnets": "Common Subnets",
-      "quickReference": "Quick Reference"
+      "quickReference": "Quick Reference",
+      "hosts": "Hosts"
     },
     "userAgent": {
       "title": "User Agent Parser",
@@ -546,7 +590,18 @@
       "device": "Device",
       "engine": "Rendering Engine",
       "cpu": "CPU Architecture",
-      "samples": "Sample User Agents"
+      "samples": "Sample User Agents",
+      "sampleChromeWindows": "Chrome on Windows",
+      "sampleSafariMac": "Safari on macOS",
+      "sampleFirefoxLinux": "Firefox on Linux",
+      "sampleSafariIphone": "Safari on iPhone",
+      "sampleChromeAndroid": "Chrome on Android",
+      "unknown": "Unknown",
+      "mobile": "Mobile",
+      "tablet": "Tablet",
+      "desktop": "Desktop",
+      "smartTv": "Smart TV",
+      "console": "Game Console"
     },
     "httpHeaders": {
       "title": "HTTP Header Parser",
@@ -558,7 +613,38 @@
       "headerValue": "Value",
       "samples": "Samples",
       "sampleRequest": "Request Headers",
-      "sampleResponse": "Response Headers"
+      "sampleResponse": "Response Headers",
+      "descriptions": {
+        "accept": "Media types the client can handle",
+        "accept-encoding": "Compression algorithms the client supports",
+        "accept-language": "Preferred languages for the response",
+        "authorization": "Credentials for authentication",
+        "cache-control": "Caching directives",
+        "content-type": "Media type of the request/response body",
+        "content-length": "Size of the body in bytes",
+        "content-encoding": "Compression algorithm used on the body",
+        "cookie": "Cookies sent by the client",
+        "host": "Domain name and port of the server",
+        "origin": "Origin of the request (for CORS)",
+        "referer": "URL of the previous page",
+        "user-agent": "Client application information",
+        "x-forwarded-for": "Original client IP (via proxy)",
+        "x-requested-with": "Indicates AJAX request",
+        "set-cookie": "Cookie to be stored by the client",
+        "access-control-allow-origin": "Allowed origins for CORS",
+        "access-control-allow-methods": "Allowed HTTP methods for CORS",
+        "access-control-allow-headers": "Allowed headers for CORS",
+        "strict-transport-security": "HSTS policy",
+        "content-security-policy": "CSP rules for the page",
+        "x-content-type-options": "Prevents MIME type sniffing",
+        "x-frame-options": "Clickjacking protection",
+        "x-xss-protection": "XSS filter control",
+        "etag": "Resource version identifier",
+        "last-modified": "Last modification timestamp",
+        "expires": "Response expiration date",
+        "location": "Redirect URL",
+        "www-authenticate": "Authentication method required"
+      }
     },
     "dataUrl": {
       "title": "Data URL Generator",
@@ -578,7 +664,8 @@
       "urlSize": "URL Size",
       "decodedSize": "Decoded Size",
       "download": "Download File",
-      "preview": "Preview"
+      "preview": "Preview",
+      "plainText": "Plain Text"
     },
     "textStats": {
       "title": "Text Statistics",
@@ -596,7 +683,10 @@
       "avgWordLength": "Avg Word Length",
       "avgSentenceLength": "Avg Sentence Length",
       "minutes": "min",
-      "seconds": "sec"
+      "seconds": "sec",
+      "bytes": "UTF-8 Bytes",
+      "uniqueWords": "Unique Words",
+      "longestWord": "Longest Word"
     },
     "loremIpsum": {
       "title": "Lorem Ipsum Generator",
@@ -608,7 +698,10 @@
       "countLabel": "Count",
       "startWithLorem": "Start with 'Lorem ipsum...'",
       "generate": "Generate",
-      "outputLabel": "Generated Text"
+      "outputLabel": "Generated Text",
+      "paragraphs": "Paragraphs",
+      "sentences": "Sentences",
+      "words": "Words"
     },
     "stringEscape": {
       "title": "String Escape/Unescape",
@@ -624,7 +717,8 @@
       "formatCsv": "CSV",
       "inputLabel": "Input",
       "inputPlaceholder": "Enter text to escape or unescape...",
-      "outputLabel": "Output"
+      "outputLabel": "Output",
+      "examples": "Examples"
     },
     "slugify": {
       "title": "URL Slugify",
@@ -637,7 +731,14 @@
       "trimWhitespace": "Trim whitespace",
       "removeStopWords": "Remove stop words",
       "maxLength": "Max Length",
-      "noLimit": "No limit"
+      "noLimit": "No limit",
+      "separatorLabel": "Separator",
+      "sepDash": "Dash",
+      "sepUnderscore": "Underscore",
+      "sepDot": "Dot",
+      "sepNone": "None",
+      "strict": "Remove punctuation",
+      "examples": "Examples"
     },
     "natoPhonetic": {
       "title": "NATO Phonetic Alphabet",
@@ -813,7 +914,8 @@
       "tomlPlaceholder": "Enter TOML...",
       "jsonPlaceholder": "Enter JSON...",
       "yamlPlaceholder": "Enter YAML...",
-      "error": "Conversion failed"
+      "error": "Conversion failed",
+      "supportedNote": "TOML conversion supports comments, dotted keys and arrays of tables. Dates/times must be quoted strings; null, non-finite numbers and unsafe integers are rejected. Input: 1 MiB, 64 levels, 50,000 values; output: 4 MiB. Comments are not retained."
     },
     "csvJson": {
       "title": "CSV ↔ JSON",
@@ -844,7 +946,9 @@
       "timestamp": "Timestamp",
       "date": "Date",
       "formatTitle": "ULID Format",
-      "formatDesc": "26 characters: 10 for timestamp + 16 for randomness"
+      "formatDesc": "26 characters: 10 for timestamp + 16 for randomness",
+      "timestampPart": "Timestamp (10 chars)",
+      "randomPart": "Randomness (16 chars)"
     },
     "nanoid": {
       "title": "NanoID Generator",
@@ -937,8 +1041,8 @@
       "output": "Generated Cards",
       "validateTitle": "Validate Card Number",
       "validateInput": "Card Number",
-      "valid": "✓ Valid (passes Luhn check)",
-      "invalid": "✗ Invalid (fails Luhn check)",
+      "valid": "Valid card checksum",
+      "invalid": "Invalid card checksum",
       "detectedType": "Detected Type",
       "warning": "These are TEST card numbers only. They are mathematically valid but NOT real cards. Use only for testing payment integrations in sandbox/test mode."
     },
@@ -955,7 +1059,23 @@
       "country": "Country",
       "checkDigits": "Check Digits",
       "bban": "BBAN",
-      "warning": "These are TEST IBANs only. They are structurally valid but NOT real bank accounts. Use only for testing purposes."
+      "warning": "These are TEST IBANs only. They are structurally valid but NOT real bank accounts. Use only for testing purposes.",
+      "invalidFormat": "Invalid IBAN format",
+      "invalidLength": "Invalid IBAN length",
+      "invalidChecksum": "Invalid IBAN checksum",
+      "valid": "Valid IBAN checksum",
+      "countries": {
+        "DE": "Germany",
+        "FR": "France",
+        "GB": "United Kingdom",
+        "ES": "Spain",
+        "IT": "Italy",
+        "NL": "Netherlands",
+        "BE": "Belgium",
+        "AT": "Austria",
+        "CH": "Switzerland",
+        "PL": "Poland"
+      }
     },
     "imageBase64": {
       "title": "Image ↔ Base64",
@@ -1026,7 +1146,8 @@
       },
       "safetyNote": "Static SVG only: scripts, event handlers, CSS, animation, embedded images and external resources are removed from preview and export.",
       "invalidSvg": "Invalid SVG. Use one SVG root without a DOCTYPE.",
-      "download": "Download SVG"
+      "download": "Download SVG",
+      "stats": "{{count}} elements · {{bytes}} B"
     },
     "colorPicker": {
       "title": "Color Picker & Converter",
@@ -1087,7 +1208,8 @@
         "deuteranopia": "Deuteranopia (Green-blind)",
         "tritanopia": "Tritanopia (Blue-blind)",
         "achromatopsia": "Achromatopsia (Total)"
-      }
+      },
+      "approximation": "Approximate color simulation; it does not represent every person’s vision."
     },
     "gradientGenerator": {
       "title": "Gradient Generator",
@@ -1095,7 +1217,11 @@
       "type": "Gradient Type",
       "angle": "Angle",
       "colorStops": "Color Stops",
-      "addStop": "Add color stop"
+      "addStop": "Add color stop",
+      "linear": "Linear",
+      "radial": "Radial",
+      "conic": "Conic",
+      "removeStop": "Remove color stop {{count}}"
     },
     "colorShades": {
       "title": "Color Shades Generator",
@@ -1122,7 +1248,8 @@
       "decode": "Decode",
       "username": "Username",
       "password": "Password",
-      "generate": "Generate Header"
+      "generate": "Generate Header",
+      "authorizationHeader": "Authorization Header"
     },
     "oauthParser": {
       "title": "OAuth Token Parser",
@@ -1132,7 +1259,14 @@
       "header": "Header",
       "payload": "Payload",
       "expired": "Expired",
-      "valid": "Valid"
+      "valid": "Not expired",
+      "issuer": "Issuer",
+      "subject": "Subject",
+      "issuedAt": "Issued At",
+      "expiresAt": "Expires At",
+      "scopes": "Scopes",
+      "opaqueToken": "Opaque Token",
+      "verificationNote": "Decoded claims only. Signature, audience and authorization are not verified."
     },
     "samlDecoder": {
       "title": "SAML Decoder",
@@ -1160,7 +1294,18 @@
       "octalLabel": "Octal",
       "symbolicLabel": "Symbolic",
       "command": "Command",
-      "commonPresets": "Common Presets"
+      "commonPresets": "Common Presets",
+      "placeholder": "e.g. 755",
+      "permissions": {
+        "777": "Full access for all",
+        "755": "Owner full, others read/execute",
+        "750": "Owner full, group read/execute",
+        "700": "Owner only",
+        "644": "Owner read/write, others read",
+        "600": "Owner read/write only",
+        "555": "Read/execute for all",
+        "444": "Read-only for all"
+      }
     },
     "crontabGenerator": {
       "title": "Crontab Generator",
@@ -1171,17 +1316,82 @@
       "month": "Month",
       "dayOfWeek": "Day (Week)",
       "parseExpression": "Parse Expression",
-      "presets": "Presets"
+      "presets": "Presets",
+      "presetLabels": {
+        "0": "Every minute",
+        "1": "Every 5 minutes",
+        "2": "Every 15 minutes",
+        "3": "Every 30 minutes",
+        "4": "Every hour",
+        "5": "Every 6 hours",
+        "6": "Every day at midnight",
+        "7": "Every day at noon",
+        "8": "Every Monday at 9am",
+        "9": "Every weekday at 9am",
+        "10": "First of every month",
+        "11": "Every Sunday at 2am"
+      }
     },
     "gitCommand": {
       "title": "Git Command Reference",
       "description": "Quick reference for common git commands",
-      "searchPlaceholder": "Search git commands..."
+      "searchPlaceholder": "Search git commands...",
+      "commands": {
+        "init": "Initialize a new repository",
+        "clone": "Clone a repository",
+        "configName": "Set global username",
+        "configEmail": "Set global email",
+        "status": "Show working tree status",
+        "add": "Stage file(s)",
+        "commit": "Commit staged changes",
+        "log": "View commit history (compact)",
+        "diff": "Show unstaged changes",
+        "diffStaged": "Show staged changes",
+        "branchList": "List branches",
+        "branchCreate": "Create a new branch",
+        "checkout": "Switch to branch",
+        "checkoutNew": "Create and switch to branch",
+        "merge": "Merge branch into current",
+        "branchDelete": "Delete branch",
+        "remote": "List remote repositories",
+        "fetch": "Download remote changes",
+        "pull": "Fetch and merge remote changes",
+        "push": "Push commits to remote",
+        "pushUpstream": "Push and set upstream",
+        "unstage": "Unstage a file",
+        "discard": "Discard changes in file",
+        "revert": "Revert a commit",
+        "resetSoft": "Undo last commit (keep changes)",
+        "resetHard": "Undo last commit (discard changes)",
+        "stash": "Stash working changes",
+        "stashPop": "Apply and remove last stash",
+        "stashList": "List all stashes",
+        "tag": "Create a lightweight tag",
+        "tagAnnotated": "Create an annotated tag",
+        "pushTags": "Push all tags to remote"
+      },
+      "categories": {
+        "Setup": "Setup",
+        "Basic": "Basic",
+        "Branch": "Branch",
+        "Remote": "Remote",
+        "Undo": "Undo",
+        "Stash": "Stash",
+        "Tags": "Tags"
+      },
+      "noResults": "No matching commands."
     },
     "dockerCompose": {
       "title": "Docker Compose Templates",
       "description": "Common Docker Compose templates and snippets",
-      "selectTemplate": "Select Template"
+      "selectTemplate": "Select Template",
+      "templates": {
+        "nginx": "Basic Nginx web server",
+        "node-mongo": "Node.js app with MongoDB database",
+        "postgres-pgadmin": "PostgreSQL database with pgAdmin web UI",
+        "redis": "Redis cache server",
+        "mysql-adminer": "MySQL database with Adminer web UI"
+      }
     },
     "unitConverter": {
       "title": "Unit Converter",
@@ -1189,7 +1399,57 @@
       "value": "Value",
       "from": "From",
       "to": "To",
-      "allConversions": "All Conversions"
+      "allConversions": "All Conversions",
+      "invalidValue": "Enter a finite number.",
+      "categories": {
+        "length": "Length",
+        "weight": "Weight",
+        "temperature": "Temperature",
+        "area": "Area",
+        "volume": "Volume",
+        "speed": "Speed",
+        "time": "Time"
+      },
+      "units": {
+        "m": "Meter",
+        "km": "Kilometer",
+        "cm": "Centimeter",
+        "mm": "Millimeter",
+        "mi": "Mile",
+        "yd": "Yard",
+        "ft": "Foot",
+        "in": "Inch",
+        "kg": "Kilogram",
+        "g": "Gram",
+        "mg": "Milligram",
+        "lb": "Pound",
+        "oz": "Ounce",
+        "t": "Metric Ton",
+        "c": "Celsius",
+        "f": "Fahrenheit",
+        "k": "Kelvin",
+        "sqm": "Square Meter",
+        "sqkm": "Square Kilometer",
+        "sqft": "Square Foot",
+        "acre": "Acre",
+        "ha": "Hectare",
+        "l": "Liter",
+        "ml": "Milliliter",
+        "gal": "US Gallon",
+        "qt": "US Quart",
+        "cup": "US Cup",
+        "floz": "US Fluid Ounce",
+        "ms": "m/s",
+        "kmh": "km/h",
+        "mph": "mph",
+        "kn": "Knot",
+        "s": "Second",
+        "ms_time": "Millisecond",
+        "min": "Minute",
+        "hr": "Hour",
+        "day": "Day",
+        "wk": "Week"
+      }
     },
     "byteConverter": {
       "title": "Byte Size Converter",
@@ -1197,7 +1457,20 @@
       "value": "Value",
       "unit": "Unit",
       "decimal": "Decimal",
-      "binary": "Binary"
+      "binary": "Binary",
+      "units": {
+        "B": "Bytes",
+        "KB": "Kilobytes (KB)",
+        "MB": "Megabytes (MB)",
+        "GB": "Gigabytes (GB)",
+        "TB": "Terabytes (TB)",
+        "PB": "Petabytes (PB)",
+        "KiB": "Kibibytes (KiB)",
+        "MiB": "Mebibytes (MiB)",
+        "GiB": "Gibibytes (GiB)",
+        "TiB": "Tebibytes (TiB)",
+        "PiB": "Pebibytes (PiB)"
+      }
     },
     "percentageCalc": {
       "title": "Percentage Calculator",
@@ -1224,14 +1497,17 @@
       "description": "Evaluate mathematical expressions safely",
       "expression": "Expression",
       "supported": "Supported operators",
-      "history": "History"
+      "history": "History",
+      "placeholder": "e.g. 2^10 + sqrt(144) * 3",
+      "operators": "+, -, *, /, %, ^ (power), sqrt(), abs(), pi, e, ()"
     },
     "romanNumeral": {
       "title": "Roman Numeral Converter",
       "description": "Convert between Arabic and Roman numerals",
       "arabic": "Arabic Number",
       "roman": "Roman Numeral",
-      "reference": "Quick Reference"
+      "reference": "Quick Reference",
+      "placeholder": "e.g. XLII"
     },
     "aspectRatio": {
       "title": "Aspect Ratio Calculator",
@@ -1243,7 +1519,17 @@
       "ratioW": "Ratio W",
       "ratioH": "Ratio H",
       "knownWidth": "Known width",
-      "common": "Common Ratios"
+      "common": "Common Ratios",
+      "ratios": {
+        "1-1": "1:1 (Square)",
+        "4-3": "4:3 (Standard)",
+        "16-9": "16:9 (Widescreen)",
+        "16-10": "16:10",
+        "21-9": "21:9 (Ultrawide)",
+        "3-2": "3:2 (Photo)",
+        "9-16": "9:16 (Mobile)",
+        "2-3": "2:3 (Portrait)"
+      }
     }
   },
   "pipeline": {
@@ -1270,7 +1556,22 @@
     "nodesInfo": "{{count}} nodes",
     "outputPreview": "Output preview:",
     "shareNotice": "Share links include the complete input and settings. Use synthetic data; anyone with the link can read it.",
-    "shareTooLarge": "This Pipeline cannot fit in a share link (32 steps, 250 KB configuration, 8,000 URL characters maximum). Reduce the input or steps."
+    "shareTooLarge": "This Pipeline cannot fit in a share link (32 steps, 250,000 configuration characters, 8,000 URL characters maximum). Reduce the input or steps.",
+    "removeNode": "Remove step {{count}}",
+    "upstreamError": "An earlier step failed.",
+    "transformNotFound": "Transform \"{{id}}\" not found",
+    "stepFailed": "This step failed. Check its input and options.",
+    "deleteSaved": "Delete saved pipeline {{name}}",
+    "invalidShare": "This share link is invalid or exceeds the supported limits.",
+    "stepLimit": "A Pipeline supports up to 32 steps.",
+    "saveFailed": "Could not save. Browser storage may be unavailable or full.",
+    "shareFailed": "Could not copy the share link. Check clipboard permission and try again.",
+    "nodes_one": "Pipeline ({{count}} step)",
+    "nodes_other": "Pipeline ({{count}} steps)",
+    "nodesInfo_one": "{{count}} step",
+    "nodesInfo_other": "{{count}} steps",
+    "stepLabel": "Step {{count}}",
+    "saveLimit": "This Pipeline exceeds the supported save limits (32 steps and 250,000 configuration characters). Reduce the input or steps."
   },
   "pipelineTemplates": {
     "base64-decode-prettify": {
@@ -1308,7 +1609,28 @@
     "switchLanguage": "Switch language",
     "updateReady": "A new version is ready.",
     "updateNotice": "Copy any unsaved input before reloading.",
-    "updateReload": "Reload to update"
+    "updateReload": "Reload to update",
+    "categoryNotFound": "Category not found",
+    "noTools": "No tools in this category yet.",
+    "loadingToolError": "Error loading {{name}}",
+    "unexpectedError": "An unexpected error occurred.",
+    "somethingWrong": "Something went wrong",
+    "close": "Close",
+    "remove": "Remove",
+    "expand": "Expand details",
+    "collapse": "Collapse details",
+    "key": "Key",
+    "value": "Value",
+    "version": "Version",
+    "examples": "Examples",
+    "sourceImage": "Source image",
+    "previewImage": "Image preview",
+    "decodedImage": "Decoded image",
+    "originalImage": "Original image",
+    "compressedImage": "Compressed image",
+    "copyFailed": "Could not copy. Select the output and copy it manually.",
+    "copyError": "Copy failed",
+    "bits": "{{count}}-bit"
   },
   "about": {
     "title": "About",
@@ -1357,6 +1679,252 @@
         "title": "Inspect a demo order event",
         "description": "Format JSON, compare fields and keep an incident note free of customer data."
       }
+    },
+    "toolCount_one": "{{count}} tool",
+    "toolCount_other": "{{count}} tools"
+  },
+  "transforms": {
+    "crc32": {
+      "name": "CRC32",
+      "description": "Calculate CRC32 checksum"
+    },
+    "crc16": {
+      "name": "CRC16",
+      "description": "Calculate CRC16 checksum"
+    },
+    "adler32": {
+      "name": "Adler-32",
+      "description": "Calculate Adler-32 checksum"
+    },
+    "md5": {
+      "name": "MD5 Hash",
+      "description": "Generate MD5 hash of text"
+    },
+    "char-to-ascii": {
+      "name": "Char → ASCII",
+      "description": "Convert characters to ASCII codes"
+    },
+    "ascii-to-char": {
+      "name": "ASCII → Char",
+      "description": "Convert ASCII codes to characters"
+    },
+    "char-to-hex": {
+      "name": "Char → Hex",
+      "description": "Convert characters to hex codes"
+    },
+    "char-to-bin": {
+      "name": "Char → Binary",
+      "description": "Convert characters to binary"
+    },
+    "base64-encode": {
+      "name": "Base64 Encode",
+      "description": "Encode text to Base64"
+    },
+    "base64-decode": {
+      "name": "Base64 Decode",
+      "description": "Decode Base64 to text"
+    },
+    "rot13": {
+      "name": "ROT13",
+      "description": "Apply ROT13 cipher (shift by 13)"
+    },
+    "rot47": {
+      "name": "ROT47",
+      "description": "Apply ROT47 cipher (ASCII 33-126)"
+    },
+    "string-to-hex": {
+      "name": "String → Hex",
+      "description": "Convert text to hexadecimal"
+    },
+    "hex-to-string": {
+      "name": "Hex → String",
+      "description": "Convert hexadecimal to text"
+    },
+    "html-encode": {
+      "name": "HTML Encode",
+      "description": "Encode special characters to HTML entities"
+    },
+    "html-encode-all": {
+      "name": "HTML Encode All",
+      "description": "Encode all non-ASCII characters to HTML entities"
+    },
+    "html-decode": {
+      "name": "HTML Decode",
+      "description": "Decode HTML entities to characters"
+    },
+    "jwt-decode": {
+      "name": "JWT Decode",
+      "description": "Decode JWT header and payload"
+    },
+    "dec-to-hex": {
+      "name": "Decimal → Hex",
+      "description": "Convert decimal to hexadecimal"
+    },
+    "hex-to-dec": {
+      "name": "Hex → Decimal",
+      "description": "Convert hexadecimal to decimal"
+    },
+    "dec-to-bin": {
+      "name": "Decimal → Binary",
+      "description": "Convert decimal to binary"
+    },
+    "bin-to-dec": {
+      "name": "Binary → Decimal",
+      "description": "Convert binary to decimal"
+    },
+    "punycode-encode": {
+      "name": "Domain → Punycode",
+      "description": "Convert Unicode domain to ASCII (Punycode)"
+    },
+    "punycode-decode": {
+      "name": "Punycode → Domain",
+      "description": "Convert Punycode to Unicode domain"
+    },
+    "unicode-escape": {
+      "name": "Unicode Escape",
+      "description": "Escape non-ASCII characters to \\uXXXX format"
+    },
+    "unicode-escape-all": {
+      "name": "Unicode Escape All",
+      "description": "Escape all characters to \\uXXXX format"
+    },
+    "unicode-unescape": {
+      "name": "Unicode Unescape",
+      "description": "Convert \\uXXXX sequences to characters"
+    },
+    "url-encode": {
+      "name": "URL Encode",
+      "description": "Encode text for use in URLs"
+    },
+    "url-decode": {
+      "name": "URL Decode",
+      "description": "Decode URL-encoded text"
+    },
+    "hash-sha256": {
+      "name": "SHA-256 Hash",
+      "description": "Compute SHA-256 hash of input"
+    },
+    "hash-sha512": {
+      "name": "SHA-512 Hash",
+      "description": "Compute SHA-512 hash of input"
+    },
+    "hash-sha1": {
+      "name": "SHA-1 Hash",
+      "description": "Compute SHA-1 hash of input"
+    },
+    "uuid-generate": {
+      "name": "Generate UUID",
+      "description": "Generate a random UUID v4"
+    },
+    "json-prettify": {
+      "name": "JSON Prettify",
+      "description": "Format JSON with indentation",
+      "options": {
+        "indent": {
+          "label": "Indent Size",
+          "choices": {
+            "0": "2 spaces",
+            "1": "4 spaces",
+            "2": "Tab"
+          }
+        }
+      }
+    },
+    "json-minify": {
+      "name": "JSON Minify",
+      "description": "Remove whitespace from JSON"
+    },
+    "json-to-yaml": {
+      "name": "JSON → YAML",
+      "description": "Convert JSON to YAML"
+    },
+    "to-uppercase": {
+      "name": "To Uppercase",
+      "description": "Convert to UPPERCASE"
+    },
+    "to-lowercase": {
+      "name": "To Lowercase",
+      "description": "Convert to lowercase"
+    },
+    "to-title-case": {
+      "name": "To Title Case",
+      "description": "Convert to Title Case"
+    },
+    "to-camel-case": {
+      "name": "To camelCase",
+      "description": "Convert to camelCase"
+    },
+    "to-snake-case": {
+      "name": "To snake_case",
+      "description": "Convert to snake_case"
+    },
+    "to-kebab-case": {
+      "name": "To kebab-case",
+      "description": "Convert to kebab-case"
+    },
+    "to-pascal-case": {
+      "name": "To PascalCase",
+      "description": "Convert to PascalCase"
+    },
+    "to-constant-case": {
+      "name": "To CONSTANT_CASE",
+      "description": "Convert to CONSTANT_CASE"
+    },
+    "sort-lines": {
+      "name": "Sort Lines",
+      "description": "Sort lines alphabetically"
+    },
+    "unique-lines": {
+      "name": "Unique Lines",
+      "description": "Remove duplicate lines"
+    },
+    "reverse-lines": {
+      "name": "Reverse Lines",
+      "description": "Reverse line order"
+    },
+    "to-nato": {
+      "name": "To NATO",
+      "description": "Convert text to NATO phonetic"
+    },
+    "slugify": {
+      "name": "Slugify",
+      "description": "Convert text to URL slug"
+    },
+    "sms-smart-encode": {
+      "name": "SMS Smart Encoding",
+      "description": "Replace non-GSM Unicode chars (smart quotes, fullwidth, etc.) with GSM-7 equivalents"
+    },
+    "escape-json": {
+      "name": "Escape JSON",
+      "description": "Escape string for JSON"
+    },
+    "unescape-json": {
+      "name": "Unescape JSON",
+      "description": "Unescape JSON string"
+    },
+    "truncate-100": {
+      "name": "Truncate to 100",
+      "description": "Truncate text to 100 characters"
+    },
+    "epoch-to-iso": {
+      "name": "Epoch → ISO Date",
+      "description": "Convert Unix timestamp to ISO 8601 date string (auto-detects precision)"
+    },
+    "date-to-epoch": {
+      "name": "Date → Epoch (seconds)",
+      "description": "Convert date string to Unix timestamp in seconds"
+    },
+    "date-to-epoch-ms": {
+      "name": "Date → Epoch (milliseconds)",
+      "description": "Convert date string to Unix timestamp in milliseconds"
+    },
+    "epoch-to-utc": {
+      "name": "Epoch → UTC String",
+      "description": "Convert Unix timestamp to UTC date string"
+    },
+    "seconds-to-duration": {
+      "name": "Seconds → Duration",
+      "description": "Convert seconds to human-readable duration (d h m s)"
     }
   }
 }

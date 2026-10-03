@@ -93,8 +93,8 @@ export default function IpConverter() {
 
         {/* IPv4 Result */}
         {result?.type === 'ipv4' && result.data && (
-          <div className="rounded-lg border border-border bg-surface overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="rounded-lg border border-border bg-surface overflow-x-auto">
+            <table className="w-full text-sm whitespace-nowrap">
               <tbody className="divide-y divide-border">
                 <tr>
                   <td className="px-4 py-2 font-medium text-text-secondary w-32">{t('tools.ipConverter.decimal')}</td>
@@ -118,7 +118,7 @@ export default function IpConverter() {
                 </tr>
                 <tr>
                   <td className="px-4 py-2 font-medium text-text-secondary">{t('tools.ipConverter.class')}</td>
-                  <td className="px-4 py-2" colSpan={2}>{result.data.class}</td>
+                  <td className="px-4 py-2" colSpan={2}>{t(`tools.ipConverter.classes.${result.data.class}`)}</td>
                 </tr>
                 <tr>
                   <td className="px-4 py-2 font-medium text-text-secondary">{t('tools.ipConverter.type')}</td>
@@ -129,7 +129,7 @@ export default function IpConverter() {
                       result.data.isMulticast ? 'bg-error/20 text-error' :
                       'bg-success/20 text-success'
                     }`}>
-                      {result.data.type}
+                      {t(`tools.ipConverter.types.${result.data.type}`)}
                     </span>
                   </td>
                 </tr>
@@ -140,8 +140,8 @@ export default function IpConverter() {
 
         {/* IPv6 Result */}
         {result?.type === 'ipv6' && result.data && (
-          <div className="rounded-lg border border-border bg-surface overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="rounded-lg border border-border bg-surface overflow-x-auto">
+            <table className="w-full text-sm whitespace-nowrap">
               <tbody className="divide-y divide-border">
                 <tr>
                   <td className="px-4 py-2 font-medium text-text-secondary w-32">{t('tools.ipConverter.full')}</td>
@@ -155,7 +155,7 @@ export default function IpConverter() {
                 </tr>
                 <tr>
                   <td className="px-4 py-2 font-medium text-text-secondary">{t('tools.ipConverter.type')}</td>
-                  <td className="px-4 py-2" colSpan={2}>{result.data.type}</td>
+                  <td className="px-4 py-2" colSpan={2}>{t(`tools.ipConverter.types.${result.data.type}`)}</td>
                 </tr>
               </tbody>
             </table>
@@ -171,16 +171,16 @@ export default function IpConverter() {
               <CopyButton text={result.data.ip} />
             </div>
             {result.data.info && (
-              <div className="rounded-lg border border-border bg-surface overflow-hidden">
-                <table className="w-full text-sm">
+              <div className="rounded-lg border border-border bg-surface overflow-x-auto">
+                <table className="w-full text-sm whitespace-nowrap">
                   <tbody className="divide-y divide-border">
                     <tr>
                       <td className="px-4 py-2 font-medium text-text-secondary w-32">{t('tools.ipConverter.class')}</td>
-                      <td className="px-4 py-2">{result.data.info.class}</td>
+                      <td className="px-4 py-2">{t(`tools.ipConverter.classes.${result.data.info.class}`)}</td>
                     </tr>
                     <tr>
                       <td className="px-4 py-2 font-medium text-text-secondary">{t('tools.ipConverter.type')}</td>
-                      <td className="px-4 py-2">{result.data.info.type}</td>
+                      <td className="px-4 py-2">{t(`tools.ipConverter.types.${result.data.info.type}`)}</td>
                     </tr>
                   </tbody>
                 </table>

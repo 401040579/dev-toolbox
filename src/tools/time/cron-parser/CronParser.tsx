@@ -1,9 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-
-const FIELD_NAMES = ['Minute', 'Hour', 'Day of Month', 'Month', 'Day of Week'] as const;
-const MONTH_NAMES = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+import { CRON_FIELD_KEYS, parseCron, nextCronRuns } from '@/lib/cron';
+import { describeCronFields } from '@/i18n/cron-copy';
 
 const PRESET_KEYS = [
   { key: 'everyMinute', value: '* * * * *' },
@@ -14,84 +12,9 @@ const PRESET_KEYS = [
   { key: 'firstOfMonth', value: '0 0 1 * *' },
 ];
 
-function explainField(field: string, index: number): string {
-  const name = FIELD_NAMES[index]!;
-
-  if (field === '*') return `Every ${name.toLowerCase()}`;
-  if (field.startsWith('*/')) {
-    const step = field.slice(2);
-    return `Every ${step} ${name.toLowerCase()}${Number(step) > 1 ? 's' : ''}`;
-  }
-  if (field.includes(',')) {
-    const vals = field.split(',').map((v) => formatValue(v.trim(), index));
-    return `${name}: ${vals.join(', ')}`;
-  }
-  if (field.includes('-')) {
-    const [start, end] = field.split('-');
-    return `${name}: ${formatValue(start!.trim(), index)} through ${formatValue(end!.trim(), index)}`;
-  }
-  return `${name}: ${formatValue(field, index)}`;
-}
-
-function formatValue(val: string, fieldIndex: number): string {
-  const num = Number(val);
-  if (isNaN(num)) return val;
-  if (fieldIndex === 3) return MONTH_NAMES[num] ?? val;
-  if (fieldIndex === 4) return DAY_NAMES[num] ?? val;
-  return val;
-}
-
-function getNextRuns(expression: string, count: number): Date[] {
-  const parts = expression.trim().split(/\s+/);
-  if (parts.length !== 5) return [];
-
-  const runs: Date[] = [];
-  const now = new Date();
-  const check = new Date(now.getTime() + 60000); // Start from next minute
-  check.setSeconds(0, 0);
-
-  const maxIterations = 525600; // 1 year of minutes
-
-  for (let i = 0; i < maxIterations && runs.length < count; i++) {
-    const minute = check.getMinutes();
-    const hour = check.getHours();
-    const dayOfMonth = check.getDate();
-    const month = check.getMonth() + 1;
-    const dayOfWeek = check.getDay();
-
-    if (
-      matchField(parts[0]!, minute) &&
-      matchField(parts[1]!, hour) &&
-      matchField(parts[2]!, dayOfMonth) &&
-      matchField(parts[3]!, month) &&
-      matchField(parts[4]!, dayOfWeek)
-    ) {
-      runs.push(new Date(check));
-    }
-
-    check.setMinutes(check.getMinutes() + 1);
-  }
-
-  return runs;
-}
-
-function matchField(field: string, value: number): boolean {
-  if (field === '*') return true;
-  if (field.startsWith('*/')) {
-    const step = Number(field.slice(2));
-    return value % step === 0;
-  }
-  return field.split(',').some((part) => {
-    if (part.includes('-')) {
-      const [start, end] = part.split('-').map(Number);
-      return start !== undefined && end !== undefined && value >= start && value <= end;
-    }
-    return Number(part) === value;
-  });
-}
-
 export default function CronParser() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.resolvedLanguage === 'zh' ? 'zh-CN' : 'en-US';
   const [expression, setExpression] = useState('0 0 * * *');
 
   const result = useMemo(() => {
@@ -99,13 +22,14 @@ export default function CronParser() {
     if (parts.length !== 5) return { error: t('tools.cron.invalidFields'), explanations: [], nextRuns: [] };
 
     try {
-      const explanations = parts.map((p, i) => explainField(p, i));
-      const nextRuns = getNextRuns(expression, 5);
+      const fields = parseCron(expression);
+      const explanations = describeCronFields(fields, t, locale);
+      const nextRuns = nextCronRuns(fields);
       return { error: null, explanations, nextRuns };
     } catch {
       return { error: t('tools.cron.invalidExpression'), explanations: [], nextRuns: [] };
     }
-  }, [expression, t]);
+  }, [expression, t, locale]);
 
   return (
     <div className="flex flex-col h-full">
@@ -117,6 +41,7 @@ export default function CronParser() {
       </div>
 
       <div className="flex-1 overflow-auto p-6 space-y-6">
+        <p className="text-xs text-text-muted">{t('tools.cron.supportedNote')}</p>
         {/* Input */}
         <div>
           <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
@@ -131,8 +56,8 @@ export default function CronParser() {
             spellCheck={false}
           />
           <div className="flex gap-1 mt-2 text-xs text-text-muted font-mono max-w-lg">
-            {FIELD_NAMES.map((name, i) => (
-              <span key={i} className="flex-1 text-center">{name}</span>
+            {CRON_FIELD_KEYS.map((name, i) => (
+              <span key={i} className="flex-1 text-center">{t(`tools.cron.fields.${name}`)}</span>
             ))}
           </div>
         </div>
@@ -176,6 +101,7 @@ export default function CronParser() {
             </div>
 
             {/* Next runs */}
+            {result.nextRuns.length === 0 && <p className="text-sm text-text-muted">{t('tools.cron.noRuns')}</p>}
             {result.nextRuns.length > 0 && (
               <div className="rounded-lg border border-border bg-surface p-4">
                 <div className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">
@@ -185,7 +111,7 @@ export default function CronParser() {
                   {result.nextRuns.map((date, i) => (
                     <div key={i} className="flex items-center gap-3 text-sm">
                       <span className="text-text-muted text-xs font-mono w-4">{i + 1}</span>
-                      <code className="font-mono text-text-primary">{date.toLocaleString()}</code>
+                      <code className="font-mono text-text-primary">{date.toLocaleString(locale)}</code>
                     </div>
                   ))}
                 </div>

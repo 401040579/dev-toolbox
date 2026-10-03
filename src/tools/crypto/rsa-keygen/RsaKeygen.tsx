@@ -20,7 +20,7 @@ export default function RsaKeygen() {
       setPublicKey(keys.publicKey);
       setPrivateKey(keys.privateKey);
     } catch {
-      setError(t('tools.rsaKeygen.error'));
+      setError('tools.rsaKeygen.error');
     } finally {
       setLoading(false);
     }
@@ -45,9 +45,9 @@ export default function RsaKeygen() {
               onChange={(e) => setModulusLength(parseInt(e.target.value) as ModulusLength)}
               className="w-32"
             >
-              <option value={2048}>2048-bit</option>
-              <option value={3072}>3072-bit</option>
-              <option value={4096}>4096-bit</option>
+              <option value={2048}>{t('common.bits', { count: 2048 })}</option>
+              <option value={3072}>{t('common.bits', { count: 3072 })}</option>
+              <option value={4096}>{t('common.bits', { count: 4096 })}</option>
             </select>
           </div>
           <div>
@@ -77,7 +77,7 @@ export default function RsaKeygen() {
         {/* Error */}
         {error && (
           <div className="p-3 rounded-lg border border-error/30 bg-error/10">
-            <p className="text-sm text-error">{error}</p>
+            <p className="text-sm text-error">{error.startsWith('tools.') ? t(error) : error}</p>
           </div>
         )}
 

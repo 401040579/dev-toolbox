@@ -58,9 +58,9 @@ export default function GradientGenerator() {
               onChange={(e) => setConfig((prev) => ({ ...prev, type: e.target.value as GradientType }))}
               className="w-32"
             >
-              <option value="linear">Linear</option>
-              <option value="radial">Radial</option>
-              <option value="conic">Conic</option>
+              <option value="linear">{t('tools.gradientGenerator.linear')}</option>
+              <option value="radial">{t('tools.gradientGenerator.radial')}</option>
+              <option value="conic">{t('tools.gradientGenerator.conic')}</option>
             </select>
           </div>
 

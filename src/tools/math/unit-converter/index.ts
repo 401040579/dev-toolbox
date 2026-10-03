@@ -84,6 +84,13 @@ export const UNIT_CATEGORIES: Record<UnitCategory, { label: string; units: Recor
   },
 };
 
+// Round only the significand. Trimming text zeroes also changes integers and exponents.
+export function formatConvertedNumber(value: number): string {
+  if (!Number.isFinite(value)) return '';
+  const rounded = Number(value.toPrecision(10));
+  return String(Number.isFinite(rounded) ? rounded : value);
+}
+
 export function convert(value: number, fromUnit: string, toUnit: string, category: UnitCategory): number {
   const units = UNIT_CATEGORIES[category].units;
   const from = units[fromUnit];

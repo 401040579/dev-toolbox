@@ -107,7 +107,7 @@ export default function DiffViewer() {
   }, []);
   useEffect(() => cleanup, [cleanup]);
 
-  const diff = isLargeInput ? (workerDiff ?? []) : inlineDiff;
+  const diff = useMemo(() => isLargeInput ? (workerDiff ?? []) : inlineDiff, [isLargeInput, workerDiff, inlineDiff]);
 
   const stats = useMemo(() => {
     const added = diff.filter((d) => d.type === 'added').length;

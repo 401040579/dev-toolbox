@@ -10,8 +10,9 @@ export interface DockerService {
   restart?: string;
 }
 
-export const TEMPLATES: { name: string; description: string; yaml: string }[] = [
+export const TEMPLATES: { id: string; name: string; description: string; yaml: string }[] = [
   {
+    id: 'nginx',
     name: 'Nginx',
     description: 'Basic Nginx web server',
     yaml: `version: '3.8'
@@ -25,6 +26,7 @@ services:
     restart: unless-stopped`,
   },
   {
+    id: 'node-mongo',
     name: 'Node.js + MongoDB',
     description: 'Node.js app with MongoDB database',
     yaml: `version: '3.8'
@@ -53,6 +55,7 @@ volumes:
   mongo_data:`,
   },
   {
+    id: 'postgres-pgadmin',
     name: 'PostgreSQL + pgAdmin',
     description: 'PostgreSQL database with pgAdmin web UI',
     yaml: `version: '3.8'
@@ -82,6 +85,7 @@ volumes:
   pg_data:`,
   },
   {
+    id: 'redis',
     name: 'Redis',
     description: 'Redis cache server',
     yaml: `version: '3.8'
@@ -97,6 +101,7 @@ volumes:
   redis_data:`,
   },
   {
+    id: 'mysql-adminer',
     name: 'MySQL + Adminer',
     description: 'MySQL database with Adminer web UI',
     yaml: `version: '3.8'

@@ -2,83 +2,17 @@ import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToolLayout } from '@/components/tool-layout/ToolLayout';
 import { CopyButton } from '@/components/copy-button/CopyButton';
-import { jsonToYaml } from './index';
-
-type Mode = 'json-to-yaml' | 'yaml-to-json';
-
-// Simple YAML-to-JSON parser for common cases
-function yamlToJson(yaml: string): string {
-  // Handle simple YAML by converting to JSON
-  const lines = yaml.split('\n');
-  const result: Record<string, unknown> = {};
-  const stack: Array<{ obj: Record<string, unknown>; indent: number }> = [{ obj: result, indent: -1 }];
-
-  for (const line of lines) {
-    const trimmed = line.trimEnd();
-    if (!trimmed || trimmed.startsWith('#')) continue;
-
-    const indent = line.length - line.trimStart().length;
-    const content = trimmed.trim();
-
-    // Pop stack to find parent
-    while (stack.length > 1 && stack[stack.length - 1]!.indent >= indent) {
-      stack.pop();
-    }
-
-    const parent = stack[stack.length - 1]!.obj;
-
-    if (content.includes(': ')) {
-      const colonIdx = content.indexOf(': ');
-      const key = content.slice(0, colonIdx).trim();
-      const rawValue = content.slice(colonIdx + 2).trim();
-      const value = parseYamlValue(rawValue);
-      parent[key] = value;
-      // Push a new level in case children follow
-      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        stack.push({ obj: value as Record<string, unknown>, indent });
-      }
-    } else if (content.endsWith(':')) {
-      const key = content.slice(0, -1).trim();
-      const child: Record<string, unknown> = {};
-      parent[key] = child;
-      stack.push({ obj: child, indent });
-    }
-  }
-
-  return JSON.stringify(result, null, 2);
-}
-
-function parseYamlValue(value: string): unknown {
-  if (value === 'null' || value === '~') return null;
-  if (value === 'true') return true;
-  if (value === 'false') return false;
-  if (value.startsWith('"') && value.endsWith('"')) return value.slice(1, -1);
-  if (value.startsWith("'") && value.endsWith("'")) return value.slice(1, -1);
-  if (value.startsWith('[') && value.endsWith(']')) {
-    try { return JSON.parse(value); } catch { return value; }
-  }
-  if (value.startsWith('{') && value.endsWith('}')) {
-    try { return JSON.parse(value); } catch { return value; }
-  }
-  const num = Number(value);
-  if (!isNaN(num) && value !== '') return num;
-  return value;
-}
+import { convertJsonYaml, type JsonYamlMode } from './conversion';
 
 export default function JsonYaml() {
   const { t } = useTranslation();
   const [input, setInput] = useState('');
-  const [mode, setMode] = useState<Mode>('json-to-yaml');
+  const [mode, setMode] = useState<JsonYamlMode>('json-to-yaml');
 
   const { output, error } = useMemo(() => {
     if (!input.trim()) return { output: '', error: null };
     try {
-      if (mode === 'json-to-yaml') {
-        const parsed = JSON.parse(input);
-        return { output: jsonToYaml(parsed, 0), error: null };
-      } else {
-        return { output: yamlToJson(input), error: null };
-      }
+      return { output: convertJsonYaml(input, mode), error: null };
     } catch (e) {
       return { output: '', error: (e as Error).message };
     }
@@ -114,18 +48,24 @@ export default function JsonYaml() {
         </div>
       }
       input={
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={mode === 'json-to-yaml' ? t('tools.jsonYaml.jsonPlaceholder') : t('tools.jsonYaml.yamlPlaceholder')}
-          className="w-full h-full min-h-[200px] resize-none bg-transparent font-mono text-sm outline-none"
-          spellCheck={false}
-        />
+        <div className="flex flex-col h-full gap-2">
+          <p className="text-xs text-text-muted">{t('tools.jsonYaml.supportedNote')}</p>
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={mode === 'json-to-yaml' ? t('tools.jsonYaml.jsonPlaceholder') : t('tools.jsonYaml.yamlPlaceholder')}
+            className="w-full flex-1 min-h-[200px] resize-none bg-transparent font-mono text-sm outline-none"
+            spellCheck={false}
+          />
+        </div>
       }
       output={
         <div className="relative h-full">
           {error ? (
-            <p className="text-error text-sm">{error}</p>
+            <div role="alert" className="text-error text-sm">
+              <p>{t('tools.jsonYaml.error')}</p>
+              <pre className="mt-1 font-mono whitespace-pre-wrap break-all text-xs">{error}</pre>
+            </div>
           ) : output ? (
             <>
               <div className="absolute right-0 top-0">

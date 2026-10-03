@@ -49,7 +49,7 @@ export default function IbanGenerator() {
               >
                 {countries.map((c) => (
                   <option key={c.code} value={c.code}>
-                    {c.code} - {c.name}
+                    {c.code} - {t(`tools.iban.countries.${c.code}`)}
                   </option>
                 ))}
               </select>
@@ -111,7 +111,7 @@ export default function IbanGenerator() {
           {validation && (
             <div className="space-y-3">
               <div className={`p-3 rounded-lg ${validation.valid ? 'bg-success/10 text-success' : 'bg-error/10 text-error'}`}>
-                {validation.message}
+                {t(`tools.iban.${validation.valid ? 'valid' : validation.message === 'Invalid IBAN format' ? 'invalidFormat' : validation.message === 'Invalid IBAN length' ? 'invalidLength' : 'invalidChecksum'}`)}
               </div>
 
               {parsed && validation.valid && (

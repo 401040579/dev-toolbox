@@ -22,9 +22,9 @@ export default function Bcrypt() {
     try {
       const hashed = await hashPassword(password, iterations);
       setHash(hashed);
-      setResult({ success: true, message: t('tools.bcrypt.hashSuccess') });
+      setResult({ success: true, message: 'tools.bcrypt.hashSuccess' });
     } catch {
-      setResult({ success: false, message: t('tools.bcrypt.hashError') });
+      setResult({ success: false, message: 'tools.bcrypt.hashError' });
     } finally {
       setLoading(false);
     }
@@ -38,10 +38,10 @@ export default function Bcrypt() {
       const isValid = await verifyPassword(password, hashToVerify);
       setResult({
         success: isValid,
-        message: isValid ? t('tools.bcrypt.verifyMatch') : t('tools.bcrypt.verifyNoMatch'),
+        message: isValid ? 'tools.bcrypt.verifyMatch' : 'tools.bcrypt.verifyNoMatch',
       });
     } catch {
-      setResult({ success: false, message: t('tools.bcrypt.verifyError') });
+      setResult({ success: false, message: 'tools.bcrypt.verifyError' });
     } finally {
       setLoading(false);
     }
@@ -105,11 +105,11 @@ export default function Bcrypt() {
                 onChange={(e) => setIterations(parseInt(e.target.value))}
                 className="w-48"
               >
-                <option value={10000}>10,000 (Fast)</option>
+                <option value={10000}>{t('tools.bcrypt.fast')}</option>
                 <option value={50000}>50,000</option>
-                <option value={100000}>100,000 (Recommended)</option>
+                <option value={100000}>{t('tools.bcrypt.recommended')}</option>
                 <option value={250000}>250,000</option>
-                <option value={500000}>500,000 (Slow)</option>
+                <option value={500000}>{t('tools.bcrypt.slow')}</option>
               </select>
             </div>
 
@@ -175,7 +175,7 @@ export default function Bcrypt() {
             }`}
           >
             <p className={`text-sm ${result.success ? 'text-success' : 'text-error'}`}>
-              {result.message}
+              {t(result.message)}
             </p>
           </div>
         )}

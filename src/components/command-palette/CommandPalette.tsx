@@ -4,6 +4,7 @@ import { useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getToolList } from '@/tools/registry';
 import type { ToolCategory } from '@/tools/types';
+import { getToolCopy } from '@/i18n/tool-copy';
 
 interface CommandPaletteProps {
   open: boolean;
@@ -29,6 +30,15 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
+
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onOpenChange(false);
+    };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [open, onOpenChange]);
 
   const selectTool = (toolId: string, category: ToolCategory) => {
     navigate(`/tools/${category}/${toolId}`);
@@ -92,11 +102,12 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                 {tools.map((tool) => (
                   <Command.Item
                     key={tool.id}
-                    value={`${tool.name} ${tool.keywords.join(' ')}`}
+                    value={tool.id}
+                    keywords={[getToolCopy(tool, t).name, getToolCopy(tool, t).description, tool.name, ...tool.keywords]}
                     onSelect={() => selectTool(tool.id, tool.category)}
                     className="flex items-center justify-between gap-2 px-2 py-2 rounded-md text-sm text-text-secondary cursor-pointer data-[selected=true]:bg-surface-hover data-[selected=true]:text-text-primary"
                   >
-                    <span>{tool.name}</span>
+                    <span>{getToolCopy(tool, t).name}</span>
                     <span className="text-xs text-text-muted">
                       {t(`categories.${tool.category}`)}
                     </span>

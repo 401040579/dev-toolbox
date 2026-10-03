@@ -2,10 +2,12 @@ import LZString from 'lz-string';
 import type { PipelineNode } from './types';
 import { getTransform } from '@/tools/registry';
 
-interface SerializedPipeline {
+export interface SerializedPipeline {
   nodes: Array<{ transformId: string; options: Record<string, unknown> }>;
   input: string;
 }
+
+export const MAX_PIPELINE_STEPS = 32;
 
 export function serializePipeline(nodes: PipelineNode[], input: string): string {
   const data: SerializedPipeline = {
@@ -20,8 +22,17 @@ export function deserializePipeline(encoded: string): SerializedPipeline | null 
     if (encoded.length > 8000) return null;
     const json = LZString.decompressFromEncodedURIComponent(encoded);
     if (!json || json.length > 250_000) return null;
-    const data = JSON.parse(json);
-    if (!data || typeof data.input !== 'string' || !Array.isArray(data.nodes) || data.nodes.length > 32) return null;
+    return validatePipeline(JSON.parse(json));
+  } catch {
+    return null;
+  }
+}
+
+export function validatePipeline(value: unknown): SerializedPipeline | null {
+  try {
+    if (!value || typeof value !== 'object' || JSON.stringify(value).length > 250_000) return null;
+    const data = value as SerializedPipeline;
+    if (typeof data.input !== 'string' || !Array.isArray(data.nodes) || data.nodes.length > MAX_PIPELINE_STEPS) return null;
     const nodes: SerializedPipeline['nodes'] = [];
     for (const node of data.nodes) {
       if (!node || typeof node.transformId !== 'string' || !node.options ||
@@ -47,6 +58,7 @@ export function deserializePipeline(encoded: string): SerializedPipeline | null 
 }
 
 export function getPipelineShareUrl(nodes: PipelineNode[], input: string): string {
+  if (input.length > 250_000 || nodes.length > MAX_PIPELINE_STEPS) return '';
   const encoded = serializePipeline(nodes, input);
   const url = `${window.location.origin}${import.meta.env.BASE_URL}pipeline#config=${encoded}`;
   return url.length > 8000 || !deserializePipeline(encoded) ? '' : url;

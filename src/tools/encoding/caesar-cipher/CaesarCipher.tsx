@@ -141,7 +141,7 @@ export default function CaesarCipher() {
             <div className="space-y-4">
               <div>
                 <div className="text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
-                  {t('tools.caesarCipher.result')} (shift={shift})
+                  {t('tools.caesarCipher.result')} ({t('tools.caesarCipher.shift')}={shift})
                 </div>
                 <div className="flex items-start gap-2">
                   <pre className="font-mono text-sm whitespace-pre-wrap break-all flex-1">

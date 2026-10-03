@@ -2,7 +2,7 @@
 
 Practical browser tools for **messaging, API payloads and POS troubleshooting**. Inspect an SMS segment jump, unwrap a Base64 order event, or turn a repeated debugging routine into a Pipeline.
 
-[Try the app](https://app.aiuos.com) · [中文](README.zh-CN.md) · [Download v1.0.0](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.0) · [Contribute](CONTRIBUTING.md)
+[Try the app](https://app.aiuos.com) · [中文](README.zh-CN.md) · [Download v1.0.1](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.1) · [Contribute](CONTRIBUTING.md)
 
 ![SMS encoding and segment inspection with synthetic order data](docs/screenshots/sms-segment.png)
 
@@ -48,7 +48,7 @@ npm run build
 npm run preview
 ```
 
-The [release](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.0) also provides a static site ZIP, SHA-256 checksum and GitHub source archives. Extract the site ZIP, run `python3 serve.py`, and open `http://localhost:4173`. Use a local HTTP server; opening `index.html` as a file is insufficient for module loading and Web Crypto. To rebuild the archive from a clean tagged checkout: `npm ci`, `npm run build`, `npm run release:package` (Python 3 required).
+The [release](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.1) also provides a static site ZIP, SHA-256 checksum and GitHub source archives. Extract the site ZIP, run `python3 serve.py`, and open `http://localhost:4173`. Use a local HTTP server; opening `index.html` as a file is insufficient for module loading and Web Crypto. To rebuild the archive from a clean tagged checkout: `npm ci`, `npm run build`, `npm run release:package` (Python 3 required).
 
 ## Privacy, offline use and boundaries
 
@@ -57,7 +57,9 @@ The [release](https://github.com/401040579/dev-toolbox/releases/tag/v1.0.0) also
 - Markdown supports common GFM structures (lists, tables, code and links). Raw HTML displays as text and images display as alt text, preventing automatic resource requests.
 - SVG cleanup supports **static artwork**. Scripts, event handlers, CSS, animation, embedded images and external references are removed from preview **and export**. Local gradients, masks, clips and fragment references are supported. It is a lightweight cleanup tool, not a full SVGO replacement.
 - The service worker precaches the production app after a successful online load. First load and updates require a connection; browser storage eviction/private browsing can affect offline availability. New versions show a reload prompt; copy unsaved input first. If an older cached build has no prompt, close all site tabs and installed app windows, then reopen online.
-- SMS results are estimates, not carrier billing guarantees. Provider encoding, concatenation headers and billing rules vary. “Password Hash” uses PBKDF2-SHA256, not bcrypt. JWT decoding does not authenticate a token. MD5 and CRC are for legacy compatibility/checksums. Lightweight formatters and converters should be checked against the relevant protocol for important work.
+- SMS results are estimates, not carrier billing guarantees. Provider encoding, concatenation headers and billing rules vary. “Password Hash” uses PBKDF2-SHA256, not bcrypt. JWT/OAuth decoding does not authenticate a token; “Not expired” describes its timestamp only. MD5 and CRC are for legacy compatibility/checksums.
+- JSON/YAML conversion uses YAML 1.2 core types. TOML requires an object root and does not represent null; unquoted date/time values are rejected, so quote them to preserve text. Both converters reject unsupported types, non-finite numbers and integers outside JavaScript's safe range rather than silently changing data. Limits: 1 MiB input, 4 MiB output, 64 levels, 50,000 values and 100 expanded YAML aliases.
+- Cron tools support five numeric fields with lists, ranges and steps, including Sunday `0`/`7`. Named fields and dialect extensions are rejected. Upcoming runs use your browser's local time zone and search at most 366 days; they do not simulate a particular server's DST handling.
 - Share configurations allow up to 32 steps, 250,000 JSON characters and 8,000 URL characters. The app reports links that exceed those limits. Chromium is the automated browser target; Firefox, Safari and mobile PWA installation are not independently certified.
 
 ## Verify and contribute
@@ -72,7 +74,7 @@ npm run test:e2e
 npm audit
 ```
 
-CI runs a clean install, lint, unit tests, dependency audit, production build and Chromium E2E before deploying `main` through GitHub Pages. The existing custom domain remains `app.aiuos.com`. Build metadata is available at [`version.json`](https://app.aiuos.com/version.json). See [contributing](CONTRIBUTING.md), [security reporting](SECURITY.md), [changelog](CHANGELOG.md) and the [release validation record](docs/releases/v1.0.0-validation.md).
+CI runs a clean install, lint, unit tests, dependency audit, production build and Chromium E2E before deploying `main` through GitHub Pages. The existing custom domain remains `app.aiuos.com`. Build metadata is available at [`version.json`](https://app.aiuos.com/version.json). See [contributing](CONTRIBUTING.md), [security reporting](SECURITY.md), [changelog](CHANGELOG.md) and the [release validation record](docs/releases/v1.0.1-validation.md).
 
 ## License and credits
 

@@ -124,8 +124,8 @@ export default function Cidr() {
               <thead className="bg-surface-alt">
                 <tr>
                   <th className="px-3 py-1.5 text-left text-text-muted">CIDR</th>
-                  <th className="px-3 py-1.5 text-left text-text-muted">Netmask</th>
-                  <th className="px-3 py-1.5 text-left text-text-muted">Hosts</th>
+                  <th className="px-3 py-1.5 text-left text-text-muted">{t('tools.cidr.netmask')}</th>
+                  <th className="px-3 py-1.5 text-left text-text-muted">{t('tools.cidr.hosts')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">

@@ -43,7 +43,7 @@ export default function MathEvaluator() {
               value={expression}
               onChange={(e) => setExpression(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="e.g. 2^10 + sqrt(144) * 3"
+              placeholder={t('tools.mathEvaluator.placeholder')}
               className="flex-1 font-mono"
             />
             <button onClick={handleEvaluate} className="btn btn-primary">
@@ -63,7 +63,7 @@ export default function MathEvaluator() {
 
         <div className="text-xs text-text-muted p-3 rounded bg-surface-alt">
           <p className="font-medium mb-1">{t('tools.mathEvaluator.supported')}:</p>
-          <p>+, -, *, /, %, ^ (power), sqrt(), abs(), pi, e, ()</p>
+          <p>{t('tools.mathEvaluator.operators')}</p>
         </div>
 
         {history.length > 0 && (

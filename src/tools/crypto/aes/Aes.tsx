@@ -18,7 +18,7 @@ export default function Aes() {
 
   const handleProcess = async () => {
     if (!input.trim() || !password) {
-      setError(t('tools.aes.errorEmpty'));
+      setError('tools.aes.errorEmpty');
       return;
     }
 
@@ -100,9 +100,9 @@ export default function Aes() {
               onChange={(e) => setKeySize(parseInt(e.target.value) as KeySize)}
               className="w-32"
             >
-              <option value={128}>128-bit</option>
-              <option value={192}>192-bit</option>
-              <option value={256}>256-bit</option>
+              <option value={128}>{t('common.bits', { count: 128 })}</option>
+              <option value={192}>{t('common.bits', { count: 192 })}</option>
+              <option value={256}>{t('common.bits', { count: 256 })}</option>
             </select>
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function Aes() {
         {/* Error */}
         {error && (
           <div className="p-3 rounded-lg border border-error/30 bg-error/10">
-            <p className="text-sm text-error">{error}</p>
+            <p className="text-sm text-error">{error.startsWith('tools.') ? t(error) : error}</p>
           </div>
         )}
 

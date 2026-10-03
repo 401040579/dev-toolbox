@@ -24,11 +24,11 @@ export default function HashFile() {
       const results = await hashFileMultiple(selectedFile, setProgress);
       setHashes(results);
     } catch {
-      setError(t('tools.hashFile.error'));
+      setError('tools.hashFile.error');
     } finally {
       setLoading(false);
     }
-  }, [t]);
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -139,7 +139,7 @@ export default function HashFile() {
         {/* Error */}
         {error && (
           <div className="p-3 rounded-lg border border-error/30 bg-error/10">
-            <p className="text-sm text-error">{error}</p>
+            <p className="text-sm text-error">{error.startsWith('tools.') ? t(error) : error}</p>
           </div>
         )}
 

@@ -56,7 +56,7 @@ export default function HttpHeaders() {
                       <td className="px-4 py-2">
                         <span className="font-mono text-accent">{header.name}</span>
                         {header.description && (
-                          <p className="text-xs text-text-muted mt-0.5">{header.description}</p>
+                          <p className="text-xs text-text-muted mt-0.5">{t(`tools.httpHeaders.descriptions.${header.name.toLowerCase()}`)}</p>
                         )}
                       </td>
                       <td className="px-4 py-2 font-mono text-xs break-all">{header.value}</td>

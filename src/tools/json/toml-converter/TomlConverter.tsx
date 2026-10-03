@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { convert, ConversionMode } from './index';
+import { convert, type ConversionMode } from './conversion';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 const SAMPLE_TOML = `# Configuration file
@@ -25,18 +25,14 @@ export default function TomlConverter() {
   const { t } = useTranslation();
   const [input, setInput] = useState(SAMPLE_TOML);
   const [mode, setMode] = useState<ConversionMode>('toml-to-json');
-  const [error, setError] = useState('');
-
-  const output = useMemo(() => {
-    if (!input.trim()) return '';
-    setError('');
+  const { output, error } = useMemo(() => {
+    if (!input.trim()) return { output: '', error: '' };
     try {
-      return convert(input, mode);
+      return { output: convert(input, mode), error: '' };
     } catch (e) {
-      setError(e instanceof Error ? e.message : t('tools.tomlConverter.error'));
-      return '';
+      return { output: '', error: e instanceof Error ? e.message : String(e) };
     }
-  }, [input, mode, t]);
+  }, [input, mode]);
 
   const getPlaceholder = () => {
     switch (mode) {
@@ -57,6 +53,7 @@ export default function TomlConverter() {
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
         <h1 className="text-lg font-semibold text-text-primary">{t('tools.tomlConverter.title')}</h1>
         <p className="text-sm text-text-secondary mt-0.5">{t('tools.tomlConverter.description')}</p>
+        <p className="text-xs text-text-muted mt-2">{t('tools.tomlConverter.supportedNote')}</p>
       </div>
 
       <div className="flex-1 overflow-auto p-4 sm:p-6 space-y-4">
@@ -119,8 +116,9 @@ export default function TomlConverter() {
 
         {/* Error */}
         {error && (
-          <div className="p-3 rounded-lg bg-error/10 text-error text-sm">
-            {error}
+          <div role="alert" className="p-3 rounded-lg bg-error/10 text-error text-sm">
+            <p>{t('tools.tomlConverter.error')}</p>
+            <pre className="mt-1 font-mono whitespace-pre-wrap break-all text-xs">{error}</pre>
           </div>
         )}
 

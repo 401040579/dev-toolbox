@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BYTE_UNITS, convertToAll, type ByteUnit } from './index';
+import { convertToAll, type ByteUnit } from './index';
 
 export default function ByteConverter() {
   const { t } = useTranslation();
@@ -41,14 +41,14 @@ export default function ByteConverter() {
               {t('tools.byteConverter.unit')}
             </label>
             <select value={fromUnit} onChange={(e) => setFromUnit(e.target.value as ByteUnit)} className="w-48">
-              <optgroup label="Decimal (SI)">
+              <optgroup label={t('tools.byteConverter.decimal') + ' (SI)'}>
                 {decimalUnits.map((u) => (
-                  <option key={u} value={u}>{BYTE_UNITS[u].label}</option>
+                  <option key={u} value={u}>{t(`tools.byteConverter.units.${u}`)}</option>
                 ))}
               </optgroup>
-              <optgroup label="Binary (IEC)">
+              <optgroup label={t('tools.byteConverter.binary') + ' (IEC)'}>
                 {binaryUnits.filter((u) => u !== 'B').map((u) => (
-                  <option key={u} value={u}>{BYTE_UNITS[u].label}</option>
+                  <option key={u} value={u}>{t(`tools.byteConverter.units.${u}`)}</option>
                 ))}
               </optgroup>
             </select>
@@ -64,7 +64,7 @@ export default function ByteConverter() {
               <div className="space-y-1">
                 {decimalUnits.map((u) => (
                   <div key={u} className="flex items-center justify-between p-2 rounded hover:bg-surface-alt">
-                    <span className="text-sm text-text-secondary">{BYTE_UNITS[u].label}</span>
+                    <span className="text-sm text-text-secondary">{t(`tools.byteConverter.units.${u}`)}</span>
                     <code className="text-sm font-mono text-text-primary">{allValues[u]}</code>
                   </div>
                 ))}
@@ -77,7 +77,7 @@ export default function ByteConverter() {
               <div className="space-y-1">
                 {binaryUnits.map((u) => (
                   <div key={u} className="flex items-center justify-between p-2 rounded hover:bg-surface-alt">
-                    <span className="text-sm text-text-secondary">{BYTE_UNITS[u].label}</span>
+                    <span className="text-sm text-text-secondary">{t(`tools.byteConverter.units.${u}`)}</span>
                     <code className="text-sm font-mono text-text-primary">{allValues[u]}</code>
                   </div>
                 ))}

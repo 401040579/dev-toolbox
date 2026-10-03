@@ -1,17 +1,22 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PRESETS, parseCrontab, buildCrontab, describeCrontab, type CrontabPart } from './index';
+import { PRESETS, parseCrontab, buildCrontab, type CrontabPart } from './index';
+import { parseCron } from '@/lib/cron';
+import { describeCronFields } from '@/i18n/cron-copy';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 const DEFAULT_PARTS: CrontabPart = { minute: '0', hour: '*', dayOfMonth: '*', month: '*', dayOfWeek: '*' };
 
 export default function CrontabGenerator() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.resolvedLanguage === 'zh' ? 'zh-CN' : 'en-US';
   const [parts, setParts] = useState<CrontabPart>({ ...DEFAULT_PARTS });
   const [expressionInput, setExpressionInput] = useState('');
 
   const expression = buildCrontab(parts);
-  const description = describeCrontab(expression);
+  let description: string;
+  try { description = describeCronFields(parseCron(expression), t, locale).join(' · '); }
+  catch { description = t('tools.cron.invalidExpression'); }
 
   const handlePartChange = (key: keyof CrontabPart, value: string) => {
     setParts((prev) => ({ ...prev, [key]: value }));
@@ -36,7 +41,7 @@ export default function CrontabGenerator() {
     { key: 'hour', label: t('tools.crontabGenerator.hour'), hint: '0-23' },
     { key: 'dayOfMonth', label: t('tools.crontabGenerator.dayOfMonth'), hint: '1-31' },
     { key: 'month', label: t('tools.crontabGenerator.month'), hint: '1-12' },
-    { key: 'dayOfWeek', label: t('tools.crontabGenerator.dayOfWeek'), hint: '0-6' },
+    { key: 'dayOfWeek', label: t('tools.crontabGenerator.dayOfWeek'), hint: '0-7' },
   ];
 
   return (
@@ -57,7 +62,7 @@ export default function CrontabGenerator() {
         </div>
 
         {/* Fields */}
-        <div className="grid grid-cols-5 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
           {fields.map((f) => (
             <div key={f.key}>
               <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-1">
@@ -93,16 +98,16 @@ export default function CrontabGenerator() {
           <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
             {t('tools.crontabGenerator.presets')}
           </label>
-          <div className="grid grid-cols-2 gap-1">
-            {PRESETS.map((p) => (
-              <div
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+            {PRESETS.map((p, i) => (
+              <button
                 key={p.expression}
                 className="flex items-center gap-2 p-2 rounded hover:bg-surface-alt cursor-pointer transition-colors"
                 onClick={() => applyPreset(p.expression)}
               >
                 <code className="text-xs font-mono text-accent min-w-24">{p.expression}</code>
-                <span className="text-xs text-text-secondary">{p.label}</span>
-              </div>
+                <span className="text-xs text-text-secondary">{t(`tools.crontabGenerator.presetLabels.${i}`)}</span>
+              </button>
             ))}
           </div>
         </div>
