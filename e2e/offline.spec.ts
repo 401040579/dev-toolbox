@@ -16,6 +16,12 @@ test('production cache serves tools after a successful visit without a connectio
     await page.getByRole('button', { name: /templates/i }).click();
     await page.getByText('Base64 → JSON Pretty', { exact: true }).click();
     await expect(page.locator('main pre').last()).toContainText('DEMO-1042');
+    await context.setOffline(false);
+    for (const [file, type] of [['version.json', 'application/json'], ['THIRD_PARTY_NOTICES.txt', 'text/plain'], ['LICENSE.txt', 'text/plain']]) {
+      const response = await page.goto(`${baseURL}/${file}`);
+      expect(response!.headers()['content-type']).toContain(type);
+      await expect(page.locator('body')).not.toContainText('Unexpected Application Error');
+    }
   } finally {
     await context.close();
   }

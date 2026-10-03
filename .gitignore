@@ -7,3 +7,6 @@ dist
 .playwright-results/
 playwright-report/
 release-assets/
+
+.claude/
+test-results/
