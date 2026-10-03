@@ -2,6 +2,15 @@
 
 > 参考: [IT-Tools](https://it-tools.tech), [CyberChef](https://gchq.github.io/CyberChef/), [SmallDev.tools](https://smalldev.tools/), [regex101](https://regex101.com/), [crontab.guru](https://crontab.guru/)
 
+## v1.2 二维码传文件 ✅
+
+- [x] 多文件动态二维码、暂停/调速/全屏
+- [x] 摄像头连续接收、RaptorQ 漏帧恢复、长度及 SHA-256 校验
+- [x] 已完成文件去重、图片预览及任意文件保存
+- [x] 图片压缩结果直接发送、仅内存的一次性文件带入
+- [x] 本地 WASM/Worker 缓存和断网首次进入工具的自动验收
+- [ ] PC/iPhone/Android 真机兼容性及速度测量（自动测试不替代硬件验收）
+
 ## v1.1 新增工作流程 ✅
 
 - [x] 全部工具的文本/选项草稿恢复与清空、关闭控制
@@ -9,7 +18,7 @@
 - [x] 本地日志分析、请求过程筛选、Worker 与分页
 - [x] 智能粘贴推荐与明确选择后带入工具
 
-当前注册表包含 **88 个工具、58 个 Pipeline transforms**；本文早期阶段表保留规划背景，实际可用工具以注册表和在线应用为准。
+当前注册表包含 **89 个工具、58 个 Pipeline transforms**；本文早期阶段表保留规划背景，实际可用工具以注册表和在线应用为准。
 
 ## 当前已实现 ✅
 
@@ -210,7 +219,7 @@
 
 ## 统计
 
-- 已实现: **88** 个工具，另有草稿恢复、智能粘贴与 Pipeline 工作流程
+- 已实现: **89** 个工具，另有草稿恢复、智能粘贴与 Pipeline 工作流程
 - 其余候选: Phase 11–12，开发前需核对注册表，避免重复
 
 ---
