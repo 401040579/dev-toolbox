@@ -1530,6 +1530,55 @@
         "9-16": "9:16（手机）",
         "2-3": "2:3（竖向）"
       }
+    },
+    "jsonDiff": {
+      "title": "JSON 结构对比",
+      "description": "按结构对比 API 数据，定位新增、删除和修改的值。",
+      "left": "原始 JSON",
+      "right": "修改后 JSON",
+      "leftPlaceholder": "粘贴原始 JSON 值…",
+      "rightPlaceholder": "粘贴修改后的 JSON 值…",
+      "loadExample": "加载示例",
+      "clear": "清空",
+      "supportedNote": "忽略对象键顺序，保留类型和数组顺序。新增或删除的整个子树计为一项差异。每侧最多 1 MiB、20,000 个节点、64 层嵌套；最多 500 项差异，每个路径最多 4,096 字符，报告最多 4 MiB。数值使用 JavaScript 精度，整数须在安全整数范围内。遵循 JSON.parse 规则，重复键取最后一个值。会发生舍入或下溢的数值被拒绝；精确大数和高精度小数请使用字符串。",
+      "emptyState": "在两侧粘贴 JSON 即可对比，支持对象、数组和标量值。",
+      "comparing": "正在对比…",
+      "equal": "两个 JSON 值在结构上相同。",
+      "summary": "差异统计",
+      "totalCount": "全部：{{count}}",
+      "addedCount": "新增：{{count}}",
+      "removedCount": "删除：{{count}}",
+      "modifiedCount": "修改：{{count}}",
+      "copyReport": "复制 JSON 报告",
+      "downloadReport": "下载 JSON 报告",
+      "reportNote": "复制和下载包含完整报告；筛选仅改变当前显示的结果。",
+      "filter": "显示",
+      "shownCount": "已显示：{{count}}",
+      "noMatches": "没有符合此筛选的差异。",
+      "before": "原值",
+      "after": "新值",
+      "absent": "字段不存在",
+      "filters": {
+        "all": "全部差异",
+        "added": "仅新增",
+        "removed": "仅删除",
+        "modified": "仅修改"
+      },
+      "kinds": {
+        "added": "新增",
+        "removed": "删除",
+        "modified": "修改"
+      },
+      "errors": {
+        "invalidJson": "{{side}} 不是有效的 JSON。",
+        "inputTooLarge": "{{side}} 超过 1 MiB 输入限制。",
+        "tooDeep": "{{side}} 超过 {{depth}} 层嵌套限制。",
+        "tooManyNodes": "{{side}} 超过 {{nodes}} 个 JSON 节点限制。",
+        "unsupportedNumber": "{{side}}包含无法以 JavaScript 精度完整保留的数值（非有限数、安全范围外整数、舍入或下溢）。请用字符串保留精确值。",
+        "tooManyChanges": "差异超过 {{changes}} 项。请缩小对比范围；不会显示不完整报告。",
+        "pathTooLong": "某个差异路径超过 {{path}} 个字符。请缩短属性名或单独对比相关子树。",
+        "reportTooLarge": "JSON 报告超过 4 MiB。请缩小对比范围；不会显示不完整报告。"
+      }
     }
   },
   "pipeline": {

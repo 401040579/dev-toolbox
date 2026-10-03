@@ -15,6 +15,7 @@ import caesarCipherTool from './encoding/caesar-cipher';
 import epochTool from './time/epoch-converter';
 import cronParserTool from './time/cron-parser';
 import jsonFormatterTool from './json/json-formatter';
+import jsonDiffTool from './json/json-diff';
 import jsonYamlTool from './json/json-yaml';
 import sqlFormatterTool from './json/sql-formatter';
 import htmlFormatterTool from './json/html-formatter';
@@ -103,6 +104,7 @@ const ALL_TOOLS: ToolDefinition[] = [
   epochTool,
   cronParserTool,
   jsonFormatterTool,
+  jsonDiffTool,
   jsonYamlTool,
   sqlFormatterTool,
   htmlFormatterTool,

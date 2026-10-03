@@ -1530,6 +1530,55 @@
         "9-16": "9:16 (Mobile)",
         "2-3": "2:3 (Portrait)"
       }
+    },
+    "jsonDiff": {
+      "title": "JSON Structural Diff",
+      "description": "Compare API payloads by structure and locate added, removed, or changed values.",
+      "left": "Original JSON",
+      "right": "Updated JSON",
+      "leftPlaceholder": "Paste the original JSON value…",
+      "rightPlaceholder": "Paste the updated JSON value…",
+      "loadExample": "Load example",
+      "clear": "Clear",
+      "supportedNote": "Object key order is ignored; types and array order are preserved. Added or removed subtrees count as one change. Each input: 1 MiB, 20,000 nodes, 64 nesting levels. Maximum: 500 changes, 4,096 characters per path, 4 MiB per report. Numbers use JavaScript precision; integers must be safe integers. JSON.parse rules apply, including the last value winning for duplicate keys. Numbers that round or underflow are rejected; use strings for exact large numbers or high-precision decimals.",
+      "emptyState": "Paste JSON on both sides to compare. Objects, arrays, and scalar values are supported.",
+      "comparing": "Comparing…",
+      "equal": "The JSON values are structurally equal.",
+      "summary": "Difference summary",
+      "totalCount": "Total: {{count}}",
+      "addedCount": "Added: {{count}}",
+      "removedCount": "Removed: {{count}}",
+      "modifiedCount": "Modified: {{count}}",
+      "copyReport": "Copy JSON report",
+      "downloadReport": "Download JSON report",
+      "reportNote": "Copy and download include the complete report. Filtering only changes the visible results.",
+      "filter": "Show",
+      "shownCount": "Shown: {{count}}",
+      "noMatches": "No changes match this filter.",
+      "before": "Before",
+      "after": "After",
+      "absent": "Field does not exist",
+      "filters": {
+        "all": "All changes",
+        "added": "Added only",
+        "removed": "Removed only",
+        "modified": "Modified only"
+      },
+      "kinds": {
+        "added": "Added",
+        "removed": "Removed",
+        "modified": "Modified"
+      },
+      "errors": {
+        "invalidJson": "{{side}} is not valid JSON.",
+        "inputTooLarge": "{{side}} exceeds the 1 MiB input limit.",
+        "tooDeep": "{{side}} exceeds {{depth}} nesting levels.",
+        "tooManyNodes": "{{side}} exceeds {{nodes}} JSON nodes.",
+        "unsupportedNumber": "{{side}} contains a number that cannot be preserved with JavaScript precision (non-finite, an unsafe integer, rounding or underflow). Use a string to preserve the exact value.",
+        "tooManyChanges": "The comparison exceeds {{changes}} changes. Compare a smaller part of the payload; no partial report is shown.",
+        "pathTooLong": "A changed JSON path exceeds {{path}} characters. Shorten the property names or compare a smaller subtree.",
+        "reportTooLarge": "The JSON report exceeds 4 MiB. Compare a smaller part of the payload; no partial report is shown."
+      }
     }
   },
   "pipeline": {

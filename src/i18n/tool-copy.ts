@@ -3,6 +3,7 @@ import type { ToolDefinition, TransformDefinition } from '@/tools/types';
 
 // The registry keeps stable IDs and protocol metadata; UI copy comes from locale resources.
 export const TOOL_I18N_KEYS: Record<string, string> = {
+  "json-diff": "jsonDiff",
   "color-blindness": "colorBlindness",
   "color-converter": "colorConverter",
   "color-palette": "colorPalette",
