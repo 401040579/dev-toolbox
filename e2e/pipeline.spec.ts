@@ -16,7 +16,7 @@ test.describe('Pipeline', () => {
     await page.getByText('Base64 Encode').click();
 
     // Should show 1 node
-    await expect(page.getByText('Pipeline (1 nodes)')).toBeVisible();
+    await expect(page.getByText('Pipeline (1 step)')).toBeVisible();
   });
 
   test('loads a template', async ({ page }) => {
@@ -29,7 +29,7 @@ test.describe('Pipeline', () => {
     await page.getByText('Base64 → JSON Pretty').click();
 
     // Should have nodes loaded
-    await expect(page.locator('text=/Pipeline \\(\\d+ nodes\\)/')).toBeVisible();
+    await expect(page.locator('text=/Pipeline \\(\\d+ steps?\\)/')).toBeVisible();
   });
 
   test('executes pipeline with input', async ({ page }) => {

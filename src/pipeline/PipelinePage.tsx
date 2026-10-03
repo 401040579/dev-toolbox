@@ -3,19 +3,23 @@ import { useTranslation } from 'react-i18next';
 import { Plus, Play, Share2, Trash2, BookTemplate, Save, FolderOpen, X } from 'lucide-react';
 import { usePipelineStore, useSavedPipelinesStore } from './store';
 import { executePipeline } from './engine';
-import { getPipelineShareUrl, deserializePipeline } from './serializer';
+import { getPipelineShareUrl, deserializePipeline, validatePipeline, MAX_PIPELINE_STEPS } from './serializer';
 import { PipelineNodeCard } from './PipelineNode';
 import { getAllTransforms } from '@/tools/registry';
 import { PIPELINE_TEMPLATES } from './templates';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
+import { getTransformCopy } from '@/i18n/tool-copy';
 
 export default function PipelinePage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.resolvedLanguage === 'zh' ? 'zh-CN' : 'en-US';
   const { nodes, input, setInput, addNode, clearPipeline, loadPipeline } = usePipelineStore();
   const allTransforms = getAllTransforms();
   const { saved, savePipeline, deleteSavedPipeline } = useSavedPipelinesStore();
-  const [shareError, setShareError] = useState(false);
+  const [shareError, setShareError] = useState('');
+  const [invalidShare, setInvalidShare] = useState(false);
+  const [saveError, setSaveError] = useState('');
   const [showTemplates, setShowTemplates] = useState(false);
   const [showAddMenu, setShowAddMenu] = useState(false);
   const [showSaved, setShowSaved] = useState(false);
@@ -28,9 +32,11 @@ export default function PipelinePage() {
   // Load pipeline from URL hash on mount
   useEffect(() => {
     const loadFromHash = () => {
+      setInvalidShare(false);
       const hash = window.location.hash;
       if (hash.startsWith('#config=')) {
         const data = deserializePipeline(hash.slice('#config='.length));
+        setInvalidShare(!data);
         if (data) loadPipeline(data.nodes, data.input);
         else clearPipeline();
       }
@@ -52,13 +58,21 @@ export default function PipelinePage() {
     };
   }, [configKey, input]);
 
-  const handleShare = useCallback(() => {
+  const handleShare = useCallback(async () => {
     const url = getPipelineShareUrl(nodes, input);
-    setShareError(!url);
-    if (url) {
-      copyUrl(url);
-    }
+    setShareError(!url ? 'pipeline.shareTooLarge' : '');
+    if (url && !await copyUrl(url)) setShareError('pipeline.shareFailed');
   }, [nodes, input, copyUrl]);
+
+  const handleSave = () => {
+    if (!saveName.trim()) return;
+    if (!validatePipeline({ nodes: nodes.map(({ transformId, options }) => ({ transformId, options })), input })) { setSaveError('pipeline.saveLimit'); return; }
+    try {
+      savePipeline(saveName.trim(), nodes, input);
+      setSaveError('');
+      setShowSaveDialog(false);
+    } catch { setSaveError('pipeline.saveFailed'); }
+  };
 
   const lastNode = nodes[nodes.length - 1];
   const finalOutput = lastNode?.output ?? '';
@@ -91,7 +105,7 @@ export default function PipelinePage() {
             <span className="hidden sm:inline">{t('pipeline.saved')}{saved.length > 0 ? ` (${saved.length})` : ''}</span>
           </button>
           <button
-            onClick={() => { setSaveName(''); setShowSaveDialog(true); }}
+            onClick={() => { setSaveName(''); setSaveError(''); setShowSaveDialog(true); }}
             className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 text-xs font-medium rounded-md border border-border text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors shrink-0"
             disabled={nodes.length === 0}
             title={t('pipeline.save')}
@@ -120,7 +134,9 @@ export default function PipelinePage() {
         </div>
       </div>
 
-      {shareError && <p role="alert" className="px-4 py-2 text-xs text-error">{t('pipeline.shareTooLarge')}</p>}
+      {saveError && !showSaveDialog && <p role="alert" className="px-4 py-2 text-xs text-error">{t(saveError)}</p>}
+      {shareError && <p role="alert" className="px-4 py-2 text-xs text-error">{t(shareError)}</p>}
+      {invalidShare && <p role="alert" className="px-4 py-2 text-xs text-error">{t('pipeline.invalidShare')}</p>}
       <p className="px-4 sm:px-6 py-2 text-xs text-text-muted border-b border-border">{t('pipeline.shareNotice')}</p>
       <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden">
         {/* Input panel */}
@@ -129,6 +145,7 @@ export default function PipelinePage() {
             {t('pipeline.input')}
           </div>
           <textarea
+            aria-label={t('pipeline.input')}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={t('pipeline.inputPlaceholder')}
@@ -165,20 +182,12 @@ export default function PipelinePage() {
                   className="flex-1 px-2 py-1.5 text-sm rounded-md border border-border bg-background"
                   autoFocus
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter' && saveName.trim()) {
-                      savePipeline(saveName.trim(), nodes, input);
-                      setShowSaveDialog(false);
-                    }
+                    if (e.key === 'Enter') handleSave();
                     if (e.key === 'Escape') setShowSaveDialog(false);
                   }}
                 />
                 <button
-                  onClick={() => {
-                    if (saveName.trim()) {
-                      savePipeline(saveName.trim(), nodes, input);
-                      setShowSaveDialog(false);
-                    }
-                  }}
+                  onClick={handleSave}
                   disabled={!saveName.trim()}
                   className="px-3 py-1.5 text-xs font-medium rounded-md bg-accent text-background hover:bg-accent-hover transition-colors disabled:opacity-50"
                 >
@@ -186,11 +195,13 @@ export default function PipelinePage() {
                 </button>
                 <button
                   onClick={() => setShowSaveDialog(false)}
+                  aria-label={t('common.close')}
                   className="p-1.5 rounded-md text-text-muted hover:text-text-primary transition-colors"
                 >
                   <X size={14} />
                 </button>
               </div>
+              {saveError && <p role="alert" className="text-xs text-error mt-2">{t(saveError)}</p>}
             </div>
           )}
 
@@ -215,11 +226,12 @@ export default function PipelinePage() {
                     >
                       <div className="text-sm font-medium text-text-primary">{p.name}</div>
                       <div className="text-xs text-text-muted">
-                        {t('pipeline.nodesInfo', { count: p.nodes.length })} · {new Date(p.savedAt).toLocaleDateString()}
+                        {t('pipeline.nodesInfo', { count: p.nodes.length })} · {new Date(p.savedAt).toLocaleDateString(locale)}
                       </div>
                     </button>
                     <button
-                      onClick={() => deleteSavedPipeline(p.id)}
+                      onClick={() => { try { deleteSavedPipeline(p.id); setSaveError(''); } catch { setSaveError('pipeline.saveFailed'); } }}
+                      aria-label={t('pipeline.deleteSaved', { name: p.name })}
                       className="p-1 rounded text-text-muted hover:text-error transition-colors"
                     >
                       <Trash2 size={12} />
@@ -257,8 +269,10 @@ export default function PipelinePage() {
 
             {/* Add node */}
             <div className="relative">
+              {nodes.length >= MAX_PIPELINE_STEPS && <p className="text-xs text-text-muted mb-2">{t('pipeline.stepLimit')}</p>}
               <button
                 onClick={() => setShowAddMenu((v) => !v)}
+                disabled={nodes.length >= MAX_PIPELINE_STEPS}
                 className="flex items-center gap-2 w-full px-3 py-2.5 rounded-lg border border-dashed border-border text-text-muted hover:text-text-primary hover:border-border-strong transition-colors text-sm"
               >
                 <Plus size={14} />
@@ -276,8 +290,8 @@ export default function PipelinePage() {
                       }}
                       className="block w-full text-left px-3 py-2 hover:bg-surface-hover transition-colors border-b border-border last:border-0"
                     >
-                      <div className="text-sm text-text-primary">{tr.name}</div>
-                      <div className="text-xs text-text-muted">{tr.description}</div>
+                      <div className="text-sm text-text-primary">{getTransformCopy(tr, t).name}</div>
+                      <div className="text-xs text-text-muted">{getTransformCopy(tr, t).description}</div>
                     </button>
                   ))}
                   {allTransforms.length === 0 && (
