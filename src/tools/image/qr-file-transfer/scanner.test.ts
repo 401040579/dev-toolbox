@@ -34,3 +34,34 @@ describe('real QR rendering and ZXing raw-byte scanning', () => {
     expect(free).toHaveBeenCalledOnce(); read.mockRestore(); free.mockRestore();
   });
 });
+
+it.each([30, 40])('decodes four dense V%i-L symbols in one camera frame', (version) => {
+  const payloads = Array.from({ length: 4 }, (_, tile) => Uint8Array.from({ length: version === 30 ? 1696 : 2896 }, (_, i) => (i * 137 + tile * 19) % 256));
+  const matrices = payloads.map((data) => QRCode.create([{ data, mode: 'byte' }], { version, errorCorrectionLevel: 'L' }).modules);
+  const tileWidth = (matrices[0]!.size + 8) * 3, width = tileWidth * 2;
+  const data = new Uint8ClampedArray(width * width * 4).fill(255);
+  matrices.forEach((qr, tile) => {
+    const ox = tile % 2 * tileWidth, oy = Math.floor(tile / 2) * tileWidth;
+    for (let y = 0; y < qr.size; y++) for (let x = 0; x < qr.size; x++) if (qr.data[y * qr.size + x]) {
+      for (let dy = 0; dy < 3; dy++) for (let dx = 0; dx < 3; dx++) {
+        const offset = ((oy + (y + 4) * 3 + dy) * width + ox + (x + 4) * 3 + dx) * 4; data.fill(0, offset, offset + 3);
+      }
+    }
+  });
+  const decoded = scanPixels(reader, { data, width, height: width }, false);
+  expect(decoded).toHaveLength(4);
+  expect(decoded.map((bytes) => Buffer.from(bytes).toString('hex')).sort()).toEqual(payloads.map((bytes) => Buffer.from(bytes).toString('hex')).sort());
+});
+
+it('enhanced scanning recovers an inverted QR with raw binary content', () => {
+  const bytes = Uint8Array.from({ length: 512 }, (_, i) => i % 256);
+  const qr = QRCode.create([{ data: bytes, mode: 'byte' }], { errorCorrectionLevel: 'M' }).modules;
+  const width = (qr.size + 8) * 4, data = new Uint8ClampedArray(width * width * 4);
+  for (let i = 3; i < data.length; i += 4) data[i] = 255;
+  for (let y = 0; y < qr.size; y++) for (let x = 0; x < qr.size; x++) if (qr.data[y * qr.size + x]) {
+    for (let dy = 0; dy < 4; dy++) for (let dx = 0; dx < 4; dx++) {
+      const offset = (((y + 4) * 4 + dy) * width + (x + 4) * 4 + dx) * 4; data.fill(255, offset, offset + 3);
+    }
+  }
+  expect(scanPixels(reader, { data, width, height: width }, true)).toEqual([bytes]);
+});

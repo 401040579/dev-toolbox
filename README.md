@@ -2,7 +2,7 @@
 
 Practical browser tools for **messaging, API payloads and POS troubleshooting**. Inspect an SMS segment jump, unwrap a Base64 order event, or turn a repeated debugging routine into a Pipeline.
 
-[Try the app](https://app.aiuos.com) · [中文](README.zh-CN.md) · [Download v1.2.0](https://github.com/401040579/dev-toolbox/releases/tag/v1.2.0) · [Contribute](CONTRIBUTING.md)
+[Try the app](https://app.aiuos.com) · [中文](README.zh-CN.md) · [Download v1.3.0](https://github.com/401040579/dev-toolbox/releases/tag/v1.3.0) · [Contribute](CONTRIBUTING.md)
 
 ![SMS encoding and segment inspection with synthetic order data](docs/screenshots/sms-segment.png)
 
@@ -31,13 +31,13 @@ The catalog also includes local QR generation, Markdown preview, static SVG clea
 
 ## QR file transfer
 
-Open [QR File Transfer](https://app.aiuos.com/tools/image/qr-file-transfer): choose files on A and start sending; on B, choose Receive and point the camera at A. After length and SHA-256 verification, preview images, save the complete file and continue receiving. Image Compressor also offers **Send via QR** after compression. Playback supports pause, 3/6/10 FPS, larger display sizes and full screen.
+Open [QR File Transfer](https://app.aiuos.com/tools/image/qr-file-transfer): choose files on A and start sending; on B, choose Receive and point the camera at A. After length and SHA-256 verification, preview images, save the complete file and continue receiving. Image Compressor also offers **Send via QR** after compression. Playback supports pause, 1/2/4 parallel codes, 3–30 FPS, bounded pre-rendering and full screen. Choose High speed (V30-L, recommended), Extreme (V40-L, large screen) or Compatibility (384-byte/M, old receivers). High-density profiles require both devices to update; the new receiver also accepts legacy DTF1 frames.
 
-Limits: 5 MiB per file, 8 files / 10 MiB per batch, and 3 incomplete receive sessions. RaptorQ recovery frames tolerate missed/out-of-order scans; stopping and restarting the camera resumes pending files. Sender status shows playback frames/passes; receiver status shows actual unique frames and new payload rate. Devices do not need a network connection to one another, but both must use this app's protocol; system cameras and the RaptorQR demo are not compatible receivers.
+Limits: 5 MiB per file, 8 files / 10 MiB per batch, and 3 incomplete receive sessions. RaptorQ recovery frames tolerate missed/out-of-order scans; stopping and restarting the camera resumes pending files. Sender status shows playback frames/passes; receiver status distinguishes unique payload (including recovery) from actual file speed measured through SHA-256 completion; it also shows processed camera FPS and decode time. Devices do not need a network connection to one another, but both must use this app's protocol; system cameras and the RaptorQR demo are not compatible receivers.
 
 File bytes are never uploaded or written to drafts. They stay in tab memory and are cleared on mode changes, navigation, reload or explicit clearing; save received files first. Unknown formats, HTML, SVG and videos are download-only. Image previews allow PNG/JPEG/WebP/GIF/AVIF/BMP. Filenames lose path/control characters and are limited to 255 UTF-8 bytes. After a successful online PWA cache installation, reopen offline; the tool reports ready only when its scanning WASM assets are cached. Camera access requires HTTPS or localhost and an explicit start click.
 
-Chromium automation covers actual displayed QR pixels → simulated camera video → scanning Worker → byte-identical downloaded files, including offline cold visits, losses and resume. Physical PC/iPhone/Android transfers and hardware throughput remain unverified; no device speed is promised. See [v1.2 validation](docs/releases/v1.2.0-validation.md).
+Chromium automation covers actual displayed QR pixels → simulated camera video → scanning Worker → byte-identical downloaded files, including offline cold visits, losses and resume. Physical PC/iPhone/Android transfers and hardware throughput remain unverified; no device speed is promised. A 1 MiB incompressible random file completed in about 3.9 seconds (~263 KiB/s) in the synthetic Extreme stream, over 100× the former 2.25 KiB/s payload setting; this is not a physical-camera guarantee. See [v1.3 validation](docs/releases/v1.3.0-validation.md).
 
 ## v1.1 workflows
 
@@ -65,7 +65,7 @@ npm run build
 npm run preview
 ```
 
-The [release](https://github.com/401040579/dev-toolbox/releases/tag/v1.2.0) also provides a static site ZIP, SHA-256 checksum and GitHub source archives. Extract the site ZIP, run `python3 serve.py`, and open `http://localhost:4173`. Use a local HTTP server; opening `index.html` as a file is insufficient for module loading and Web Crypto. To rebuild the archive from a clean tagged checkout: `npm ci`, `npm run build`, `npm run release:package` (Python 3 required).
+The [release](https://github.com/401040579/dev-toolbox/releases/tag/v1.3.0) also provides a static site ZIP, SHA-256 checksum and GitHub source archives. Extract the site ZIP, run `python3 serve.py`, and open `http://localhost:4173`. Use a local HTTP server; opening `index.html` as a file is insufficient for module loading and Web Crypto. To rebuild the archive from a clean tagged checkout: `npm ci`, `npm run build`, `npm run release:package` (Python 3 required).
 
 ## Privacy, offline use and boundaries
 

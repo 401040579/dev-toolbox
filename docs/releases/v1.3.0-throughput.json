@@ -1,0 +1,34 @@
+{
+  "productionChanges": "ddad32e + 6906129 + H-06 rotation (working tree at measurement)",
+  "method": "Click Start receiving through SHA-verified UI completion; independent byte-identical saved-file assertion; no compression or packet injection",
+  "reports": [
+    {
+      "profile": "high",
+      "fileBytes": 1048576,
+      "wallMs": 5900.334042000002,
+      "wallKiBps": 173.54949613206995,
+      "runtime": {
+        "browser": "145.0.7632.6",
+        "node": "v22.23.3",
+        "platform": "darwin",
+        "arch": "arm64"
+      },
+      "hardware": "Synthetic canvas.captureStream; no physical display/camera",
+      "verifiedUiMetric": "Verified in 5.65 s \u00b7 actual file speed 181.2 KiB/s (first valid packet to SHA-256 completion)"
+    },
+    {
+      "profile": "extreme",
+      "fileBytes": 1048576,
+      "wallMs": 3893.699916000005,
+      "wallKiBps": 262.9889365105348,
+      "runtime": {
+        "browser": "145.0.7632.6",
+        "node": "v22.23.3",
+        "platform": "darwin",
+        "arch": "arm64"
+      },
+      "hardware": "Synthetic canvas.captureStream; no physical display/camera",
+      "verifiedUiMetric": "Verified in 3.34 s \u00b7 actual file speed 306.8 KiB/s (first valid packet to SHA-256 completion)"
+    }
+  ]
+}

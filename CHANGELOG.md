@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.3.0 — 2026-10-03
+
+- Add V30-L High speed and V40-L Extreme profiles, 1/2/4 parallel codes and playback up to 30 FPS. Preserve the old DTF1/M compatibility profile.
+- Reserve UTF-8 filename/MIME overhead before selecting bounded DTF2 RaptorQ geometry; retain CRC, length/SHA-256 verification and file/session limits.
+- Pre-render a bounded board window in the Worker, scale one bitmap per display frame and play on RAF without adding codec time to dwell.
+- Scan up to four codes with one camera job in flight; observe new video frames during decoding, process the latest one immediately and offer enhanced rotation/inversion scanning.
+- Show actual display/scan rates, labeled payload throughput and verified whole-file duration/speed; fit boards within the viewport and warn when modules are too small.
+- Preserve bilingual controls, old-frame reception, offline cold startup, camera lifecycle cleanup and byte-identical downloads; retain successful synthetic throughput reports in CI.
+
+极限档模拟视频流测试约 3.9 秒传完 1 MiB 随机文件，约 263 KiB/s；超过旧配置的百倍，但真机速率仍受摄像头、屏幕、光照及对焦影响。见 [v1.3 验证记录](docs/releases/v1.3.0-validation.md)。
+
 ## 1.2.0 — 2026-10-02
 
 - Add local animated QR file transfer: bounded multi-file queues, RaptorQ recovery frames, pause/resume, 3/6/10 FPS, sizing and full screen.

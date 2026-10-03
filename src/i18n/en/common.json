@@ -1645,7 +1645,7 @@
       "queue": "File queue",
       "remove": "Remove {{name}}",
       "speed": "Playback speed",
-      "size": "QR display size",
+      "size": "Board size",
       "compatible": "Compatible",
       "standard": "Standard",
       "fast": "Fast",
@@ -1670,7 +1670,7 @@
       "cameraPreview": "Camera preview",
       "scanning": "Scanning · keep the entire QR code in view",
       "receiving": "Receiving files",
-      "progress": "{{received}} unique frames / at least {{expected}} · new payload {{speed}}/s. Recovery may need extra frames.",
+      "progress": "{{received}} unique packets / about {{expected}} needed · unique payload {{speed}}/s (includes recovery)",
       "completed": "Verified files ({{count}})",
       "verified": "Length and SHA-256 verified",
       "save": "Save file",
@@ -1690,7 +1690,21 @@
         "cameraMissing": "No matching camera is available. Choose another camera or connect one.",
         "cameraBusy": "The camera could not start. Close other apps using it and try again.",
         "cameraEnded": "Camera access ended. Start receiving again to continue."
-      }
+      },
+      "profile": "Transfer profile",
+      "parallel": "Parallel QR codes",
+      "profiles": {
+        "compatible": "Compatibility · M · old receivers",
+        "high": "High speed · V30-L · recommended",
+        "extreme": "Extreme · V40-L · large screen"
+      },
+      "capacity": "Up to {{bytes}} bytes/code · theoretical payload ceiling {{rate}}/s for the first file. Includes recovery/repeated symbols; actual file speed is measured by the receiver.",
+      "denseHelp": "Use a large screen, full screen and a steady, focused camera. If reception stalls, reduce FPS or parallel codes, or select Compatibility. High speed and Extreme require both devices to run this version.",
+      "sendMetrics": "Displayed {{fps}} FPS · payload {{rate}}/s (includes recovery/repeats)",
+      "smallDisplay": "The displayed modules are smaller than 3 pixels. Enlarge the screen, use fewer codes or select Compatibility for easier scanning.",
+      "robustScan": "Enhanced scanning (rotation / inverted colors; slower)",
+      "scanMetrics": "Camera processing {{fps}} FPS · {{symbols}} codes/s (includes repeats) · decode {{ms}} ms/frame",
+      "fileMetrics": "Verified in {{seconds}} s · actual file speed {{rate}}/s (first valid packet to SHA-256 completion)"
     }
   },
   "pipeline": {
