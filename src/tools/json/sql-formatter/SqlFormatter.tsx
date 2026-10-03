@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatSQL, minifySQL } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -9,11 +10,11 @@ const SAMPLE_SQL = `select id, name, email from users where status = 'active' an
 
 export default function SqlFormatter() {
   const { t } = useTranslation();
-  const [input, setInput] = useState(SAMPLE_SQL);
-  const [dialect, setDialect] = useState<SqlDialect>('standard');
-  const [indent, setIndent] = useState('  ');
-  const [uppercase, setUppercase] = useState(true);
-  const [mode, setMode] = useState<'format' | 'minify'>('format');
+  const [input, setInput] = useDraftState('input', SAMPLE_SQL, { clearValue: '' });
+  const [dialect, setDialect] = useDraftState<SqlDialect>('dialect', 'standard', { allowed: ["standard","mysql","postgresql","sqlite"] });
+  const [indent, setIndent] = useDraftState('indent', '  ');
+  const [uppercase, setUppercase] = useDraftState('uppercase', true);
+  const [mode, setMode] = useDraftState<'format' | 'minify'>('mode', 'format', { allowed: ["format","minify"] });
 
   const output = useMemo(() => {
     if (!input.trim()) return '';

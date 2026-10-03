@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
 import { useTranslation } from 'react-i18next';
 import { calculateContrast } from './index';
 
 export default function ContrastChecker() {
   const { t } = useTranslation();
-  const [fg, setFg] = useState('#000000');
-  const [bg, setBg] = useState('#FFFFFF');
+  const [fg, setFg] = useDraftState('fg', '#000000');
+  const [bg, setBg] = useDraftState('bg', '#FFFFFF');
 
   const result = calculateContrast(fg, bg);
 

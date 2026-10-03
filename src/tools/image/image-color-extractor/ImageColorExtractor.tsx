@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { extractColors, type ExtractedColor } from './index';
@@ -8,7 +9,7 @@ export default function ImageColorExtractor() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState('');
   const [colors, setColors] = useState<ExtractedColor[]>([]);
-  const [maxColors, setMaxColors] = useState(8);
+  const [maxColors, setMaxColors] = useDraftState('maxColors', 8, { min: 1, max: 20 });
   const [processing, setProcessing] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 

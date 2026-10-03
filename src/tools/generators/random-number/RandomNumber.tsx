@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateRandomNumbers, calculateStats, NumberType } from './index';
@@ -5,12 +6,12 @@ import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function RandomNumber() {
   const { t } = useTranslation();
-  const [type, setType] = useState<NumberType>('integer');
-  const [min, setMin] = useState(1);
-  const [max, setMax] = useState(100);
-  const [count, setCount] = useState(10);
-  const [decimalPlaces, setDecimalPlaces] = useState(2);
-  const [unique, setUnique] = useState(false);
+  const [type, setType] = useDraftState<NumberType>('type', 'integer', { allowed: ["integer","decimal","gaussian"] });
+  const [min, setMin] = useDraftState('min', 1);
+  const [max, setMax] = useDraftState('max', 100);
+  const [count, setCount] = useDraftState('count', 10, { min: 1, max: 1000 });
+  const [decimalPlaces, setDecimalPlaces] = useDraftState('decimalPlaces', 2, { min: 0, max: 10 });
+  const [unique, setUnique] = useDraftState('unique', false);
   const [numbers, setNumbers] = useState<number[]>([]);
 
   const handleGenerate = () => {

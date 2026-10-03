@@ -2,9 +2,9 @@ import type { ToolDefinition } from '@/tools/types';
 
 // Helper to detect and convert timestamp precision
 const detectAndConvertTimestamp = (num: number): number => {
-  if (num > 1e18) return num / 1e6; // nanoseconds
-  if (num > 1e15) return num / 1e3; // microseconds
-  if (num > 1e12) return num; // milliseconds
+  if (num >= 1e18) return num / 1e6; // nanoseconds
+  if (num >= 1e15) return num / 1e3; // microseconds
+  if (num >= 1e12) return num; // milliseconds
   return num * 1000; // seconds
 };
 

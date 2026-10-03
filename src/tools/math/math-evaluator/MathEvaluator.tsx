@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { evaluate } from './index';
@@ -5,7 +6,7 @@ import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function MathEvaluator() {
   const { t } = useTranslation();
-  const [expression, setExpression] = useState('');
+  const [expression, setExpression] = useDraftState('expression', '', { clearValue: '' });
   const [history, setHistory] = useState<{ expr: string; result: string }[]>([]);
 
   const handleEvaluate = () => {

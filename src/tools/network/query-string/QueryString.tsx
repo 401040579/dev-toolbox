@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { parseQueryString, buildQueryString } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -12,9 +13,9 @@ interface ParamRow {
 
 export default function QueryString() {
   const { t } = useTranslation();
-  const [mode, setMode] = useState<Mode>('parse');
-  const [input, setInput] = useState('');
-  const [params, setParams] = useState<ParamRow[]>([{ key: '', value: '' }]);
+  const [mode, setMode] = useDraftState<Mode>('mode', 'parse', { allowed: ["parse","build"] });
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [params, setParams] = useDraftState<ParamRow[]>('params', [{ key: '', value: '' }]);
 
   const parsed = useMemo(() => {
     if (mode !== 'parse' || !input.trim()) return null;

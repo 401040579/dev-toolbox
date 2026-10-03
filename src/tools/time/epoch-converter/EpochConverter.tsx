@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -13,13 +14,13 @@ const HFS_EPOCH_DIFF = 2082844800; // Seconds between 1904 and 1970
 export default function EpochConverter() {
   const { t, i18n } = useTranslation();
   const locale = i18n.resolvedLanguage === 'zh' ? 'zh-CN' : 'en-US';
-  const [activeTab, setActiveTab] = useState<TabId>('converter');
-  const [mode, setMode] = useState<'epoch-to-date' | 'date-to-epoch'>('epoch-to-date');
-  const [input, setInput] = useState('');
-  const [batchInput, setBatchInput] = useState('');
-  const [durationInput, setDurationInput] = useState('');
-  const [specialInput, setSpecialInput] = useState('');
-  const [specialFormat, setSpecialFormat] = useState<'ldap' | 'webkit' | 'hfs' | 'hex'>('ldap');
+  const [activeTab, setActiveTab] = useDraftState<TabId>('activeTab', 'converter', { allowed: ["converter","batch","duration","special","code"] });
+  const [mode, setMode] = useDraftState<'epoch-to-date' | 'date-to-epoch'>('mode', 'epoch-to-date', { allowed: ["epoch-to-date","date-to-epoch"] });
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [batchInput, setBatchInput] = useDraftState('batchInput', '', { clearValue: '' });
+  const [durationInput, setDurationInput] = useDraftState('durationInput', '', { clearValue: '' });
+  const [specialInput, setSpecialInput] = useDraftState('specialInput', '', { clearValue: '' });
+  const [specialFormat, setSpecialFormat] = useDraftState<'ldap' | 'webkit' | 'hfs' | 'hex'>('specialFormat', 'ldap', { allowed: ["hex","ldap","webkit","hfs"] });
   const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
@@ -32,13 +33,13 @@ export default function EpochConverter() {
 
   // Detect timestamp precision and convert to milliseconds
   const detectAndConvertTimestamp = useCallback((num: number): { ms: number; precision: string } => {
-    if (num > 1e18) {
+    if (num >= 1e18) {
       // Nanoseconds
       return { ms: num / 1e6, precision: t('tools.epoch.nanoseconds') };
-    } else if (num > 1e15) {
+    } else if (num >= 1e15) {
       // Microseconds
       return { ms: num / 1e3, precision: t('tools.epoch.microseconds') };
-    } else if (num > 1e12) {
+    } else if (num >= 1e12) {
       // Milliseconds
       return { ms: num, precision: t('tools.epoch.milliseconds') };
     } else {

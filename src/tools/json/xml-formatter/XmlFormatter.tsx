@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatXML, minifyXML } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -7,9 +8,9 @@ const SAMPLE_XML = `<?xml version="1.0" encoding="UTF-8"?><root><person><name>Jo
 
 export default function XmlFormatter() {
   const { t } = useTranslation();
-  const [input, setInput] = useState(SAMPLE_XML);
-  const [indent, setIndent] = useState('  ');
-  const [mode, setMode] = useState<'format' | 'minify'>('format');
+  const [input, setInput] = useDraftState('input', SAMPLE_XML, { clearValue: '' });
+  const [indent, setIndent] = useDraftState('indent', '  ');
+  const [mode, setMode] = useDraftState<'format' | 'minify'>('mode', 'format', { allowed: ["format","minify"] });
 
   const output = useMemo(() => {
     if (!input.trim()) return '';

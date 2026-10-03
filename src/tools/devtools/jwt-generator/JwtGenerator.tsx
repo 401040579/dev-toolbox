@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateJwt, type JwtAlgorithm } from './index';
@@ -16,9 +17,9 @@ const DEFAULT_PAYLOAD = JSON.stringify(
 
 export default function JwtGenerator() {
   const { t } = useTranslation();
-  const [payload, setPayload] = useState(DEFAULT_PAYLOAD);
+  const [payload, setPayload] = useDraftState('payload', DEFAULT_PAYLOAD, { clearValue: '' });
   const [secret, setSecret] = useState('your-256-bit-secret');
-  const [algorithm, setAlgorithm] = useState<JwtAlgorithm>('HS256');
+  const [algorithm, setAlgorithm] = useDraftState<JwtAlgorithm>('algorithm', 'HS256', { allowed: ["HS256","HS384","HS512"] });
   const [token, setToken] = useState('');
   const [error, setError] = useState('');
 

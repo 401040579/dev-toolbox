@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
@@ -21,7 +22,7 @@ interface DecodedJwt {
 
 export default function JwtDecode() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
 
   const result = useMemo((): { decoded: DecodedJwt; error: null } | { decoded: null; error: string } | null => {
     const token = input.trim();

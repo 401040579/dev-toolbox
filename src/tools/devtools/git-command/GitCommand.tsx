@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
 import { useTranslation } from 'react-i18next';
 import { GIT_COMMANDS } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function GitCommand() {
   const { t } = useTranslation();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useDraftState('query', '', { clearValue: '' });
 
   const q = query.trim().toLocaleLowerCase();
   const results = GIT_COMMANDS.filter((cmd) => [cmd.command, cmd.description, cmd.category, t(`tools.gitCommand.commands.${cmd.id}`), t(`tools.gitCommand.categories.${cmd.category}`)].some((value) => value.toLocaleLowerCase().includes(q)));

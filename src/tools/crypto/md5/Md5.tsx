@@ -1,12 +1,13 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { md5 } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function Md5() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
-  const [uppercase, setUppercase] = useState(false);
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [uppercase, setUppercase] = useDraftState('uppercase', false);
 
   const hash = useMemo(() => {
     if (!input) return '';

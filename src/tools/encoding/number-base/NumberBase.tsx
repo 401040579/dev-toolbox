@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
@@ -6,8 +7,8 @@ type Base = 'dec' | 'hex' | 'bin' | 'oct';
 
 export default function NumberBase() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
-  const [fromBase, setFromBase] = useState<Base>('dec');
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [fromBase, setFromBase] = useDraftState<Base>('fromBase', 'dec', { allowed: ["dec","hex","bin","oct"] });
 
   const results = useMemo(() => {
     if (!input.trim()) return null;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
 import { useTranslation } from 'react-i18next';
 import {
   chmodToOctal,
@@ -18,8 +18,8 @@ const DEFAULT_STATE: ChmodState = {
 
 export default function ChmodCalculator() {
   const { t } = useTranslation();
-  const [state, setState] = useState<ChmodState>(DEFAULT_STATE);
-  const [octalInput, setOctalInput] = useState('');
+  const [state, setState] = useDraftState<ChmodState>('state', DEFAULT_STATE);
+  const [octalInput, setOctalInput] = useDraftState('octalInput', '', { clearValue: '' });
 
   const octal = chmodToOctal(state);
   const symbolic = chmodToSymbolic(state);

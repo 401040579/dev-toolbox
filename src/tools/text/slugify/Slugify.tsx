@@ -1,14 +1,15 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { slugify } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function Slugify() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
-  const [separator, setSeparator] = useState('-');
-  const [lowercase, setLowercase] = useState(true);
-  const [strict, setStrict] = useState(true);
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [separator, setSeparator] = useDraftState('separator', '-');
+  const [lowercase, setLowercase] = useDraftState('lowercase', true);
+  const [strict, setStrict] = useDraftState('strict', true);
 
   const output = useMemo(() => {
     if (!input) return '';

@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToolLayout } from '@/components/tool-layout/ToolLayout';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -37,9 +38,9 @@ function rot47(input: string): string {
 
 export default function CaesarCipher() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
-  const [mode, setMode] = useState<Mode>('rot13');
-  const [shift, setShift] = useState(13);
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [mode, setMode] = useDraftState<Mode>('mode', 'rot13', { allowed: ["caesar","rot13","rot47"] });
+  const [shift, setShift] = useDraftState('shift', 13, { min: 0, max: 25 });
 
   const output = useMemo(() => {
     if (!input) return '';

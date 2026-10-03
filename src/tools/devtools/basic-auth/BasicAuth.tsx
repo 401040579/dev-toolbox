@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateBasicAuth, decodeBasicAuth } from './index';
@@ -5,8 +6,8 @@ import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function BasicAuth() {
   const { t } = useTranslation();
-  const [mode, setMode] = useState<'encode' | 'decode'>('encode');
-  const [username, setUsername] = useState('');
+  const [mode, setMode] = useDraftState<'encode' | 'decode'>('mode', 'encode', { allowed: ["encode","decode"] });
+  const [username, setUsername] = useDraftState('username', '', { clearValue: '' });
   const [password, setPassword] = useState('');
   const [header, setHeader] = useState('');
   const [decoded, setDecoded] = useState<{ username: string; password: string } | null>(null);

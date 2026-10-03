@@ -1,11 +1,12 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { parseCIDR } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function Cidr() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
 
   const result = useMemo(() => {
     if (!input.trim()) return null;

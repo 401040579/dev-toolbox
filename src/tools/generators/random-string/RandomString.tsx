@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateRandomStrings, generatePronounceable, StringType } from './index';
@@ -5,12 +6,12 @@ import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function RandomString() {
   const { t } = useTranslation();
-  const [type, setType] = useState<StringType>('alphanumeric');
-  const [length, setLength] = useState(16);
-  const [count, setCount] = useState(5);
-  const [uppercase, setUppercase] = useState(true);
-  const [lowercase, setLowercase] = useState(true);
-  const [customChars, setCustomChars] = useState('');
+  const [type, setType] = useDraftState<StringType>('type', 'alphanumeric', { allowed: ["hex","alphanumeric","custom","alpha","numeric","binary","base64"] });
+  const [length, setLength] = useDraftState('length', 16, { min: 1, max: 256 });
+  const [count, setCount] = useDraftState('count', 5, { min: 1, max: 100 });
+  const [uppercase, setUppercase] = useDraftState('uppercase', true);
+  const [lowercase, setLowercase] = useDraftState('lowercase', true);
+  const [customChars, setCustomChars] = useDraftState('customChars', '', { clearValue: '' });
   const [strings, setStrings] = useState<string[]>([]);
 
   const handleGenerate = () => {

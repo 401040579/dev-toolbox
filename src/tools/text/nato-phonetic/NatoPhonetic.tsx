@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toNatoPhonetic, fromNatoPhonetic, getNatoAlphabet } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -8,9 +9,9 @@ type Tab = 'converter' | 'reference';
 
 export default function NatoPhonetic() {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<Tab>('converter');
-  const [mode, setMode] = useState<Mode>('toNato');
-  const [input, setInput] = useState('');
+  const [activeTab, setActiveTab] = useDraftState<Tab>('activeTab', 'converter', { allowed: ["converter","reference"] });
+  const [mode, setMode] = useDraftState<Mode>('mode', 'toNato', { allowed: ["toNato","fromNato"] });
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
 
   const output = useMemo(() => {
     if (!input) return '';

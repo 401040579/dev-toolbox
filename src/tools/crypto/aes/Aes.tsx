@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { aesEncrypt, aesDecrypt, type AesMode, type KeySize } from './index';
@@ -7,11 +8,11 @@ type Operation = 'encrypt' | 'decrypt';
 
 export default function Aes() {
   const { t } = useTranslation();
-  const [operation, setOperation] = useState<Operation>('encrypt');
-  const [input, setInput] = useState('');
+  const [operation, setOperation] = useDraftState<Operation>('operation', 'encrypt', { allowed: ["encrypt","decrypt"] });
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
   const [password, setPassword] = useState('');
-  const [mode, setMode] = useState<AesMode>('GCM');
-  const [keySize, setKeySize] = useState<KeySize>(256);
+  const [mode, setMode] = useDraftState<AesMode>('mode', 'GCM', { allowed: ["GCM","CBC","CTR"] });
+  const [keySize, setKeySize] = useDraftState<KeySize>('keySize', 256, { allowed: [256,128,192] });
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);

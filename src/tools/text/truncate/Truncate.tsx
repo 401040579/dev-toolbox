@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { truncateText, truncateMiddle } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -7,11 +8,11 @@ type TruncateMode = 'end' | 'middle';
 
 export default function Truncate() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
-  const [mode, setMode] = useState<TruncateMode>('end');
-  const [length, setLength] = useState(100);
-  const [ending, setEnding] = useState('...');
-  const [preserveWords, setPreserveWords] = useState(true);
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [mode, setMode] = useDraftState<TruncateMode>('mode', 'end', { allowed: ["end","middle"] });
+  const [length, setLength] = useDraftState('length', 100, { min: 1 });
+  const [ending, setEnding] = useDraftState('ending', '...');
+  const [preserveWords, setPreserveWords] = useDraftState('preserveWords', true);
 
   const output = useMemo(() => {
     if (!input) return '';

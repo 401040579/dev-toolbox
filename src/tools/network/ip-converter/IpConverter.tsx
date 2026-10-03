@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { parseIPv4, decimalToIPv4, parseIPv6, type IPv4Info, type IPv6Info } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -12,8 +13,8 @@ type Result =
 
 export default function IpConverter() {
   const { t } = useTranslation();
-  const [mode, setMode] = useState<Mode>('ipv4');
-  const [input, setInput] = useState('');
+  const [mode, setMode] = useDraftState<Mode>('mode', 'ipv4', { allowed: ["ipv4","decimal","ipv6"] });
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
 
   const result = useMemo((): Result | null => {
     const trimmed = input.trim();

@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -18,7 +19,7 @@ async function computeHash(input: string, algorithm: string): Promise<string> {
 
 export default function HashGenerator() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
   const [hashes, setHashes] = useState<Record<Algorithm, string>>({
     'SHA-1': '',
     'SHA-256': '',

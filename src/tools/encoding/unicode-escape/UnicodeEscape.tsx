@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToolLayout } from '@/components/tool-layout/ToolLayout';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -7,9 +8,9 @@ type Mode = 'escape' | 'unescape';
 
 export default function UnicodeEscape() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
-  const [mode, setMode] = useState<Mode>('escape');
-  const [escapeAll, setEscapeAll] = useState(false);
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [mode, setMode] = useDraftState<Mode>('mode', 'escape', { allowed: ["escape","unescape"] });
+  const [escapeAll, setEscapeAll] = useDraftState('escapeAll', false);
 
   const { output, error } = useMemo(() => {
     if (!input) return { output: '', error: null };

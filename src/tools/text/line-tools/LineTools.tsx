@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToolLayout } from '@/components/tool-layout/ToolLayout';
@@ -32,8 +33,8 @@ function applyOperation(input: string, op: Operation): string {
 
 export default function LineTools() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
-  const [operation, setOperation] = useState<Operation>('sort');
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [operation, setOperation] = useDraftState<Operation>('operation', 'sort', { allowed: ["number","sort","sort-desc","unique","reverse","shuffle","trim","remove-empty"] });
   // Use a key to force re-computation on shuffle
   const [shuffleKey, setShuffleKey] = useState(0);
 

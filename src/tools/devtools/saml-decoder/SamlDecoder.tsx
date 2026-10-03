@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
 import { useTranslation } from 'react-i18next';
 import { decodeSaml } from './index';
 
 export default function SamlDecoder() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
 
   const info = input.trim() ? decodeSaml(input) : null;
 

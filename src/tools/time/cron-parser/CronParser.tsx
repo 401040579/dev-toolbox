@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CRON_FIELD_KEYS, parseCron, nextCronRuns } from '@/lib/cron';
 import { describeCronFields } from '@/i18n/cron-copy';
@@ -15,7 +16,7 @@ const PRESET_KEYS = [
 export default function CronParser() {
   const { t, i18n } = useTranslation();
   const locale = i18n.resolvedLanguage === 'zh' ? 'zh-CN' : 'en-US';
-  const [expression, setExpression] = useState('0 0 * * *');
+  const [expression, setExpression] = useDraftState('expression', '0 0 * * *', { clearValue: '' });
 
   const result = useMemo(() => {
     const parts = expression.trim().split(/\s+/);

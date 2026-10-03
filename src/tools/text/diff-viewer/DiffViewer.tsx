@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -49,8 +50,8 @@ const WORKER_THRESHOLD = 5000; // characters
 
 export default function DiffViewer() {
   const { t } = useTranslation();
-  const [left, setLeft] = useState('');
-  const [right, setRight] = useState('');
+  const [left, setLeft] = useDraftState('left', '', { clearValue: '' });
+  const [right, setRight] = useDraftState('right', '', { clearValue: '' });
   const [workerDiff, setWorkerDiff] = useState<DiffLine[] | null>(null);
   const [workerLoading, setWorkerLoading] = useState(false);
   const workerRef = useRef<Worker | null>(null);

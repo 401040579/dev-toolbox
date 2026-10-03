@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -11,9 +12,9 @@ const WORKER_THRESHOLD = 10240; // 10KB
 
 export default function RegexTester() {
   const { t } = useTranslation();
-  const [pattern, setPattern] = useState('');
-  const [flags, setFlags] = useState('g');
-  const [testString, setTestString] = useState('');
+  const [pattern, setPattern] = useDraftState('pattern', '', { clearValue: '' });
+  const [flags, setFlags] = useDraftState('flags', 'g');
+  const [testString, setTestString] = useDraftState('testString', '', { clearValue: '' });
   const [workerResult, setWorkerResult] = useState<{
     matches: MatchResult[];
     error: string | null;

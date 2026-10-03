@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateULIDs, parseULID, isValidULID } from './index';
@@ -5,9 +6,9 @@ import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function UlidGenerator() {
   const { t } = useTranslation();
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useDraftState('count', 5, { min: 1, max: 100 });
   const [ulids, setUlids] = useState<string[]>(() => generateULIDs(5));
-  const [parseInput, setParseInput] = useState('');
+  const [parseInput, setParseInput] = useDraftState('parseInput', '', { clearValue: '' });
 
   const handleGenerate = () => {
     setUlids(generateULIDs(count));

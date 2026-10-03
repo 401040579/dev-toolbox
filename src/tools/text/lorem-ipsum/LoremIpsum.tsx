@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateLoremIpsum } from './index';
@@ -7,9 +8,9 @@ type GenerationType = 'paragraphs' | 'sentences' | 'words';
 
 export default function LoremIpsum() {
   const { t } = useTranslation();
-  const [type, setType] = useState<GenerationType>('paragraphs');
-  const [count, setCount] = useState(3);
-  const [startWithLorem, setStartWithLorem] = useState(true);
+  const [type, setType] = useDraftState<GenerationType>('type', 'paragraphs', { allowed: ["paragraphs","sentences","words"] });
+  const [count, setCount] = useDraftState('count', 3, { min: 1, max: 100 });
+  const [startWithLorem, setStartWithLorem] = useDraftState('startWithLorem', true);
   const [output, setOutput] = useState('');
 
   const generate = useCallback(() => {

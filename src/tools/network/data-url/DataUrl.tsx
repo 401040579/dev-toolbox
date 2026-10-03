@@ -1,4 +1,5 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo, useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { parseDataURL, createDataURL, dataURLToBlob } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -17,11 +18,16 @@ const MIME_TYPES = [
 
 export default function DataUrl() {
   const { t } = useTranslation();
-  const [mode, setMode] = useState<Mode>('create');
-  const [content, setContent] = useState('');
-  const [mimeType, setMimeType] = useState('text/plain');
-  const [useBase64, setUseBase64] = useState(true);
-  const [dataUrl, setDataUrl] = useState('');
+  const [mode, setMode] = useDraftState<Mode>('mode', 'create', { allowed: ["parse","create"] });
+  const [content, setContent] = useDraftState('content', '', { clearValue: '' });
+  const [mimeType, setMimeType] = useDraftState('mimeType', 'text/plain');
+  const [useBase64, setUseBase64] = useDraftState('useBase64', true);
+  const [dataUrl, setDataUrl] = useDraftState('dataUrl', '', { clearValue: '' });
+  const readerRef = useRef<FileReader | null>(null);
+  useEffect(() => () => {
+    readerRef.current?.abort();
+    readerRef.current = null;
+  }, []);
 
   const createdUrl = useMemo(() => {
     if (mode !== 'create' || !content) return '';
@@ -41,12 +47,14 @@ export default function DataUrl() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    readerRef.current?.abort();
     const reader = new FileReader();
+    readerRef.current = reader;
     reader.onload = () => {
-      setDataUrl(reader.result as string);
+      if (readerRef.current === reader) setDataUrl(reader.result as string);
     };
     reader.readAsDataURL(file);
-  }, []);
+  }, [setDataUrl]);
 
   const handleDownload = useCallback(() => {
     if (!parsedInfo) return;

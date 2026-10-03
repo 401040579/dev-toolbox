@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -26,9 +27,9 @@ async function computeHmac(message: string, key: string, algorithm: Algorithm): 
 
 export default function HmacGenerator() {
   const { t } = useTranslation();
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useDraftState('message', '', { clearValue: '' });
   const [key, setKey] = useState('');
-  const [algorithm, setAlgorithm] = useState<Algorithm>('SHA-256');
+  const [algorithm, setAlgorithm] = useDraftState<Algorithm>('algorithm', 'SHA-256', { allowed: ["SHA-256","SHA-384","SHA-512"] });
   const [result, setResult] = useState('');
   const [error, setError] = useState<string | null>(null);
 

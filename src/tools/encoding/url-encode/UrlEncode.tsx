@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToolLayout } from '@/components/tool-layout/ToolLayout';
 import { CopyButton } from '@/components/copy-button/CopyButton';
@@ -7,9 +8,9 @@ type Mode = 'encode' | 'decode';
 
 export default function UrlEncode() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
-  const [mode, setMode] = useState<Mode>('encode');
-  const [fullUrl, setFullUrl] = useState(false);
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [mode, setMode] = useDraftState<Mode>('mode', 'encode', { allowed: ["encode","decode"] });
+  const [fullUrl, setFullUrl] = useDraftState('fullUrl', false);
 
   const { output, error } = useMemo(() => {
     if (!input) return { output: '', error: null };

@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { hashFileMultiple, type HashAlgorithm } from './index';
@@ -10,7 +11,7 @@ export default function HashFile() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState('');
-  const [verifyHash, setVerifyHash] = useState('');
+  const [verifyHash, setVerifyHash] = useDraftState('verifyHash', '', { clearValue: '' });
   const [dragOver, setDragOver] = useState(false);
 
   const processFile = useCallback(async (selectedFile: File) => {

@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type Mode = 'charToCode' | 'codeToChar';
@@ -6,9 +7,9 @@ type Tab = 'converter' | 'table';
 
 export default function AsciiTable() {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<Tab>('converter');
-  const [input, setInput] = useState('');
-  const [mode, setMode] = useState<Mode>('charToCode');
+  const [activeTab, setActiveTab] = useDraftState<Tab>('activeTab', 'converter', { allowed: ["converter","table"] });
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [mode, setMode] = useDraftState<Mode>('mode', 'charToCode', { allowed: ["charToCode","codeToChar"] });
 
   const result = useMemo(() => {
     if (!input.trim()) return null;

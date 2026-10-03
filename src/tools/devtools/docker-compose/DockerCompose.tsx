@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
 import { useTranslation } from 'react-i18next';
 import { TEMPLATES } from './index';
 import { CopyButton } from '@/components/copy-button/CopyButton';
 
 export default function DockerCompose() {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState(0);
-  const [customYaml, setCustomYaml] = useState('');
+  const [selected, setSelected] = useDraftState('selected', 0, { allowed: TEMPLATES.map((_, index) => index) });
+  const [customYaml, setCustomYaml] = useDraftState('customYaml', '', { clearValue: '' });
 
   const template = TEMPLATES[selected]!;
   const displayYaml = customYaml || template.yaml;

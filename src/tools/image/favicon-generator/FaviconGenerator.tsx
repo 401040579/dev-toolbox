@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateFavicon, FAVICON_SIZES, type FaviconSize } from './index';
@@ -6,7 +7,7 @@ export default function FaviconGenerator() {
   const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState('');
-  const [selectedSizes, setSelectedSizes] = useState<FaviconSize[]>([FAVICON_SIZES[0]!, FAVICON_SIZES[1]!]);
+  const [selectedSizes, setSelectedSizes] = useDraftState<FaviconSize[]>('selectedSizes', [FAVICON_SIZES[0]!, FAVICON_SIZES[1]!]);
   const [results, setResults] = useState<{ size: FaviconSize; dataUrl: string; blob: Blob }[]>([]);
   const [processing, setProcessing] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);

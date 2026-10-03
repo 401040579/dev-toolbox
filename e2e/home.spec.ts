@@ -31,14 +31,14 @@ test.describe('Home Page', () => {
   test('opens command palette via search button', async ({ page }) => {
     await page.goto('/');
     // Click the search button in the header
-    await page.locator('header').getByRole('button').first().click();
+    await page.locator('header').getByRole('button', { name: 'Search', exact: true }).click();
     await expect(page.getByPlaceholder('Search tools...')).toBeVisible();
   });
 
   test('navigates to tool via command palette', async ({ page }) => {
     await page.goto('/');
     // Click the search button in the header
-    await page.locator('header').getByRole('button').first().click();
+    await page.locator('header').getByRole('button', { name: 'Search', exact: true }).click();
     await page.getByPlaceholder('Search tools...').fill('base64');
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(/\/tools\/encoding\/base64/);

@@ -1,10 +1,11 @@
-import { useState, useMemo } from 'react';
+import { useDraftState } from '@/hooks/useDraftState';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { analyzeText } from './index';
 
 export default function TextStats() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
 
   const stats = useMemo(() => analyzeText(input), [input]);
 

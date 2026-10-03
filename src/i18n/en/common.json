@@ -1630,7 +1630,8 @@
     "compressedImage": "Compressed image",
     "copyFailed": "Could not copy. Select the output and copy it manually.",
     "copyError": "Copy failed",
-    "bits": "{{count}}-bit"
+    "bits": "{{count}}-bit",
+    "clear": "Clear"
   },
   "about": {
     "title": "About",
@@ -1925,6 +1926,50 @@
     "seconds-to-duration": {
       "name": "Seconds → Duration",
       "description": "Convert seconds to human-readable duration (d h m s)"
+    }
+  },
+  "drafts": {
+    "enabled": "Restore drafts",
+    "disabled": "Draft restoration off",
+    "clearCurrent": "Clear current",
+    "clearAll": "Clear all drafts",
+    "notice": "Text inputs and options stay in this browser. Original files, password/key fields and generated credentials are not saved.",
+    "storageError": "Browser storage could not be changed. Your current input remains usable.",
+    "status": {
+      "empty": "Inputs and options will be saved here",
+      "pending": "Saving draft…",
+      "saved": "Draft saved in this browser",
+      "tooLarge": "Too large to save; kept for this session only (limit: 524,288 characters including options)",
+      "unavailable": "Could not save locally; kept for this session only"
+    }
+  },
+  "smartPaste": {
+    "title": "Smart Paste",
+    "description": "Paste content to find a useful tool. Choose a suggestion to open it with your input.",
+    "close": "Close Smart Paste",
+    "inputLabel": "Content",
+    "readClipboard": "Read clipboard",
+    "reading": "Reading…",
+    "placeholder": "Paste JSON, a JWT, a Unix timestamp, a URL, Base64, or plain text…",
+    "privacy": "Recognition runs in your browser. Input is limited to 1 MiB. Clipboard access requires a click; the handoff stays in this tab's memory. Tool input drafts follow the restoration setting.",
+    "empty": "Paste content above to see suggestions.",
+    "chooseTool": "Choose a tool to open with this content. Suggestions are estimates; your selection decides.",
+    "suggestions": "Suggested tools",
+    "recommended": "Recommended",
+    "tooLarge": "This paste exceeds the 1 MiB limit. Reduce the content and try again.",
+    "clipboardUnavailable": "Clipboard access is unavailable here. Paste manually into the content field.",
+    "clipboardFailed": "Clipboard access was denied or failed. Paste manually into the content field.",
+    "clipboardChanged": "Your input changed while reading the clipboard, so it was kept. Click again if you want to replace it.",
+    "handoffFailed": "Unable to open the selected tool. Your content is still here; try again.",
+    "reasons": {
+      "jsonObject": "A valid JSON object. Format it and inspect its structure.",
+      "jsonArray": "A valid JSON array. Format it and inspect its structure.",
+      "jwt": "A JWT-shaped header and payload. Inspect them; the signature has not been verified.",
+      "seconds": "Looks like a Unix timestamp in seconds. It could also be a numeric identifier.",
+      "milliseconds": "Looks like a Unix timestamp in milliseconds. It could also be a numeric identifier.",
+      "url": "A valid HTTP or HTTPS URL. Inspect its parts without opening the address.",
+      "base64": "Canonical Base64 that decodes to UTF-8 text. It could also be ordinary text.",
+      "text": "Inspect this content as plain text and count its characters, words, and lines."
     }
   }
 }

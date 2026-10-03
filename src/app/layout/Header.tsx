@@ -1,12 +1,13 @@
-import { Search, Languages } from 'lucide-react';
+import { Search, Languages, ClipboardPaste } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle/ThemeToggle';
 import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
   onOpenCommandPalette: () => void;
+  onOpenSmartPaste: () => void;
 }
 
-export function Header({ onOpenCommandPalette }: HeaderProps) {
+export function Header({ onOpenCommandPalette, onOpenSmartPaste }: HeaderProps) {
   const { t, i18n } = useTranslation();
 
   const toggleLanguage = () => {
@@ -21,10 +22,15 @@ export function Header({ onOpenCommandPalette }: HeaderProps) {
         DevToolbox
       </span>
 
+      <button onClick={onOpenSmartPaste} aria-label={t('smartPaste.title')} title={t('smartPaste.title')}
+        className="ml-auto mr-2 flex items-center gap-2 px-3 py-1.5 rounded-md border border-border text-text-secondary text-sm hover:border-accent hover:text-accent">
+        <ClipboardPaste size={14} />
+        <span className="hidden sm:inline">{t('smartPaste.title')}</span>
+      </button>
       <button
         onClick={onOpenCommandPalette}
         aria-label={t('common.search')}
-        className="ml-auto flex items-center gap-2 px-3 py-1.5 rounded-md border border-border text-text-secondary text-sm hover:border-border-strong hover:text-text-primary transition-colors"
+        className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-border text-text-secondary text-sm hover:border-border-strong hover:text-text-primary transition-colors"
       >
         <Search size={14} />
         <span className="hidden sm:inline">{t('common.search')}</span>

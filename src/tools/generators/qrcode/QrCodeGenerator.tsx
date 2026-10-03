@@ -1,3 +1,4 @@
+import { useDraftState } from '@/hooks/useDraftState';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -6,8 +7,8 @@ import { downloadText } from '@/lib/download';
 
 export default function QrCodeGenerator() {
   const { t } = useTranslation();
-  const [input, setInput] = useState('');
-  const [size, setSize] = useState(256);
+  const [input, setInput] = useDraftState('input', '', { clearValue: '' });
+  const [size, setSize] = useDraftState('size', 256);
 
   const [svg, setSvg] = useState('');
   const [error, setError] = useState('');
