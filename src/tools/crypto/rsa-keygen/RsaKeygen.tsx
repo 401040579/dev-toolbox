@@ -19,7 +19,7 @@ export default function RsaKeygen() {
       const keys = await generateRSAKeyPair(modulusLength, format);
       setPublicKey(keys.publicKey);
       setPrivateKey(keys.privateKey);
-    } catch (e) {
+    } catch {
       setError(t('tools.rsaKeygen.error'));
     } finally {
       setLoading(false);

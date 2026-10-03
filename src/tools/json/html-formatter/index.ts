@@ -162,7 +162,7 @@ export function minifyHTML(html: string): string {
   if (!html.trim()) return '';
 
   // Remove comments
-  let result = html.replace(/<!--[\s\S]*?-->/g, '');
+  const result = html.replace(/<!--[\s\S]*?-->/g, '');
 
   // Collapse whitespace (except in pre, code, script, style, textarea)
   const parts: string[] = [];

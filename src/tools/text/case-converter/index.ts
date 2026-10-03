@@ -13,7 +13,7 @@ function toCamelCase(s: string): string {
 function toSnakeCase(s: string): string {
   return s
     .replace(/([a-z])([A-Z])/g, '$1_$2')
-    .replace(/[\s\-]+/g, '_')
+    .replace(/[\s-]+/g, '_')
     .toLowerCase();
 }
 

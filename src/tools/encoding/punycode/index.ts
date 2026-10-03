@@ -133,7 +133,7 @@ function toAscii(domain: string): string {
   return domain
     .split('.')
     .map((label) => {
-      if (/[^\x00-\x7F]/.test(label)) {
+      if (/[\u0080-\uFFFF]/.test(label)) {
         return 'xn--' + punycodeEncode(label);
       }
       return label;

@@ -23,7 +23,7 @@ export default function HashFile() {
     try {
       const results = await hashFileMultiple(selectedFile, setProgress);
       setHashes(results);
-    } catch (e) {
+    } catch {
       setError(t('tools.hashFile.error'));
     } finally {
       setLoading(false);

@@ -68,13 +68,14 @@ export function generateRandomNumbers(
       case 'decimal':
         value = randomDecimal(min, max, decimalPlaces);
         break;
-      case 'gaussian':
+      case 'gaussian': {
         const mean = (min + max) / 2;
         const stdDev = (max - min) / 6; // 99.7% within range
         value = randomGaussian(mean, stdDev);
         value = Math.max(min, Math.min(max, value));
         value = Number(value.toFixed(decimalPlaces));
         break;
+      }
       default:
         value = randomInt(min, max);
     }

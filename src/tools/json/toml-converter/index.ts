@@ -234,7 +234,7 @@ function yamlToObject(yaml: string): Record<string, unknown> {
     // Handle list items
     if (line.startsWith('- ')) {
       const value = parseYamlValue(line.slice(2));
-      const parent = findParentArray(stack, indent);
+      const parent = findParentArray(stack);
       if (Array.isArray(parent)) {
         parent.push(value);
       }
@@ -268,7 +268,7 @@ function yamlToObject(yaml: string): Record<string, unknown> {
   return result;
 }
 
-function findParentArray(stack: Array<{ obj: Record<string, unknown>; indent: number }>, _indent: number): unknown[] | null {
+function findParentArray(stack: Array<{ obj: Record<string, unknown>; indent: number }>): unknown[] | null {
   for (let i = stack.length - 1; i >= 0; i--) {
     const obj = stack[i]!.obj;
     const keys = Object.keys(obj);
