@@ -1645,7 +1645,7 @@
       "queue": "文件队列",
       "remove": "移除 {{name}}",
       "speed": "播放速度",
-      "size": "二维码尺寸",
+      "size": "码阵尺寸",
       "compatible": "兼容",
       "standard": "标准",
       "fast": "快速",
@@ -1670,7 +1670,7 @@
       "cameraPreview": "摄像头预览",
       "scanning": "正在扫描 · 请让整个二维码保持在画面中",
       "receiving": "接收中的文件",
-      "progress": "已收到 {{received}} 个有效帧 / 至少需要 {{expected}} 个 · 新增数据 {{speed}}/s。恢复可能还需额外帧。",
+      "progress": "{{received}} 个有效包 / 约需 {{expected}} 个 · 唯一载荷 {{speed}}/秒（包含纠错）",
       "completed": "已校验文件（{{count}}）",
       "verified": "长度及 SHA-256 校验通过",
       "save": "保存文件",
@@ -1690,7 +1690,21 @@
         "cameraMissing": "未找到可用摄像头，请选择其他摄像头或连接摄像头。",
         "cameraBusy": "摄像头无法启动，请关闭正在使用摄像头的其他应用后重试。",
         "cameraEnded": "摄像头已断开，请重新开始接收以继续。"
-      }
+      },
+      "profile": "传输档位",
+      "parallel": "并行二维码数量",
+      "profiles": {
+        "compatible": "兼容档 · M · 支持旧接收端",
+        "high": "高速档 · V30-L · 推荐",
+        "extreme": "极限档 · V40-L · 大屏幕"
+      },
+      "capacity": "每码最多 {{bytes}} 字节 · 首个文件的理论载荷上限 {{rate}}/秒。包含纠错与重复数据，实际文件速度以接收端完成校验为准。",
+      "denseHelp": "建议使用大屏、全屏显示，并保持摄像头稳定对焦。接收停滞时降低帧率、减少并行码或切换兼容档。高速与极限档要求两端均更新至此版本。",
+      "sendMetrics": "实际显示 {{fps}} 帧/秒 · 载荷 {{rate}}/秒（包含纠错与重复）",
+      "smallDisplay": "当前码点小于 3 像素，建议放大显示、减少并行码或切换兼容档，以便识别。",
+      "robustScan": "增强扫描（支持旋转、反色，速度较慢）",
+      "scanMetrics": "摄像头处理 {{fps}} 帧/秒 · {{symbols}} 码/秒（包含重复）· 每帧解码 {{ms}} 毫秒",
+      "fileMetrics": "{{seconds}} 秒完成校验 · 实际文件速度 {{rate}}/秒（首个有效包至 SHA-256 校验完成）"
     }
   },
   "pipeline": {

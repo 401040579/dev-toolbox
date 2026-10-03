@@ -52,3 +52,16 @@ it.each([30, 40])('decodes four dense V%i-L symbols in one camera frame', (versi
   expect(decoded).toHaveLength(4);
   expect(decoded.map((bytes) => Buffer.from(bytes).toString('hex')).sort()).toEqual(payloads.map((bytes) => Buffer.from(bytes).toString('hex')).sort());
 });
+
+it('enhanced scanning recovers an inverted QR with raw binary content', () => {
+  const bytes = Uint8Array.from({ length: 512 }, (_, i) => i % 256);
+  const qr = QRCode.create([{ data: bytes, mode: 'byte' }], { errorCorrectionLevel: 'M' }).modules;
+  const width = (qr.size + 8) * 4, data = new Uint8ClampedArray(width * width * 4);
+  for (let i = 3; i < data.length; i += 4) data[i] = 255;
+  for (let y = 0; y < qr.size; y++) for (let x = 0; x < qr.size; x++) if (qr.data[y * qr.size + x]) {
+    for (let dy = 0; dy < 4; dy++) for (let dx = 0; dx < 4; dx++) {
+      const offset = (((y + 4) * 4 + dy) * width + (x + 4) * 4 + dx) * 4; data.fill(255, offset, offset + 3);
+    }
+  }
+  expect(scanPixels(reader, { data, width, height: width }, true)).toEqual([bytes]);
+});

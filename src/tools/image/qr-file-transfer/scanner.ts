@@ -17,7 +17,7 @@ export function scanPixels(reader: ScannerModule, image: { data: Uint8ClampedArr
   let results: (ZXingVector<ZXingReadResult> & { delete(): void }) | undefined;
   try {
     reader.HEAPU8.set(gray, pointer);
-    results = reader.readBarcodesFromPixmap(pointer, image.width, image.height, robust ? options : { ...options, tryHarder: false, tryRotate: false, tryInvert: false }) as typeof results;
+    results = reader.readBarcodesFromPixmap(pointer, image.width, image.height, robust ? options : { ...options, tryHarder: false, tryRotate: false, tryInvert: false, binarizer: 1 }) as typeof results;
     const bytes: Uint8Array[] = [];
     for (let i = 0; i < results!.size(); i++) {
       const result = results!.get(i);
