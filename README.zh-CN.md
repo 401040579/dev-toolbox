@@ -2,7 +2,7 @@
 
 面向**通信、接口数据和 POS 排障**的浏览器工具箱。定位短信段数变化、解开 Base64 订单事件，或把重复排查流程保存成 Pipeline。
 
-[在线使用](https://app.aiuos.com) · [English](README.md) · [下载 v1.2.0](https://github.com/401040579/dev-toolbox/releases/tag/v1.2.0) · [参与贡献](CONTRIBUTING.md)
+[在线使用](https://app.aiuos.com) · [English](README.md) · [下载 v1.3.0](https://github.com/401040579/dev-toolbox/releases/tag/v1.3.0) · [参与贡献](CONTRIBUTING.md)
 
 ![使用虚构订单消息检查短信编码和分段](docs/screenshots/sms-segment.png)
 
@@ -31,13 +31,13 @@
 
 ## 二维码传文件
 
-打开 [二维码传文件](https://app.aiuos.com/tools/image/qr-file-transfer)：A 选择文件并点击“开始发送”，B 切到“接收”后打开摄像头对准 A；接收端校验长度及 SHA-256 后，可预览图片、保存完整文件并继续接收。图片压缩完成后，可直接点击“二维码发送”。支持暂停、3/6/10 FPS、放大和全屏。
+打开 [二维码传文件](https://app.aiuos.com/tools/image/qr-file-transfer)：A 选择文件并点击“开始发送”，B 切到“接收”后打开摄像头对准 A；接收端校验长度及 SHA-256 后，可预览图片、保存完整文件并继续接收。图片压缩完成后，可直接点击“二维码发送”。支持暂停、1/2/4 码并行、3–30 FPS、预渲染和全屏。可选高速档（V30-L，推荐）、极限档（V40-L，大屏幕）和兼容档（384 字节/M，旧接收端）。高密度档需要两端更新，新接收端仍支持旧 DTF1 帧。
 
-单个文件最多 5 MiB，每批最多 8 个文件、总共 10 MiB；接收端同时保留最多 3 个未完成文件。RaptorQ 的恢复帧处理漏扫和乱序；停止再开启摄像头可续收。发送端只显示播放帧数和轮数，接收端显示真实有效帧及新增数据速度。双方无需互联，但必须使用本站同一协议；普通相机及 RaptorQR 演示接收页不能代替本站接收页。
+单个文件最多 5 MiB，每批最多 8 个文件、总共 10 MiB；接收端同时保留最多 3 个未完成文件。RaptorQ 的恢复帧处理漏扫和乱序；停止再开启摄像头可续收。发送端只显示播放帧数和轮数，接收端区分有效载荷（含纠错）与完成 SHA-256 校验后的实际文件速度，并显示摄像头处理帧率和解码耗时。双方无需互联，但必须使用本站同一协议；普通相机及 RaptorQR 演示接收页不能代替本站接收页。
 
 文件字节不上传、不写入草稿，仅留在页面内存中。切换模式、离开工具、刷新或清空会丢弃文件，请先保存接收结果。未知格式、HTML、SVG 和视频只提供下载；图片预览仅支持 PNG/JPEG/WebP/GIF/AVIF/BMP。文件名移除路径/控制字符并最多保留 255 个 UTF-8 字节。首次联网加载并完成 PWA 缓存后可断网重开，页面确认扫码引擎已缓存才显示“已可离线使用”。摄像头需 HTTPS 或 localhost，且必须由用户点击启动。
 
-真实屏幕像素→模拟摄像头视频→扫码 Worker→文件下载的 Chromium 流程已自动验证，包括断网、漏帧、续收及字节一致性；手机真机速度与电脑/iPhone/Android 跨设备验收尚未完成，未承诺硬件传输速率。详见 [v1.2 验证记录](docs/releases/v1.2.0-validation.md)。
+真实屏幕像素→模拟摄像头视频→扫码 Worker→文件下载的 Chromium 流程已自动验证，包括断网、漏帧、续收及字节一致性；手机真机速度与电脑/iPhone/Android 跨设备验收尚未完成，未承诺硬件传输速率。极限档在模拟视频流中约 3.9 秒传完 1 MiB 随机文件（约 263 KiB/s），超过旧 2.25 KiB/s 配置的百倍，但不代表真机保证。详见 [v1.3 验证记录](docs/releases/v1.3.0-validation.md)。
 
 ## v1.1 工作流程
 
@@ -65,7 +65,7 @@ npm run build
 npm run preview
 ```
 
-[正式版本](https://github.com/401040579/dev-toolbox/releases/tag/v1.2.0)提供静态站点 ZIP、SHA-256 校验文件和 GitHub 源码归档。解压站点 ZIP，执行 `python3 serve.py`，打开 `http://localhost:4173`。请使用本地 HTTP 服务，直接打开 `index.html` 文件不能满足模块加载和 Web Crypto 的运行条件。在干净的版本 tag 上重建制品：`npm ci`、`npm run build`、`npm run release:package`（需要 Python 3）。
+[正式版本](https://github.com/401040579/dev-toolbox/releases/tag/v1.3.0)提供静态站点 ZIP、SHA-256 校验文件和 GitHub 源码归档。解压站点 ZIP，执行 `python3 serve.py`，打开 `http://localhost:4173`。请使用本地 HTTP 服务，直接打开 `index.html` 文件不能满足模块加载和 Web Crypto 的运行条件。在干净的版本 tag 上重建制品：`npm ci`、`npm run build`、`npm run release:package`（需要 Python 3）。
 
 ## 隐私、离线和功能边界
 
