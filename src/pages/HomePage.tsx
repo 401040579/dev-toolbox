@@ -21,6 +21,7 @@ import { CATEGORIES } from '@/lib/constants';
 import { useTranslation } from 'react-i18next';
 import type { ToolCategory } from '@/tools/types';
 import type { LucideIcon } from 'lucide-react';
+import { getToolCopy } from '@/i18n/tool-copy';
 
 const CATEGORY_ICONS: Record<ToolCategory, LucideIcon> = {
   time: Clock,
@@ -144,7 +145,7 @@ export default function HomePage() {
                 <div>
                   <div className="font-medium text-text-primary text-sm">{t(`categories.${cat}`)}</div>
                   <div className="text-xs text-text-muted mt-0.5">
-                    {toolCount === 1 ? t('home.toolCount', { count: toolCount }) : t('home.toolCountPlural', { count: toolCount })}
+                    {t('home.toolCount', { count: toolCount })}
                   </div>
                 </div>
               </Link>
@@ -174,8 +175,8 @@ function ToolCard({ tool }: { tool: { id: string; name: string; description: str
   return (
     <div className="flex items-center gap-3 px-3 py-2.5 rounded-md border border-border hover:border-border-strong hover:bg-surface-hover transition-colors">
       <Link to={`/tools/${tool.category}/${tool.id}`} className="flex-1 min-w-0">
-        <div className="text-sm font-medium text-text-primary">{tool.name}</div>
-        <div className="text-xs text-text-muted">{tool.description}</div>
+        <div className="text-sm font-medium text-text-primary">{getToolCopy(tool, t).name}</div>
+        <div className="text-xs text-text-muted">{getToolCopy(tool, t).description}</div>
       </Link>
       <button
         onClick={(e) => { e.preventDefault(); toggleFavorite(tool.id); }}

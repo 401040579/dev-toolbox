@@ -12,7 +12,7 @@ export function Header({ onOpenCommandPalette }: HeaderProps) {
   const toggleLanguage = () => {
     const next = i18n.language === 'zh' ? 'en' : 'zh';
     i18n.changeLanguage(next);
-    localStorage.setItem('dev-toolbox-lang', next);
+    try { localStorage.setItem('dev-toolbox-lang', next); } catch { /* The current session still switches. */ }
   };
 
   return (
@@ -23,6 +23,7 @@ export function Header({ onOpenCommandPalette }: HeaderProps) {
 
       <button
         onClick={onOpenCommandPalette}
+        aria-label={t('common.search')}
         className="ml-auto flex items-center gap-2 px-3 py-1.5 rounded-md border border-border text-text-secondary text-sm hover:border-border-strong hover:text-text-primary transition-colors"
       >
         <Search size={14} />

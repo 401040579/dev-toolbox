@@ -101,7 +101,7 @@ export default function ChmodCalculator() {
             type="text"
             value={octalInput}
             onChange={(e) => handleOctalChange(e.target.value)}
-            placeholder="e.g. 755"
+            placeholder={t('tools.chmodCalculator.placeholder')}
             className="w-32 font-mono"
             maxLength={3}
           />
@@ -146,7 +146,7 @@ export default function ChmodCalculator() {
               >
                 <code className="text-sm font-mono text-accent">{p.octal}</code>
                 <code className="text-sm font-mono text-text-muted">{p.symbolic}</code>
-                <span className="text-sm text-text-secondary">{p.description}</span>
+                <span className="text-sm text-text-secondary">{t(`tools.chmodCalculator.permissions.${p.octal}`)}</span>
               </div>
             ))}
           </div>

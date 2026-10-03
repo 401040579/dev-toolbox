@@ -37,7 +37,7 @@ export default function AspectRatio() {
         {/* Calculate ratio from dimensions */}
         <div>
           <h3 className="text-sm font-medium text-text-primary mb-3">{t('tools.aspectRatio.fromDimensions')}</h3>
-          <div className="flex items-end gap-3">
+          <div className="flex items-end gap-3 flex-wrap">
             <div>
               <label className="block text-xs text-text-muted mb-1">{t('tools.aspectRatio.width')}</label>
               <input type="number" value={width} onChange={(e) => setWidth(e.target.value)} className="w-28 font-mono" />
@@ -91,7 +91,7 @@ export default function AspectRatio() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {COMMON_RATIOS.map((r) => (
               <button
-                key={r.label}
+                key={`${r.w}-${r.h}`}
                 onClick={() => applyRatio(r.w, r.h)}
                 className={`p-3 rounded-lg border text-left transition-colors ${
                   ratioW === r.w && ratioH === r.h
@@ -99,7 +99,7 @@ export default function AspectRatio() {
                     : 'border-border hover:border-accent'
                 }`}
               >
-                <p className="text-sm font-medium text-text-primary">{r.label}</p>
+                <p className="text-sm font-medium text-text-primary">{t(`tools.aspectRatio.ratios.${r.w}-${r.h}`)}</p>
                 <div className="mt-1 border border-border rounded" style={{
                   width: `${Math.min(60, r.w * 4)}px`,
                   height: `${Math.min(60, r.h * 4)}px`,

@@ -66,10 +66,12 @@
       "placeholder": "粘贴 JWT token (eyJhbGciOiJ...)",
       "invalidJwt": "无效的 JWT：需要由点分隔的 3 个部分",
       "expired": "已过期",
-      "valid": "有效",
+      "valid": "未过期",
       "header": "头部",
       "payload": "载荷",
-      "signature": "签名"
+      "signature": "签名",
+      "verificationNote": "仅解码声明，未过期不代表令牌真实或具备授权。",
+      "invalidPayload": "JWT 无效：头部与载荷必须为 JSON 对象"
     },
     "epoch": {
       "title": "时间戳转换",
@@ -162,7 +164,20 @@
       "invalidFields": "Cron 表达式必须包含 5 个字段",
       "invalidExpression": "无效的 Cron 表达式",
       "explanation": "说明",
-      "nextRuns": "接下来 {{count}} 次执行"
+      "nextRuns": "接下来 {{count}} 次执行",
+      "fields": {
+        "minute": "分钟",
+        "hour": "小时",
+        "dayOfMonth": "月中日期",
+        "month": "月份",
+        "dayOfWeek": "星期"
+      },
+      "every": "{{field}}：每个值",
+      "values": "{{field}}：{{values}}",
+      "supportedNote": "支持五个数字字段及列表、范围、步长；时间使用此浏览器的本地时区。日期与星期均有限制时，满足任一条件即可。仅搜索未来 366 天。",
+      "noRuns": "未来 366 天内没有匹配的运行时间。",
+      "nextRuns_one": "接下来 {{count}} 次运行",
+      "nextRuns_other": "接下来 {{count}} 次运行"
     },
     "jsonFormatter": {
       "title": "JSON 格式化",
@@ -184,7 +199,9 @@
       "jsonToYaml": "JSON → YAML",
       "yamlToJson": "YAML → JSON",
       "jsonPlaceholder": "粘贴 JSON...",
-      "yamlPlaceholder": "粘贴 YAML..."
+      "yamlPlaceholder": "粘贴 YAML...",
+      "error": "转换失败",
+      "supportedNote": "支持 YAML 1.2 Core 中的 JSON 兼容值和字符串键。日期保持字符串；拒绝自定义标签、重复键、多文档与循环别名。输入最多 1 MiB、64 层、50,000 个值；输出最多 4 MiB。"
     },
     "uuid": {
       "title": "UUID 生成器",
@@ -352,7 +369,12 @@
       "codeLabel": "ASCII 码",
       "charPlaceholder": "输入字符... Hello",
       "codePlaceholder": "输入 ASCII 码... 72 101 108 108 111",
-      "error": "转换失败"
+      "error": "转换失败",
+      "char": "字符",
+      "dec": "十进制",
+      "hex": "十六进制",
+      "binary": "二进制",
+      "oct": "八进制"
     },
     "punycode": {
       "title": "Punycode 编码/解码",
@@ -465,7 +487,10 @@
       "verifyMatch": "✓ 密码匹配！",
       "verifyNoMatch": "✗ 密码不匹配",
       "verifyError": "无效的哈希格式",
-      "info": "使用 PBKDF2-SHA256 和随机盐值。格式：$pbkdf2-sha256$iterations$salt$hash"
+      "info": "使用 PBKDF2-SHA256 和随机盐值。格式：$pbkdf2-sha256$iterations$salt$hash",
+      "fast": "10,000（快速）",
+      "recommended": "100,000（推荐）",
+      "slow": "500,000（较慢）"
     },
     "urlParser": {
       "title": "URL 解析器",
@@ -514,7 +539,25 @@
       "full": "完整形式",
       "compressed": "压缩形式",
       "ipAddress": "IP 地址",
-      "commonIps": "常用 IP"
+      "commonIps": "常用 IP",
+      "classes": {
+        "A": "A",
+        "B": "B",
+        "C": "C",
+        "D (Multicast)": "D（多播）",
+        "E (Reserved)": "E（保留）",
+        "Unknown": "未知"
+      },
+      "types": {
+        "Public": "公网",
+        "Private": "私有",
+        "Loopback": "环回",
+        "Multicast": "多播",
+        "Global Unicast": "全球单播",
+        "Link-Local": "链路本地",
+        "Unique Local": "唯一本地",
+        "Unspecified": "未指定"
+      }
     },
     "cidr": {
       "title": "CIDR 计算器",
@@ -533,7 +576,8 @@
       "usableHosts": "可用主机数",
       "ipClass": "IP 类别",
       "commonSubnets": "常用子网",
-      "quickReference": "快速参考"
+      "quickReference": "快速参考",
+      "hosts": "主机数"
     },
     "userAgent": {
       "title": "User Agent 解析器",
@@ -546,7 +590,18 @@
       "device": "设备",
       "engine": "渲染引擎",
       "cpu": "CPU 架构",
-      "samples": "示例 User Agent"
+      "samples": "示例 User Agent",
+      "sampleChromeWindows": "Windows 上的 Chrome",
+      "sampleSafariMac": "macOS 上的 Safari",
+      "sampleFirefoxLinux": "Linux 上的 Firefox",
+      "sampleSafariIphone": "iPhone 上的 Safari",
+      "sampleChromeAndroid": "Android 上的 Chrome",
+      "unknown": "未知",
+      "mobile": "手机",
+      "tablet": "平板",
+      "desktop": "桌面",
+      "smartTv": "智能电视",
+      "console": "游戏主机"
     },
     "httpHeaders": {
       "title": "HTTP 头解析器",
@@ -558,7 +613,38 @@
       "headerValue": "值",
       "samples": "示例",
       "sampleRequest": "请求头",
-      "sampleResponse": "响应头"
+      "sampleResponse": "响应头",
+      "descriptions": {
+        "accept": "客户端接受的媒体类型",
+        "accept-encoding": "客户端支持的压缩算法",
+        "accept-language": "响应的首选语言",
+        "authorization": "用于身份认证的凭据",
+        "cache-control": "缓存指令",
+        "content-type": "请求或响应正文的媒体类型",
+        "content-length": "正文大小（字节）",
+        "content-encoding": "正文使用的压缩算法",
+        "cookie": "客户端发送的 Cookie",
+        "host": "服务器的域名与端口",
+        "origin": "请求来源（用于 CORS）",
+        "referer": "上一页面的 URL",
+        "user-agent": "客户端应用信息",
+        "x-forwarded-for": "经代理传递的原始客户端 IP",
+        "x-requested-with": "表示 AJAX 请求",
+        "set-cookie": "客户端应保存的 Cookie",
+        "access-control-allow-origin": "CORS 允许的来源",
+        "access-control-allow-methods": "CORS 允许的 HTTP 方法",
+        "access-control-allow-headers": "CORS 允许的请求头",
+        "strict-transport-security": "HSTS 策略",
+        "content-security-policy": "页面的 CSP 规则",
+        "x-content-type-options": "阻止 MIME 类型嗅探",
+        "x-frame-options": "点击劫持防护",
+        "x-xss-protection": "旧版浏览器的 XSS 过滤控制",
+        "etag": "资源版本标识",
+        "last-modified": "最后修改时间",
+        "expires": "响应过期时间",
+        "location": "重定向 URL",
+        "www-authenticate": "要求的认证方式"
+      }
     },
     "dataUrl": {
       "title": "Data URL 生成器",
@@ -578,7 +664,8 @@
       "urlSize": "URL 大小",
       "decodedSize": "解码后大小",
       "download": "下载文件",
-      "preview": "预览"
+      "preview": "预览",
+      "plainText": "纯文本"
     },
     "textStats": {
       "title": "文本统计",
@@ -596,7 +683,10 @@
       "avgWordLength": "平均词长",
       "avgSentenceLength": "平均句长",
       "minutes": "分钟",
-      "seconds": "秒"
+      "seconds": "秒",
+      "bytes": "UTF-8 字节数",
+      "uniqueWords": "不重复单词",
+      "longestWord": "最长单词"
     },
     "loremIpsum": {
       "title": "Lorem Ipsum 生成器",
@@ -608,7 +698,10 @@
       "countLabel": "数量",
       "startWithLorem": "以 'Lorem ipsum...' 开头",
       "generate": "生成",
-      "outputLabel": "生成的文本"
+      "outputLabel": "生成的文本",
+      "paragraphs": "段落",
+      "sentences": "句子",
+      "words": "单词"
     },
     "stringEscape": {
       "title": "字符串转义",
@@ -624,7 +717,8 @@
       "formatCsv": "CSV",
       "inputLabel": "输入",
       "inputPlaceholder": "输入要转义或还原的文本...",
-      "outputLabel": "输出"
+      "outputLabel": "输出",
+      "examples": "示例"
     },
     "slugify": {
       "title": "URL Slug 生成器",
@@ -637,7 +731,14 @@
       "trimWhitespace": "去除空白",
       "removeStopWords": "移除停用词",
       "maxLength": "最大长度",
-      "noLimit": "无限制"
+      "noLimit": "无限制",
+      "separatorLabel": "分隔符",
+      "sepDash": "连字符",
+      "sepUnderscore": "下划线",
+      "sepDot": "点",
+      "sepNone": "无",
+      "strict": "移除标点",
+      "examples": "示例"
     },
     "natoPhonetic": {
       "title": "NATO 音标字母表",
@@ -813,7 +914,8 @@
       "tomlPlaceholder": "输入 TOML...",
       "jsonPlaceholder": "输入 JSON...",
       "yamlPlaceholder": "输入 YAML...",
-      "error": "转换失败"
+      "error": "转换失败",
+      "supportedNote": "TOML 转换支持注释、点分键和数组表。日期与时间需使用引号字符串；拒绝 null、非有限数及超出安全范围的整数。输入最多 1 MiB、64 层、50,000 个值；输出最多 4 MiB。不保留注释。"
     },
     "csvJson": {
       "title": "CSV ↔ JSON",
@@ -844,7 +946,9 @@
       "timestamp": "时间戳",
       "date": "日期",
       "formatTitle": "ULID 格式",
-      "formatDesc": "26 个字符：10 位时间戳 + 16 位随机数"
+      "formatDesc": "26 个字符：10 位时间戳 + 16 位随机数",
+      "timestampPart": "时间戳（10 个字符）",
+      "randomPart": "随机部分（16 个字符）"
     },
     "nanoid": {
       "title": "NanoID 生成器",
@@ -937,8 +1041,8 @@
       "output": "生成的卡号",
       "validateTitle": "验证卡号",
       "validateInput": "卡号",
-      "valid": "✓ 有效（通过 Luhn 校验）",
-      "invalid": "✗ 无效（Luhn 校验失败）",
+      "valid": "卡号校验码有效",
+      "invalid": "卡号校验码无效",
       "detectedType": "检测到的类型",
       "warning": "这些仅是测试卡号。它们在数学上有效但不是真实的卡。仅用于沙盒/测试模式下的支付集成测试。"
     },
@@ -955,7 +1059,23 @@
       "country": "国家",
       "checkDigits": "校验位",
       "bban": "BBAN",
-      "warning": "这些仅是测试 IBAN。它们结构上有效但不是真实的银行账户。仅用于测试目的。"
+      "warning": "这些仅是测试 IBAN。它们结构上有效但不是真实的银行账户。仅用于测试目的。",
+      "invalidFormat": "IBAN 格式无效",
+      "invalidLength": "IBAN 长度无效",
+      "invalidChecksum": "IBAN 校验码无效",
+      "valid": "IBAN 校验码有效",
+      "countries": {
+        "DE": "德国",
+        "FR": "法国",
+        "GB": "英国",
+        "ES": "西班牙",
+        "IT": "意大利",
+        "NL": "荷兰",
+        "BE": "比利时",
+        "AT": "奥地利",
+        "CH": "瑞士",
+        "PL": "波兰"
+      }
     },
     "imageBase64": {
       "title": "图片 ↔ Base64",
@@ -1026,7 +1146,8 @@
       },
       "safetyNote": "仅支持静态 SVG：预览和导出会移除脚本、事件属性、CSS、动画、嵌入图片和外部资源。",
       "invalidSvg": "SVG 格式无效。请使用单个 SVG 根节点，且不要包含 DOCTYPE。",
-      "download": "下载 SVG"
+      "download": "下载 SVG",
+      "stats": "{{count}} 个元素 · {{bytes}} B"
     },
     "colorPicker": {
       "title": "颜色选择器和转换器",
@@ -1087,7 +1208,8 @@
         "deuteranopia": "绿色盲",
         "tritanopia": "蓝色盲",
         "achromatopsia": "全色盲"
-      }
+      },
+      "approximation": "近似色彩模拟，不能代表每个人的视觉体验。"
     },
     "gradientGenerator": {
       "title": "渐变生成器",
@@ -1095,7 +1217,11 @@
       "type": "渐变类型",
       "angle": "角度",
       "colorStops": "颜色节点",
-      "addStop": "添加颜色节点"
+      "addStop": "添加颜色节点",
+      "linear": "线性",
+      "radial": "径向",
+      "conic": "锥形",
+      "removeStop": "移除第 {{count}} 个色标"
     },
     "colorShades": {
       "title": "色调生成器",
@@ -1122,7 +1248,8 @@
       "decode": "解码",
       "username": "用户名",
       "password": "密码",
-      "generate": "生成头信息"
+      "generate": "生成头信息",
+      "authorizationHeader": "Authorization 请求头"
     },
     "oauthParser": {
       "title": "OAuth Token 解析器",
@@ -1132,7 +1259,14 @@
       "header": "头部",
       "payload": "载荷",
       "expired": "已过期",
-      "valid": "有效"
+      "valid": "未过期",
+      "issuer": "签发者",
+      "subject": "主体",
+      "issuedAt": "签发时间",
+      "expiresAt": "过期时间",
+      "scopes": "权限范围",
+      "opaqueToken": "不透明令牌",
+      "verificationNote": "仅解码声明，未验证签名、受众或授权。"
     },
     "samlDecoder": {
       "title": "SAML 解码器",
@@ -1160,7 +1294,18 @@
       "octalLabel": "八进制",
       "symbolicLabel": "符号",
       "command": "命令",
-      "commonPresets": "常用预设"
+      "commonPresets": "常用预设",
+      "placeholder": "例如：755",
+      "permissions": {
+        "777": "所有用户可读、写和执行",
+        "755": "所有者可读、写和执行，其他用户可读和执行",
+        "750": "所有者可读、写和执行，用户组可读和执行",
+        "700": "仅所有者可读、写和执行",
+        "644": "所有者可读写，其他用户只读",
+        "600": "仅所有者可读写",
+        "555": "所有用户可读和执行",
+        "444": "所有用户只读"
+      }
     },
     "crontabGenerator": {
       "title": "Crontab 生成器",
@@ -1171,17 +1316,82 @@
       "month": "月",
       "dayOfWeek": "日 (周)",
       "parseExpression": "解析表达式",
-      "presets": "预设"
+      "presets": "预设",
+      "presetLabels": {
+        "0": "每分钟",
+        "1": "每 5 分钟",
+        "2": "每 15 分钟",
+        "3": "每 30 分钟",
+        "4": "每小时",
+        "5": "每 6 小时",
+        "6": "每天午夜",
+        "7": "每天中午",
+        "8": "每周一上午 9 点",
+        "9": "工作日上午 9 点",
+        "10": "每月 1 日",
+        "11": "每周日凌晨 2 点"
+      }
     },
     "gitCommand": {
       "title": "Git 命令参考",
       "description": "常用 Git 命令快速参考",
-      "searchPlaceholder": "搜索 Git 命令..."
+      "searchPlaceholder": "搜索 Git 命令...",
+      "commands": {
+        "init": "初始化仓库",
+        "clone": "克隆仓库",
+        "configName": "设置全局用户名",
+        "configEmail": "设置全局邮箱",
+        "status": "查看工作区状态",
+        "add": "暂存文件",
+        "commit": "提交已暂存的改动",
+        "log": "查看简洁提交历史",
+        "diff": "查看未暂存的改动",
+        "diffStaged": "查看已暂存的改动",
+        "branchList": "列出分支",
+        "branchCreate": "创建分支",
+        "checkout": "切换分支",
+        "checkoutNew": "创建并切换分支",
+        "merge": "合并分支到当前分支",
+        "branchDelete": "删除分支",
+        "remote": "列出远程仓库",
+        "fetch": "下载远程改动",
+        "pull": "获取并合并远程改动",
+        "push": "推送提交到远程仓库",
+        "pushUpstream": "推送并设置上游分支",
+        "unstage": "取消文件暂存",
+        "discard": "丢弃文件改动",
+        "revert": "反向提交以撤销某次提交",
+        "resetSoft": "撤销最后一次提交并保留改动",
+        "resetHard": "撤销最后一次提交并丢弃改动",
+        "stash": "暂存工作区改动",
+        "stashPop": "应用并移除最新暂存",
+        "stashList": "列出所有暂存",
+        "tag": "创建轻量标签",
+        "tagAnnotated": "创建附注标签",
+        "pushTags": "推送所有标签"
+      },
+      "categories": {
+        "Setup": "配置",
+        "Basic": "基础",
+        "Branch": "分支",
+        "Remote": "远程",
+        "Undo": "撤销",
+        "Stash": "暂存",
+        "Tags": "标签"
+      },
+      "noResults": "没有匹配的命令。"
     },
     "dockerCompose": {
       "title": "Docker Compose 模板",
       "description": "常用 Docker Compose 模板和代码片段",
-      "selectTemplate": "选择模板"
+      "selectTemplate": "选择模板",
+      "templates": {
+        "nginx": "基础 Nginx 网站服务器",
+        "node-mongo": "连接 MongoDB 数据库的 Node.js 应用",
+        "postgres-pgadmin": "PostgreSQL 数据库与 pgAdmin 管理界面",
+        "redis": "Redis 缓存服务器",
+        "mysql-adminer": "MySQL 数据库与 Adminer 管理界面"
+      }
     },
     "unitConverter": {
       "title": "单位转换器",
@@ -1189,7 +1399,57 @@
       "value": "数值",
       "from": "从",
       "to": "到",
-      "allConversions": "所有转换"
+      "allConversions": "所有转换",
+      "invalidValue": "请输入有限数值。",
+      "categories": {
+        "length": "长度",
+        "weight": "重量",
+        "temperature": "温度",
+        "area": "面积",
+        "volume": "体积",
+        "speed": "速度",
+        "time": "时间"
+      },
+      "units": {
+        "m": "米",
+        "km": "千米",
+        "cm": "厘米",
+        "mm": "毫米",
+        "mi": "英里",
+        "yd": "码",
+        "ft": "英尺",
+        "in": "英寸",
+        "kg": "千克",
+        "g": "克",
+        "mg": "毫克",
+        "lb": "磅",
+        "oz": "盎司",
+        "t": "公吨",
+        "c": "摄氏度",
+        "f": "华氏度",
+        "k": "开尔文",
+        "sqm": "平方米",
+        "sqkm": "平方千米",
+        "sqft": "平方英尺",
+        "acre": "英亩",
+        "ha": "公顷",
+        "l": "升",
+        "ml": "毫升",
+        "gal": "美制加仑",
+        "qt": "美制夸脱",
+        "cup": "美制杯",
+        "floz": "美制液量盎司",
+        "ms": "米/秒",
+        "kmh": "千米/小时",
+        "mph": "英里/小时",
+        "kn": "节",
+        "s": "秒",
+        "ms_time": "毫秒",
+        "min": "分钟",
+        "hr": "小时",
+        "day": "天",
+        "wk": "周"
+      }
     },
     "byteConverter": {
       "title": "字节大小转换器",
@@ -1197,7 +1457,20 @@
       "value": "数值",
       "unit": "单位",
       "decimal": "十进制",
-      "binary": "二进制"
+      "binary": "二进制",
+      "units": {
+        "B": "字节",
+        "KB": "千字节 (KB)",
+        "MB": "兆字节 (MB)",
+        "GB": "吉字节 (GB)",
+        "TB": "太字节 (TB)",
+        "PB": "拍字节 (PB)",
+        "KiB": "千二进制字节 (KiB)",
+        "MiB": "兆二进制字节 (MiB)",
+        "GiB": "吉二进制字节 (GiB)",
+        "TiB": "太二进制字节 (TiB)",
+        "PiB": "拍二进制字节 (PiB)"
+      }
     },
     "percentageCalc": {
       "title": "百分比计算器",
@@ -1224,14 +1497,17 @@
       "description": "安全计算数学表达式",
       "expression": "表达式",
       "supported": "支持的运算符",
-      "history": "历史记录"
+      "history": "历史记录",
+      "placeholder": "例如：2^10 + sqrt(144) * 3",
+      "operators": "+, -, *, /, %, ^（幂）、sqrt()、abs()、pi、e、()"
     },
     "romanNumeral": {
       "title": "罗马数字转换器",
       "description": "在阿拉伯数字和罗马数字之间转换",
       "arabic": "阿拉伯数字",
       "roman": "罗马数字",
-      "reference": "快速参考"
+      "reference": "快速参考",
+      "placeholder": "例如：XLII"
     },
     "aspectRatio": {
       "title": "宽高比计算器",
@@ -1243,7 +1519,17 @@
       "ratioW": "比例宽",
       "ratioH": "比例高",
       "knownWidth": "已知宽度",
-      "common": "常用比例"
+      "common": "常用比例",
+      "ratios": {
+        "1-1": "1:1（正方形）",
+        "4-3": "4:3（标准）",
+        "16-9": "16:9（宽屏）",
+        "16-10": "16:10",
+        "21-9": "21:9（超宽屏）",
+        "3-2": "3:2（照片）",
+        "9-16": "9:16（手机）",
+        "2-3": "2:3（竖向）"
+      }
     }
   },
   "pipeline": {
@@ -1270,7 +1556,22 @@
     "nodesInfo": "{{count}} 个节点",
     "outputPreview": "输出预览：",
     "shareNotice": "分享链接包含完整输入和设置。请使用虚构数据，持有链接的人均可读取。",
-    "shareTooLarge": "此 Pipeline 超出分享链接限制（最多 32 步、250 KB 配置、8,000 个 URL 字符），请缩短输入或减少步骤。"
+    "shareTooLarge": "此流水线无法放入分享链接（最多 32 个步骤、250,000 个配置字符、8,000 个 URL 字符），请减少输入或步骤。",
+    "removeNode": "删除第 {{count}} 步",
+    "upstreamError": "前面的步骤执行失败。",
+    "transformNotFound": "转换 \"{{id}}\" 不存在",
+    "stepFailed": "此步骤执行失败，请检查输入与选项。",
+    "deleteSaved": "删除已保存的流水线 {{name}}",
+    "invalidShare": "此分享链接无效或超出支持的限制。",
+    "stepLimit": "流水线最多支持 32 个步骤。",
+    "saveFailed": "保存失败，浏览器存储可能不可用或已满。",
+    "shareFailed": "无法复制分享链接，请检查剪贴板权限后重试。",
+    "nodes_one": "流水线（{{count}} 个步骤）",
+    "nodes_other": "流水线（{{count}} 个步骤）",
+    "nodesInfo_one": "{{count}} 个步骤",
+    "nodesInfo_other": "{{count}} 个步骤",
+    "stepLabel": "第 {{count}} 步",
+    "saveLimit": "此流水线超出保存限制（最多 32 个步骤、250,000 个配置字符），请减少输入或步骤。"
   },
   "pipelineTemplates": {
     "base64-decode-prettify": {
@@ -1308,7 +1609,28 @@
     "switchLanguage": "切换语言",
     "updateReady": "新版本已就绪。",
     "updateNotice": "重新加载前，请复制尚未保存的输入。",
-    "updateReload": "重新加载并更新"
+    "updateReload": "重新加载并更新",
+    "categoryNotFound": "分类不存在",
+    "noTools": "此分类暂无工具。",
+    "loadingToolError": "加载 {{name}} 时出错",
+    "unexpectedError": "发生了意外错误。",
+    "somethingWrong": "出现了问题",
+    "close": "关闭",
+    "remove": "删除",
+    "expand": "展开详情",
+    "collapse": "收起详情",
+    "key": "键",
+    "value": "值",
+    "version": "版本",
+    "examples": "示例",
+    "sourceImage": "源图像",
+    "previewImage": "图像预览",
+    "decodedImage": "解码后的图像",
+    "originalImage": "原始图像",
+    "compressedImage": "压缩后的图像",
+    "copyFailed": "复制失败，请选中输出内容手动复制。",
+    "copyError": "复制失败",
+    "bits": "{{count}} 位"
   },
   "about": {
     "title": "关于",
@@ -1357,6 +1679,252 @@
         "title": "检查虚构订单事件",
         "description": "格式化 JSON、比较字段，排障记录使用虚构数据。"
       }
+    },
+    "toolCount_one": "{{count}} 个工具",
+    "toolCount_other": "{{count}} 个工具"
+  },
+  "transforms": {
+    "crc32": {
+      "name": "CRC32",
+      "description": "计算 CRC32 校验码"
+    },
+    "crc16": {
+      "name": "CRC16",
+      "description": "计算 CRC16 校验码"
+    },
+    "adler32": {
+      "name": "Adler-32",
+      "description": "计算 Adler-32 校验码"
+    },
+    "md5": {
+      "name": "MD5 哈希",
+      "description": "生成文本的 MD5 哈希"
+    },
+    "char-to-ascii": {
+      "name": "字符 → ASCII",
+      "description": "将字符转换为 ASCII 码"
+    },
+    "ascii-to-char": {
+      "name": "ASCII → 字符",
+      "description": "将 ASCII 码转换为字符"
+    },
+    "char-to-hex": {
+      "name": "字符 → 十六进制",
+      "description": "将字符转换为十六进制码"
+    },
+    "char-to-bin": {
+      "name": "字符 → 二进制",
+      "description": "将字符转换为二进制码"
+    },
+    "base64-encode": {
+      "name": "Base64 编码",
+      "description": "将文本编码为 Base64"
+    },
+    "base64-decode": {
+      "name": "Base64 解码",
+      "description": "将 Base64 解码为文本"
+    },
+    "rot13": {
+      "name": "ROT13",
+      "description": "应用 ROT13 加密（偏移 13）"
+    },
+    "rot47": {
+      "name": "ROT47",
+      "description": "应用 ROT47 加密（ASCII 33–126）"
+    },
+    "string-to-hex": {
+      "name": "字符串 → 十六进制",
+      "description": "将文本转换为十六进制"
+    },
+    "hex-to-string": {
+      "name": "十六进制 → 字符串",
+      "description": "将十六进制转换为文本"
+    },
+    "html-encode": {
+      "name": "HTML 编码",
+      "description": "将特殊字符编码为 HTML 实体"
+    },
+    "html-encode-all": {
+      "name": "HTML 全部编码",
+      "description": "将所有非 ASCII 字符编码为 HTML 实体"
+    },
+    "html-decode": {
+      "name": "HTML 解码",
+      "description": "将 HTML 实体解码为字符"
+    },
+    "jwt-decode": {
+      "name": "JWT 解码",
+      "description": "解码 JWT 的头部与载荷，不验证签名"
+    },
+    "dec-to-hex": {
+      "name": "十进制 → 十六进制",
+      "description": "将十进制转换为十六进制"
+    },
+    "hex-to-dec": {
+      "name": "十六进制 → 十进制",
+      "description": "将十六进制转换为十进制"
+    },
+    "dec-to-bin": {
+      "name": "十进制 → 二进制",
+      "description": "将十进制转换为二进制"
+    },
+    "bin-to-dec": {
+      "name": "二进制 → 十进制",
+      "description": "将二进制转换为十进制"
+    },
+    "punycode-encode": {
+      "name": "域名 → Punycode",
+      "description": "将 Unicode 域名转换为 ASCII（Punycode）"
+    },
+    "punycode-decode": {
+      "name": "Punycode → 域名",
+      "description": "将 Punycode 转换为 Unicode 域名"
+    },
+    "unicode-escape": {
+      "name": "Unicode 转义",
+      "description": "将非 ASCII 字符转义为 \\uXXXX 格式"
+    },
+    "unicode-escape-all": {
+      "name": "Unicode 全部转义",
+      "description": "将所有字符转义为 \\uXXXX 格式"
+    },
+    "unicode-unescape": {
+      "name": "Unicode 反转义",
+      "description": "将 \\uXXXX 序列转换为字符"
+    },
+    "url-encode": {
+      "name": "URL 编码",
+      "description": "将文本编码为 URL 可用格式"
+    },
+    "url-decode": {
+      "name": "URL 解码",
+      "description": "解码 URL 编码的文本"
+    },
+    "hash-sha256": {
+      "name": "SHA-256 哈希",
+      "description": "计算输入的 SHA-256 哈希"
+    },
+    "hash-sha512": {
+      "name": "SHA-512 哈希",
+      "description": "计算输入的 SHA-512 哈希"
+    },
+    "hash-sha1": {
+      "name": "SHA-1 哈希",
+      "description": "计算输入的 SHA-1 哈希"
+    },
+    "uuid-generate": {
+      "name": "生成 UUID",
+      "description": "生成随机 UUID v4"
+    },
+    "json-prettify": {
+      "name": "JSON 格式化",
+      "description": "使用缩进格式化 JSON",
+      "options": {
+        "indent": {
+          "label": "缩进大小",
+          "choices": {
+            "0": "2 个空格",
+            "1": "4 个空格",
+            "2": "制表符"
+          }
+        }
+      }
+    },
+    "json-minify": {
+      "name": "JSON 压缩",
+      "description": "移除 JSON 中的多余空白"
+    },
+    "json-to-yaml": {
+      "name": "JSON → YAML",
+      "description": "将 JSON 转换为 YAML"
+    },
+    "to-uppercase": {
+      "name": "转为大写",
+      "description": "将文本转为大写"
+    },
+    "to-lowercase": {
+      "name": "转为小写",
+      "description": "将文本转为小写"
+    },
+    "to-title-case": {
+      "name": "转为标题格式",
+      "description": "将各单词首字母转为大写"
+    },
+    "to-camel-case": {
+      "name": "转为 camelCase",
+      "description": "转换为小驼峰命名"
+    },
+    "to-snake-case": {
+      "name": "转为 snake_case",
+      "description": "转换为下划线命名"
+    },
+    "to-kebab-case": {
+      "name": "转为 kebab-case",
+      "description": "转换为连字符命名"
+    },
+    "to-pascal-case": {
+      "name": "转为 PascalCase",
+      "description": "转换为大驼峰命名"
+    },
+    "to-constant-case": {
+      "name": "转为 CONSTANT_CASE",
+      "description": "转换为大写下划线命名"
+    },
+    "sort-lines": {
+      "name": "行排序",
+      "description": "按字母顺序排列各行"
+    },
+    "unique-lines": {
+      "name": "行去重",
+      "description": "移除重复的行"
+    },
+    "reverse-lines": {
+      "name": "反转行顺序",
+      "description": "将行的顺序倒置"
+    },
+    "to-nato": {
+      "name": "转为 NATO 拼读",
+      "description": "将文本转换为 NATO 拼读字母"
+    },
+    "slugify": {
+      "name": "URL Slug 转换",
+      "description": "将文本转换为 URL 友好的标识"
+    },
+    "sms-smart-encode": {
+      "name": "短信智能编码",
+      "description": "将智能引号、全角等非 GSM 字符替换为 GSM-7 等价字符"
+    },
+    "escape-json": {
+      "name": "JSON 转义",
+      "description": "为 JSON 转义字符串"
+    },
+    "unescape-json": {
+      "name": "JSON 反转义",
+      "description": "还原 JSON 转义字符串"
+    },
+    "truncate-100": {
+      "name": "截断至 100 字符",
+      "description": "将文本截断至 100 个字符"
+    },
+    "epoch-to-iso": {
+      "name": "时间戳 → ISO 日期",
+      "description": "将 Unix 时间戳转换为 ISO 8601 日期（自动检测精度）"
+    },
+    "date-to-epoch": {
+      "name": "日期 → 时间戳（秒）",
+      "description": "将日期字符串转换为秒级 Unix 时间戳"
+    },
+    "date-to-epoch-ms": {
+      "name": "日期 → 时间戳（毫秒）",
+      "description": "将日期字符串转换为毫秒级 Unix 时间戳"
+    },
+    "epoch-to-utc": {
+      "name": "时间戳 → UTC 字符串",
+      "description": "将 Unix 时间戳转换为 UTC 日期字符串"
+    },
+    "seconds-to-duration": {
+      "name": "秒 → 时长",
+      "description": "将秒数转换为易读时长（d h m s）"
     }
   }
 }

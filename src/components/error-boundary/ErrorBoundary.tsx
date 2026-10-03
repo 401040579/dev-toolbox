@@ -1,5 +1,6 @@
 import { Component, type ReactNode } from 'react';
 import { AlertTriangle, RotateCcw } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   children: ReactNode;
@@ -11,8 +12,8 @@ interface State {
   error: Error | null;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
+class ErrorBoundaryImpl extends Component<Props & { defaultTitle: string; defaultMessage: string; retryLabel: string }, State> {
+  constructor(props: Props & { defaultTitle: string; defaultMessage: string; retryLabel: string }) {
     super(props);
     this.state = { hasError: false, error: null };
   }
@@ -33,17 +34,18 @@ export class ErrorBoundary extends Component<Props, State> {
             <AlertTriangle size={24} />
           </div>
           <h2 className="text-lg font-semibold text-text-primary mb-1">
-            {this.props.fallbackTitle || 'Something went wrong'}
+            {this.props.fallbackTitle || this.props.defaultTitle}
           </h2>
           <p className="text-sm text-text-secondary mb-4 max-w-md">
-            {this.state.error?.message || 'An unexpected error occurred.'}
+            {this.props.defaultMessage}
           </p>
+          {this.state.error?.message && <pre className="text-xs text-text-muted mb-4 max-w-md whitespace-pre-wrap break-all">{this.state.error.message}</pre>}
           <button
             onClick={this.handleRetry}
             className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-accent text-background hover:bg-accent-hover transition-colors"
           >
             <RotateCcw size={14} />
-            Try again
+            {this.props.retryLabel}
           </button>
         </div>
       );
@@ -51,4 +53,9 @@ export class ErrorBoundary extends Component<Props, State> {
 
     return this.props.children;
   }
+}
+
+export function ErrorBoundary(props: Props) {
+  const { t } = useTranslation();
+  return <ErrorBoundaryImpl {...props} defaultTitle={t('common.somethingWrong')} defaultMessage={t('common.unexpectedError')} retryLabel={t('common.tryAgain')} />;
 }
