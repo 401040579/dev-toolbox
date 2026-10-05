@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDraftState } from '@/hooks/useDraftState';
+import { CopyButton } from '@/components/copy-button/CopyButton';
 import { consumeQrFile, peekQrFile } from './file-handoff';
 import { MAX_BATCH_BYTES, MAX_FILE_BYTES, MAX_FILES, validateBatch, TransferError, type FileMetadata, type TransferErrorCode, safeFilename, safeMime } from './protocol';
 import { profiles, transferGeometry, type TransferProfile, type ParallelCodes, type PlaybackPosition } from './profiles';
@@ -38,13 +39,17 @@ function OfflineStatus() {
 }
 
 interface QrBoard { position: PlaybackPosition; codes: { modules: Uint8Array; size: number }[]; payloadBytes: number }
-function SendPanel() {
+function SendPanel({ textMode = false }: { textMode?: boolean }) {
   const { t } = useTranslation();
-  const [files, setFiles] = useState<File[]>(() => { const file = peekQrFile(); return file ? [file] : []; });
-  const [profile, setProfile] = useDraftState<TransferProfile>('qrProfile', 'high', { allowed: ['compatible', 'high', 'extreme'] });
-  const [parallel, setParallel] = useDraftState<ParallelCodes>('qrParallel', 4, { allowed: [1, 2, 4] });
-  const [speed, setSpeed] = useDraftState<Speed>('qrSpeedV2', 'maximum', { allowed: ['compatible', 'standard', 'fast', 'rapid', 'maximum'] });
-  const [size, setSize] = useDraftState('qrSizeV2', 1536, { allowed: [384, 512, 768, 1200, 1536] });
+  const [selectedFiles, setFiles] = useState<File[]>(() => { const file = textMode ? undefined : peekQrFile(); return file ? [file] : []; });
+  const [text, setText] = useState('');
+  const textFiles = useMemo(() => text.length ? [new File([text], 'text.txt', { type: 'text/plain' })] : [], [text]);
+  const files = textMode ? textFiles : selectedFiles;
+  const textTooLarge = textMode && (files[0]?.size ?? 0) > MAX_FILE_BYTES;
+  const [profile, setProfile] = useDraftState<TransferProfile>('qrProfile', textMode ? 'compatible' : 'high', { allowed: ['compatible', 'high', 'extreme'] });
+  const [parallel, setParallel] = useDraftState<ParallelCodes>('qrParallel', textMode ? 1 : 4, { allowed: [1, 2, 4] });
+  const [speed, setSpeed] = useDraftState<Speed>('qrSpeedV2', textMode ? 'standard' : 'maximum', { allowed: ['compatible', 'standard', 'fast', 'rapid', 'maximum'] });
+  const [size, setSize] = useDraftState('qrSizeV2', textMode ? 512 : 1536, { allowed: [384, 512, 768, 1200, 1536] });
   const [status, setStatus] = useState<'idle' | 'preparing' | 'playing' | 'paused'>('idle');
   const [error, setError] = useState('');
   const [cursor, setCursor] = useState({ file: 0, index: 0, pass: 1 });
@@ -99,7 +104,7 @@ function SendPanel() {
     running.current = false; requested.current = false; cancelAnimationFrame(animation.current); clearTimeout(deadline.current);
     worker.current?.terminate(); worker.current = undefined; queue.current = []; board.current = undefined;
   }, []);
-  useEffect(() => { consumeQrFile(); return stop; }, [stop]);
+  useEffect(() => { if (!textMode) consumeQrFile(); return stop; }, [stop, textMode]);
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -182,12 +187,19 @@ function SendPanel() {
   const geometry = files.length ? transferGeometry({ name: safeFilename(files[0]!.name), mime: safeMime(files[0]!.type) }, profile) : undefined;
   const theoretical = (geometry?.symbolBytes ?? profiles[profile].targetBytes) * parallel * speeds[speed];
   return <div className="space-y-5">
-    <label className="block rounded-lg border-2 border-dashed border-border p-5 cursor-pointer hover:border-accent focus-within:outline-2 focus-within:outline-accent focus-within:outline-offset-2">
+    {textMode ? <div className="space-y-2">
+      <label htmlFor="qr-send-text" className="block text-sm font-medium">{t('tools.qrTextTransfer.input')}</label>
+      <textarea id="qr-send-text" className="w-full min-h-48 font-mono text-sm" value={text} disabled={status !== 'idle'} placeholder={t('tools.qrTextTransfer.placeholder')} onChange={(event) => { setText(event.target.value); setError(''); }} />
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-xs text-text-muted">{t('tools.qrTextTransfer.inputSize', { size: formatFileSize(files[0]?.size ?? 0), max: formatFileSize(MAX_FILE_BYTES) })}</p>
+        <button className="btn btn-secondary" disabled={!text.length || status !== 'idle'} onClick={() => { setText(''); setError(''); }}>{t('tools.qrTextTransfer.clearInput')}</button>
+      </div>
+    </div> : <label className="block rounded-lg border-2 border-dashed border-border p-5 cursor-pointer hover:border-accent focus-within:outline-2 focus-within:outline-accent focus-within:outline-offset-2">
       <span className="btn btn-secondary">{t('tools.qrTransfer.choose')}</span>
       <input aria-label={t('tools.qrTransfer.choose')} type="file" multiple className="sr-only" onChange={(event) => { chooseFiles(Array.from(event.target.files ?? [])); event.target.value = ''; }} />
       <span className="block text-xs text-text-muted mt-2">{t('tools.qrTransfer.limits', { file: formatFileSize(MAX_FILE_BYTES), total: formatFileSize(MAX_BATCH_BYTES), count: MAX_FILES })}</span>
-    </label>
-    {!!files.length && <ol className="text-sm space-y-2" aria-label={t('tools.qrTransfer.queue')}>
+    </label>}
+    {!textMode && !!files.length && <ol className="text-sm space-y-2" aria-label={t('tools.qrTransfer.queue')}>
       {files.map((file, index) => <li key={index} className="flex items-center gap-3"><span className="min-w-0 flex-1 break-all">{index + 1}. {file.name}</span><span className="shrink-0 text-text-muted">{formatFileSize(file.size)}</span><button className="btn btn-secondary" disabled={status !== 'idle'} aria-label={t('tools.qrTransfer.remove', { name: file.name })} onClick={() => chooseFiles(files.filter((_, i) => i !== index))}>×</button></li>)}
     </ol>}
     <div className="flex flex-wrap items-end gap-4">
@@ -199,12 +211,12 @@ function SendPanel() {
         {(Object.keys(speeds) as Speed[]).map((value) => <option key={value} value={value}>{speeds[value]} FPS</option>)}
       </select></label>
       <label className="text-sm">{t('tools.qrTransfer.size')}<select aria-label={t('tools.qrTransfer.size')} className="block mt-1" value={size} onChange={(event) => setSize(Number(event.target.value))}>{[384, 512, 768, 1200, 1536].map((value) => <option key={value} value={value}>{value}px</option>)}</select></label>
-      <button className="btn btn-primary" onClick={start} disabled={!files.length || status !== 'idle'}>{status === 'preparing' ? t('tools.qrTransfer.preparing') : t('tools.qrTransfer.startSend')}</button>
+      <button className="btn btn-primary" onClick={start} disabled={!files.length || textTooLarge || status !== 'idle'}>{status === 'preparing' ? t('tools.qrTransfer.preparing') : t('tools.qrTransfer.startSend')}</button>
       {status !== 'idle' && <button className="btn btn-secondary" onClick={() => { stop(); setStatus('idle'); }}>{t('tools.qrTransfer.stopSend')}</button>}
     </div>
     <p className="text-xs text-text-muted">{t('tools.qrTransfer.capacity', { bytes: geometry?.symbolBytes ?? profiles[profile].targetBytes, rate: formatFileSize(theoretical) })}</p>
     {profile !== 'compatible' && <p className="text-sm text-text-secondary">{t('tools.qrTransfer.denseHelp')}</p>}
-    {error && <p role="alert" className="text-error text-sm">{t(error)}</p>}
+    {(textTooLarge || error) && <p role="alert" className="text-error text-sm">{t(textTooLarge ? 'tools.qrTextTransfer.tooLarge' : error)}</p>}
     {status !== 'idle' && <div ref={paneRef} className={fullscreen ? 'fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center p-4 gap-3 overflow-auto' : 'rounded-xl border border-border bg-surface-alt p-4 flex flex-col items-center gap-3'}>
       <p role="status" className="text-sm text-center break-all">{status === 'preparing' ? t('tools.qrTransfer.preparing') : t('tools.qrTransfer.playback', { name: files[cursor.file]?.name, frame: cursor.index + 1, total: frames.current[cursor.file], pass: cursor.pass })}</p>
       <canvas ref={canvasRef} role="img" aria-label={t('tools.qrTransfer.qrAlt')} className="max-w-full bg-white" style={{ imageRendering: 'pixelated', maxHeight: fullscreen ? '70vh' : '60vh', objectFit: 'contain' }} />
@@ -212,12 +224,12 @@ function SendPanel() {
       {small && <p className="text-xs text-text-secondary">{t('tools.qrTransfer.smallDisplay')}</p>}
       <div className="flex gap-3">{status !== 'preparing' && <button className="btn btn-primary" onClick={togglePause}>{status === 'playing' ? t('tools.qrTransfer.pause') : t('tools.qrTransfer.resume')}</button>}<button className="btn btn-secondary" onClick={fullscreen ? exitFullscreen : expand}>{fullscreen ? t('tools.qrTransfer.exitFullscreen') : t('tools.qrTransfer.fullscreen')}</button></div>
     </div>}
-    <p className="text-sm text-text-secondary">{t('tools.qrTransfer.sendHelp')}</p>
+    <p className="text-sm text-text-secondary">{t(textMode ? 'tools.qrTextTransfer.sendHelp' : 'tools.qrTransfer.sendHelp')}</p>
   </div>;
 }
 
-interface ReceivedFile { metadata: FileMetadata; url: string; preview: boolean; elapsedMs: number }
-function ReceivePanel() {
+interface ReceivedFile { metadata: FileMetadata; url: string; preview: boolean; elapsedMs: number; text?: string }
+function ReceivePanel({ textMode = false }: { textMode?: boolean }) {
   const { t } = useTranslation();
   const [status, setStatus] = useState<'idle' | 'starting' | 'scanning'>('idle');
   const [error, setError] = useState('');
@@ -345,7 +357,12 @@ function ReceivePanel() {
             const preview = /^(image\/(png|jpeg|webp|gif|avif|bmp))$/.test(metadata.mime);
             const blob = new Blob([message.bytes], { type: preview ? metadata.mime : 'application/octet-stream' });
             const url = URL.createObjectURL(blob); urls.current.add(url);
-            setCompleted((previous) => [...previous, { metadata, url, preview, elapsedMs: message.progress.elapsedMs }]);
+            let text: string | undefined;
+            if (textMode && metadata.mime === 'text/plain') {
+              // Preserve a leading BOM and reject invalid UTF-8 rather than silently changing content.
+              try { text = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(message.bytes); } catch { /* The verified original remains downloadable. */ }
+            }
+            setCompleted((previous) => [...previous, { metadata, url, preview, text, elapsedMs: message.progress.elapsedMs }]);
             setProgress((previous) => previous.filter((entry) => entry.metadata.id !== metadata.id));
           } else if (message.type === 'error') fail(`tools.qrTransfer.errors.${message.code as TransferErrorCode}`, true);
         };
@@ -365,13 +382,13 @@ function ReceivePanel() {
     setCompleted([]); setProgress([]); setError(''); setStatus('idle');
   };
   return <div className="space-y-5">
-    <p className="text-sm text-text-secondary">{t('tools.qrTransfer.receiveHelp')}</p>
+    <p className="text-sm text-text-secondary">{t(textMode ? 'tools.qrTextTransfer.receiveHelp' : 'tools.qrTransfer.receiveHelp')}</p>
     <div className="flex flex-wrap items-end gap-3">
       {!!devices.length && <label className="text-sm">{t('tools.qrTransfer.camera')}<select aria-label={t('tools.qrTransfer.camera')} className="block mt-1 max-w-[250px]" value={device} disabled={status !== 'idle'} onChange={(event) => setDevice(event.target.value)}><option value="">{t('tools.qrTransfer.rearCamera')}</option>{devices.map((item, index) => <option key={item.deviceId} value={item.deviceId}>{item.label || t('tools.qrTransfer.cameraNumber', { number: index + 1 })}</option>)}</select></label>}
       <label className="text-sm flex items-center gap-2"><input type="checkbox" checked={robust} onChange={(event) => setRobust(event.target.checked)} />{t('tools.qrTransfer.robustScan')}</label>
       <button className="btn btn-primary" onClick={() => void start()} disabled={status !== 'idle'}>{status === 'starting' ? t('tools.qrTransfer.cameraStarting') : t('tools.qrTransfer.startReceive')}</button>
       {status !== 'idle' && <button className="btn btn-secondary" onClick={() => { stop(); setStatus('idle'); }}>{t('tools.qrTransfer.stopReceive')}</button>}
-      <button className="btn btn-secondary" onClick={clear}>{t('tools.qrTransfer.clear')}</button>
+      <button className="btn btn-secondary" onClick={clear}>{t(textMode ? 'tools.qrTextTransfer.clearReceived' : 'tools.qrTransfer.clear')}</button>
     </div>
     {error && <p role="alert" className="text-error text-sm">{t(error)}</p>}
     <video ref={videoRef} autoPlay muted playsInline aria-label={t('tools.qrTransfer.cameraPreview')} className={status === 'idle' ? 'hidden' : 'w-full max-w-2xl rounded-lg bg-black aspect-video object-contain'} />
@@ -384,28 +401,36 @@ function ReceivePanel() {
         <p className="text-xs text-text-muted">{t('tools.qrTransfer.progress', { received: entry.received, expected: entry.expected, speed: formatFileSize(entry.uniqueBytes / Math.max(0.001, entry.elapsedMs / 1000)) })}</p>
       </div>)}
     </div>
-    <h2 className="font-medium">{t('tools.qrTransfer.completed', { count: completed.length })}</h2>
+    <h2 className="font-medium">{t(textMode ? 'tools.qrTextTransfer.completed' : 'tools.qrTransfer.completed', { count: completed.length })}</h2>
     {!!completed.length && <div className="grid gap-4 sm:grid-cols-2">{completed.map((file) => <div key={file.metadata.id} className="rounded-lg border border-border p-4 space-y-3 min-w-0">
       {file.preview && <img src={file.url} alt={file.metadata.name} className="max-h-48 mx-auto rounded object-contain" />}
       <p className="font-medium text-sm break-all">{file.metadata.name}</p><p className="text-xs text-success">{t('tools.qrTransfer.verified')} · {formatFileSize(file.metadata.size)}</p>
       <p className="text-xs text-text-muted">{t('tools.qrTransfer.fileMetrics', { seconds: (file.elapsedMs / 1000).toFixed(2), rate: formatFileSize(file.metadata.size / Math.max(0.001, file.elapsedMs / 1000)) })}</p>
       <details className="text-xs text-text-muted"><summary>SHA-256</summary><code className="break-all">{file.metadata.hash}</code></details>
+      {file.text !== undefined && <div className="space-y-2">
+        <div className="flex items-center justify-between gap-2"><span className="text-sm">{t('tools.qrTextTransfer.receivedText')}</span><CopyButton text={file.text} /></div>
+        <textarea aria-label={t('tools.qrTextTransfer.receivedText')} readOnly value={file.text} className="w-full min-h-40 font-mono text-sm" />
+      </div>}
+      {textMode && file.metadata.mime === 'text/plain' && file.text === undefined && <p className="text-sm text-text-secondary">{t('tools.qrTextTransfer.invalidUtf8')}</p>}
       <a className="btn btn-primary inline-block" href={file.url} download={file.metadata.name}>{t('tools.qrTransfer.save')}</a>
     </div>)}</div>}
     <p className="text-xs text-text-muted">{t('tools.qrTransfer.receiveLimits', { count: MAX_FILES, total: formatFileSize(MAX_BATCH_BYTES) })}</p>
   </div>;
 }
 
-export default function QrFileTransfer() {
+export function QrTransfer({ textMode = false }: { textMode?: boolean }) {
   const { t } = useTranslation();
+  const copy = textMode ? 'tools.qrTextTransfer' : 'tools.qrTransfer';
   const [mode, setMode] = useState<'send' | 'receive'>('send');
   return <div className="flex flex-col h-full">
-    <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border"><h1 className="text-lg font-semibold">{t('tools.qrTransfer.title')}</h1><p className="text-sm text-text-secondary mt-1">{t('tools.qrTransfer.description')}</p></div>
+    <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border"><h1 className="text-lg font-semibold">{t(`${copy}.title`)}</h1><p className="text-sm text-text-secondary mt-1">{t(`${copy}.description`)}</p></div>
     <div className="flex-1 overflow-auto p-4 sm:p-6 space-y-5">
       <div className="flex gap-2" role="tablist" aria-label={t('tools.qrTransfer.mode')}><button role="tab" aria-selected={mode === 'send'} className={mode === 'send' ? 'btn btn-primary' : 'btn btn-secondary'} onClick={() => setMode('send')}>{t('tools.qrTransfer.send')}</button><button role="tab" aria-selected={mode === 'receive'} className={mode === 'receive' ? 'btn btn-primary' : 'btn btn-secondary'} onClick={() => setMode('receive')}>{t('tools.qrTransfer.receive')}</button></div>
       <OfflineStatus />
-      {mode === 'send' ? <SendPanel /> : <ReceivePanel />}
-      <p className="text-xs text-text-muted border-t border-border pt-4">{t('tools.qrTransfer.memoryNotice')}</p>
+      {mode === 'send' ? <SendPanel textMode={textMode} /> : <ReceivePanel textMode={textMode} />}
+      <p className="text-xs text-text-muted border-t border-border pt-4">{t(`${copy}.memoryNotice`)}</p>
     </div>
   </div>;
 }
+
+export default function QrFileTransfer() { return <QrTransfer />; }

@@ -35,6 +35,137 @@ async function pointCamera(receiver: Page, dataUrl: string) {
   }, dataUrl);
 }
 
+test('text category offers QR transfer with translations, bounds and transient inputs', async ({ page }) => {
+  await page.goto('/tools/text');
+  await page.getByRole('link', { name: /QR Text Transfer/ }).last().click();
+  await expect(page).toHaveURL(/\/tools\/text\/qr-text-transfer$/);
+  await expect(page.getByRole('heading', { name: 'QR Text Transfer', exact: true })).toBeVisible();
+  await expect(page.getByText('Only transfer settings are saved in this browser. Sent and received text stays in memory and is excluded from drafts.', { exact: true })).toBeVisible();
+  const input = page.getByLabel('Text to send', { exact: true });
+  const start = page.getByRole('button', { name: 'Start sending', exact: true });
+  await expect(start).toBeDisabled();
+  await expect(page.getByLabel('Transfer profile', { exact: true })).toHaveValue('compatible');
+  await expect(page.getByLabel('Parallel QR codes', { exact: true })).toHaveValue('1');
+  // Set a large multibyte value through a real input event without serializing it over CDP.
+  await input.evaluate((element) => {
+    const textarea = element as HTMLTextAreaElement;
+    Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')!.set!.call(textarea, '中'.repeat(Math.floor(5 * 1024 * 1024 / 3) + 1));
+    textarea.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  await expect(page.getByRole('alert')).toContainText('5 MiB UTF-8');
+  await expect(start).toBeDisabled();
+  const text = '  二维码文本 👋\nsecond line\n\n';
+  await input.fill(text);
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(start).toBeEnabled();
+  await start.click();
+  await expect(page.getByRole('button', { name: 'Pause', exact: true })).toBeVisible();
+  await expect(input).toBeDisabled();
+  await page.getByRole('button', { name: 'Stop sending', exact: true }).click();
+  await expect(input).toHaveValue(text);
+  expect(await page.evaluate(() => JSON.stringify(localStorage))).not.toContain('二维码文本');
+  await page.getByRole('tab', { name: 'Receive', exact: true }).click();
+  await page.getByRole('tab', { name: 'Send', exact: true }).click();
+  await expect(input).toHaveValue('');
+  await input.fill(text);
+  await page.reload();
+  await expect(input).toHaveValue('');
+  await page.getByRole('button', { name: 'Switch language' }).click();
+  await expect(page.getByRole('heading', { name: '二维码传文本', exact: true })).toBeVisible();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByLabel('待发送文本', { exact: true }).fill(text);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.getByRole('tab', { name: '接收', exact: true }).click();
+  await expect(page.getByRole('button', { name: '清空接收文本', exact: true })).toBeVisible();
+});
+
+test('text receiver accepts file transfers and preserves empty, invalid UTF-8 and binary files', async ({ browser, baseURL }) => {
+  test.setTimeout(60_000);
+  const context = await browser.newContext();
+  await fakeCamera(context);
+  const files = [
+    { name: 'empty.txt', mimeType: 'text/plain', buffer: Buffer.alloc(0) },
+    { name: 'invalid.txt', mimeType: 'text/plain', buffer: Buffer.from([0xff, 0xc3, 0x28]) },
+    { name: 'binary.txt', mimeType: 'application/octet-stream', buffer: binary },
+  ];
+  try {
+    const sender = await context.newPage(); await sender.goto(`${baseURL}/tools/image/qr-file-transfer`);
+    const receiver = await context.newPage(); await receiver.goto(`${baseURL}/tools/text/qr-text-transfer`);
+    await receiver.getByRole('tab', { name: 'Receive', exact: true }).click();
+    await receiver.getByRole('button', { name: 'Start receiving', exact: true }).click();
+    await expect(receiver.getByText(/Scanning ·/)).toBeVisible();
+    await sender.getByLabel('Choose files to send', { exact: true }).setInputFiles(files);
+    await sender.getByLabel('Transfer profile', { exact: true }).selectOption('compatible');
+    await sender.getByRole('button', { name: 'Start sending', exact: true }).click();
+    await expect(sender.getByRole('button', { name: 'Pause', exact: true })).toBeVisible();
+    const end = Date.now() + 35_000;
+    while (Date.now() < end && await receiver.locator('main a[download]').count() < files.length) {
+      await pointCamera(receiver, await sender.locator('main canvas').evaluate((canvas) => (canvas as HTMLCanvasElement).toDataURL()));
+      await receiver.waitForTimeout(100);
+    }
+    await expect(receiver.getByRole('heading', { name: 'Verified texts / files (3)' })).toBeVisible();
+    await expect(receiver.getByLabel('Received text', { exact: true })).toHaveCount(1);
+    await expect(receiver.getByLabel('Received text', { exact: true })).toHaveValue('');
+    await expect(receiver.getByText('This file is not valid UTF-8 text. Save the original file to preserve its bytes.', { exact: true })).toBeVisible();
+    for (const file of files) {
+      const pending = receiver.waitForEvent('download');
+      await receiver.locator(`a[download="${file.name}"]`).click();
+      expect(await readFile((await (await pending).path())!)).toEqual(file.buffer);
+    }
+  } finally { await context.close(); }
+});
+
+for (const offline of [false, true]) {
+  test(`text QR playback → camera → exact UTF-8 preview, copy and download${offline ? ' offline' : ''}`, async ({ browser, baseURL }) => {
+    test.setTimeout(60_000);
+    const context = await browser.newContext({ serviceWorkers: offline ? 'allow' : 'block', permissions: ['clipboard-read', 'clipboard-write'] });
+    await fakeCamera(context, 'allow', true);
+    const text = '\uFEFF  中文 👋 café\r\n<script>window.evilText = true</script>\n\n' + '长文本和换行保留。\t'.repeat(500) + '\n  ';
+    // Textarea display normalizes CRLF; copying and downloading must retain the original bytes.
+    const displayed = text.replace(/\r\n/g, '\n');
+    const errors: string[] = [];
+    context.on('page', (page) => page.on('pageerror', (error) => errors.push(error.message)));
+    try {
+      const sender = await context.newPage();
+      if (offline) {
+        await sender.goto(baseURL!);
+        await sender.evaluate(async () => { await navigator.serviceWorker.ready; });
+        await sender.reload();
+        await expect.poll(() => sender.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
+        await context.setOffline(true);
+      }
+      await sender.goto(`${baseURL}/tools/text/qr-text-transfer`);
+      if (offline) await expect(sender.getByText(/Ready for offline use/)).toBeVisible();
+      await sender.getByLabel('Text to send', { exact: true }).fill(text);
+      await sender.getByRole('button', { name: 'Start sending', exact: true }).click();
+      await expect(sender.getByRole('button', { name: 'Pause', exact: true })).toBeVisible();
+      const popup = sender.waitForEvent('popup');
+      await sender.evaluate(() => window.open(location.href, '_blank'));
+      const receiver = await popup;
+      await receiver.getByRole('tab', { name: 'Receive', exact: true }).click();
+      await receiver.getByRole('button', { name: 'Start receiving', exact: true }).click();
+      const output = receiver.getByLabel('Received text', { exact: true });
+      await expect(output).toHaveValue(displayed, { timeout: 35_000 });
+      await expect(output).toHaveAttribute('readonly', '');
+      expect(await receiver.evaluate(() => Reflect.get(window, 'evilText'))).toBeUndefined();
+      await expect(receiver.locator('iframe, object, embed')).toHaveCount(0);
+      await receiver.getByRole('button', { name: 'Copy to clipboard', exact: true }).click();
+      await expect.poll(() => receiver.evaluate(() => navigator.clipboard.readText())).toBe(text);
+      const pending = receiver.waitForEvent('download');
+      await receiver.getByRole('link', { name: 'Save file', exact: true }).click();
+      const download = await pending;
+      expect(download.suggestedFilename()).toBe('text.txt');
+      expect(await readFile((await download.path())!)).toEqual(Buffer.from(text, 'utf8'));
+      expect(await receiver.evaluate(() => JSON.stringify(localStorage))).not.toContain('长文本和换行保留');
+      await receiver.getByRole('button', { name: 'Clear received texts', exact: true }).click();
+      await expect(output).toHaveCount(0);
+      expect(await receiver.evaluate(() => (window as CameraWindow).qrCamera.streams.every((stream) => stream.getTracks().every((track) => track.readyState === 'ended')))).toBe(true);
+      await sender.getByRole('button', { name: 'Stop sending', exact: true }).click();
+      expect(errors).toEqual([]);
+    } finally { await context.close(); }
+  });
+}
+
 for (const offline of [false, true]) {
   test(`animated screen → camera → verified multi-file downloads${offline ? ' entirely offline from a cold tool visit' : ''}`, async ({ browser, baseURL }) => {
     test.setTimeout(90_000);

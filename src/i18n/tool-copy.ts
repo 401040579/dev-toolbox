@@ -54,6 +54,7 @@ export const TOOL_I18N_KEYS: Record<string, string> = {
   "image-color-extractor": "imageColorExtractor",
   "image-compressor": "imageCompressor",
   "qr-file-transfer": "qrTransfer",
+  "qr-text-transfer": "qrTextTransfer",
   "image-converter": "imageConverter",
   "svg-optimizer": "svgOptimizer",
   "css-formatter": "cssFormatter",
