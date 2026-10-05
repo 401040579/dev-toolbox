@@ -1634,6 +1634,24 @@
       },
       "previewLimit": "Preview shortened to 4,000 characters. Copy or download the results for the complete original entry."
     },
+    "qrTextTransfer": {
+      "settingsDraft": "Save transfer settings here",
+      "draftNotice": "Only transfer settings are saved in this browser. Sent and received text stays in memory and is excluded from drafts.",
+      "title": "QR Text Transfer",
+      "description": "Send text through animated QR codes and receive, copy or save it locally",
+      "input": "Text to send",
+      "placeholder": "Type or paste text here…",
+      "inputSize": "UTF-8 size: {{size}} / {{max}} maximum. Smaller texts transfer faster.",
+      "clearInput": "Clear text",
+      "tooLarge": "Text exceeds the 5 MiB UTF-8 limit. Shorten it before sending.",
+      "sendHelp": "Open QR Text Transfer on the other device, choose Receive and point its camera at this screen. Text loops with recovery frames. Stop sending after reception finishes; lower the speed or enlarge the code if scanning is slow.",
+      "receiveHelp": "Click Start receiving and allow camera access. Use Dev Toolbox QR Text Transfer on the sending device. After verification, copy the complete text or save it as a .txt file. QR File Transfer can also send UTF-8 text/plain files to this receiver.",
+      "clearReceived": "Clear received texts",
+      "completed": "Verified texts / files ({{count}})",
+      "receivedText": "Received text",
+      "invalidUtf8": "This file is not valid UTF-8 text. Save the original file to preserve its bytes.",
+      "memoryNotice": "Text stays in tab memory and is never uploaded or saved in drafts. Switching modes, leaving this tool or reloading clears the text. Copy or save received results first."
+    },
     "qrTransfer": {
       "title": "QR File Transfer",
       "description": "Send files through animated QR codes and receive them with a camera, entirely locally",

@@ -56,6 +56,7 @@ import natoPhoneticTool from './text/nato-phonetic';
 import truncateTool from './text/truncate';
 import markdownPreviewTool from './text/markdown-preview';
 import smsSegmentTool from './text/sms-segment';
+import qrTextTransferTool from './text/qr-text-transfer';
 import urlParserTool from './network/url-parser';
 import queryStringTool from './network/query-string';
 import ipConverterTool from './network/ip-converter';
@@ -147,6 +148,7 @@ const ALL_TOOLS: ToolDefinition[] = [
   truncateTool,
   markdownPreviewTool,
   smsSegmentTool,
+  qrTextTransferTool,
   urlParserTool,
   queryStringTool,
   ipConverterTool,
