@@ -15,7 +15,7 @@ export function escapeString(input: string, format: EscapeFormat): string {
         .replace(/\r/g, '\\r')
         .replace(/\t/g, '\\t')
         .replace(/\f/g, '\\f')
-        .replace(/\b/g, '\\b');
+        .split('\b').join('\\b');
     case 'html':
       return input
         .replace(/&/g, '&amp;')
@@ -45,16 +45,13 @@ export function unescapeString(input: string, format: EscapeFormat): string {
       } catch {
         return input;
       }
-    case 'javascript':
-      return input
-        .replace(/\\n/g, '\n')
-        .replace(/\\r/g, '\r')
-        .replace(/\\t/g, '\t')
-        .replace(/\\f/g, '\f')
-        .replace(/\\b/g, '\b')
-        .replace(/\\"/g, '"')
-        .replace(/\\'/g, "'")
-        .replace(/\\\\/g, '\\');
+    case 'javascript': {
+      const escapes: Record<string, string> = {
+        n: '\n', r: '\r', t: '\t', f: '\f', b: '\b', '"': '"', "'": "'", '\\': '\\',
+      };
+      // Consume each escape once so literal backslashes cannot become control escapes.
+      return input.replace(/\\([nrtfb"'\\])/g, (_, character: string) => escapes[character]!);
+    }
     case 'html':
       return input
         .replace(/&amp;/g, '&')
