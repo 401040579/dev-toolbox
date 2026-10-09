@@ -1,7 +1,7 @@
 import type { ToolDefinition } from '@/tools/types';
 
 export function parseQueryString(input: string): Record<string, string[]> {
-  const result: Record<string, string[]> = {};
+  const result: Record<string, string[]> = Object.create(null);
   const query = input.startsWith('?') ? input.slice(1) : input;
 
   if (!query) return result;

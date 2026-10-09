@@ -28,7 +28,7 @@ export default function QueryString() {
 
   const built = useMemo(() => {
     if (mode !== 'build') return '';
-    const paramsObj: Record<string, string[]> = {};
+    const paramsObj: Record<string, string[]> = Object.create(null);
     params.forEach(({ key, value }) => {
       if (!key) return;
       if (!paramsObj[key]) {
