@@ -18,7 +18,7 @@ export interface ParsedURL {
 export function parseURL(input: string): ParsedURL | null {
   try {
     const url = new URL(input);
-    const searchParams: Record<string, string[]> = {};
+    const searchParams: Record<string, string[]> = Object.create(null);
 
     url.searchParams.forEach((value, key) => {
       if (!searchParams[key]) {
