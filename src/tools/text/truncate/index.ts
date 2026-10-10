@@ -6,11 +6,27 @@ export interface TruncateOptions {
   preserveWords: boolean;
 }
 
+function splitsSurrogatePair(input: string, index: number): boolean {
+  const before = input.charCodeAt(index - 1);
+  const after = input.charCodeAt(index);
+  return before >= 0xd800 && before <= 0xdbff && after >= 0xdc00 && after <= 0xdfff;
+}
+
+// Keep the existing UTF-16 budget, but do not cut a valid surrogate pair in half.
+function sliceWithoutSplittingSurrogates(input: string, start: number, end = input.length): string {
+  return input.slice(
+    start + (splitsSurrogatePair(input, start) ? 1 : 0),
+    end - (splitsSurrogatePair(input, end) ? 1 : 0)
+  );
+}
+
 export function truncateText(
   input: string,
   options: Partial<TruncateOptions> = {}
 ): string {
   const { length = 100, ending = '...', preserveWords = true } = options;
+
+  if (length <= 0) return '';
 
   if (input.length <= length) {
     return input;
@@ -18,10 +34,10 @@ export function truncateText(
 
   const targetLength = length - ending.length;
   if (targetLength <= 0) {
-    return ending;
+    return sliceWithoutSplittingSurrogates(ending, 0, length);
   }
 
-  let truncated = input.slice(0, targetLength);
+  let truncated = sliceWithoutSplittingSurrogates(input, 0, targetLength);
 
   if (preserveWords) {
     // Find the last space within the truncated text
@@ -42,16 +58,24 @@ export function truncateMiddle(
   maxLength: number,
   separator = '...'
 ): string {
+  if (maxLength <= 0) return '';
+
   if (input.length <= maxLength) {
     return input;
   }
 
   const sepLen = separator.length;
   const charsToShow = maxLength - sepLen;
+  if (charsToShow <= 0) {
+    return sliceWithoutSplittingSurrogates(separator, 0, maxLength);
+  }
+
   const frontChars = Math.ceil(charsToShow / 2);
   const backChars = Math.floor(charsToShow / 2);
 
-  return input.slice(0, frontChars) + separator + input.slice(-backChars);
+  const front = sliceWithoutSplittingSurrogates(input, 0, frontChars);
+  const back = backChars > 0 ? sliceWithoutSplittingSurrogates(input, input.length - backChars) : '';
+  return front + separator + back;
 }
 
 const tool: ToolDefinition = {
