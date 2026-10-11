@@ -52,15 +52,13 @@ export function unescapeString(input: string, format: EscapeFormat): string {
       // Consume each escape once so literal backslashes cannot become control escapes.
       return input.replace(/\\([nrtfb"'\\])/g, (_, character: string) => escapes[character]!);
     }
-    case 'html':
-      return input
-        .replace(/&amp;/g, '&')
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&quot;/g, '"')
-        .replace(/&#39;/g, "'")
-        .replace(/&#x27;/g, "'")
-        .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code, 10)));
+    case 'html': {
+      const entities: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', '#x27': "'" };
+      // Match the original input once so decoded ampersands cannot expose another entity.
+      return input.replace(/&(amp|lt|gt|quot|#x27|#\d+);/g, (_, entity: string) =>
+        entities[entity] ?? String.fromCharCode(parseInt(entity.slice(1), 10))
+      );
+    }
     case 'url':
       try {
         return decodeURIComponent(input);
