@@ -1,7 +1,8 @@
 import type { ToolDefinition } from '@/tools/types';
 
 function unicodeEscape(input: string): string {
-  return Array.from(input)
+  // Four-digit Unicode escapes encode UTF-16 code units, including both surrogate halves.
+  return input.split('')
     .map((char) => {
       const code = char.charCodeAt(0);
       if (code > 127) {
@@ -13,7 +14,7 @@ function unicodeEscape(input: string): string {
 }
 
 function unicodeEscapeAll(input: string): string {
-  return Array.from(input)
+  return input.split('')
     .map((char) => {
       const code = char.charCodeAt(0);
       return `\\u${code.toString(16).padStart(4, '0')}`;

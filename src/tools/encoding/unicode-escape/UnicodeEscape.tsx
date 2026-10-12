@@ -16,7 +16,8 @@ export default function UnicodeEscape() {
     if (!input) return { output: '', error: null };
     try {
       if (mode === 'escape') {
-        const escaped = Array.from(input)
+        // Preserve both UTF-16 code units when a character needs a surrogate pair.
+        const escaped = input.split('')
           .map((char) => {
             const code = char.charCodeAt(0);
             if (escapeAll || code > 127) {
