@@ -30,7 +30,8 @@ export default function HtmlEntity() {
         if (encodeAll) {
           const encoded = Array.from(input)
             .map((char) => {
-              const code = char.charCodeAt(0);
+              // Numeric HTML entities need the full code point, including supplementary characters.
+              const code = char.codePointAt(0)!;
               if (code > 127 || encodeMap[char]) {
                 return `&#${code};`;
               }
