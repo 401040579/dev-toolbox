@@ -2,6 +2,7 @@ import { useDraftState } from '@/hooks/useDraftState';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button/CopyButton';
+import { parsePrefixedInteger } from './index';
 
 type Base = 'dec' | 'hex' | 'bin' | 'oct';
 
@@ -21,13 +22,13 @@ export default function NumberBase() {
           decValue = BigInt(cleanInput);
           break;
         case 'hex':
-          decValue = BigInt('0x' + cleanInput.replace(/^0x/i, ''));
+          decValue = parsePrefixedInteger(cleanInput, '0x');
           break;
         case 'bin':
-          decValue = BigInt('0b' + cleanInput.replace(/^0b/i, ''));
+          decValue = parsePrefixedInteger(cleanInput, '0b');
           break;
         case 'oct':
-          decValue = BigInt('0o' + cleanInput.replace(/^0o/i, ''));
+          decValue = parsePrefixedInteger(cleanInput, '0o');
           break;
       }
 
