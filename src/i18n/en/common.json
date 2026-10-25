@@ -1,7 +1,9 @@
 {
   "app": {
     "title": "Dev Toolbox",
-    "tagline": "Practical tools for messaging, API payloads and POS troubleshooting."
+    "tagline": "Practical tools for messaging, API payloads and POS troubleshooting.",
+    "toolsWord": "tools",
+    "toolMetaSuffix": "Free tool from Dev Toolbox: runs in your browser, nothing is uploaded."
   },
   "nav": {
     "home": "Home",

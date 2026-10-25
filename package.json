@@ -5,16 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && node scripts/build-metadata.mjs",
+    "build": "tsc -b && vite build && node scripts/build-metadata.mjs && node scripts/prerender-routes.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "lint": "eslint .",
-    "prebuild": "node scripts/third-party-notices.mjs",
+    "prebuild": "node scripts/third-party-notices.mjs && node scripts/generate-sitemap.mjs",
     "typecheck": "tsc -b",
     "notices": "node scripts/third-party-notices.mjs",
-    "release:package": "node scripts/package-release.mjs"
+    "release:package": "node scripts/package-release.mjs",
+    "sitemap": "node scripts/generate-sitemap.mjs",
+    "og:image": "node scripts/generate-og-image.mjs"
   },
   "dependencies": {
     "@raptorqr/raptorq-wasm": "0.1.1",

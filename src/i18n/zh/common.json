@@ -1,7 +1,9 @@
 {
   "app": {
     "title": "开发工具箱",
-    "tagline": "为通信、接口数据和 POS 排障准备的实用工具。"
+    "tagline": "为通信、接口数据和 POS 排障准备的实用工具。",
+    "toolsWord": "工具",
+    "toolMetaSuffix": "Dev Toolbox 免费工具：在浏览器内运行，不上传任何内容。"
   },
   "nav": {
     "home": "首页",
