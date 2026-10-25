@@ -1836,7 +1836,7 @@
     "offlineFirst": "Offline-First",
     "offlineDesc": "After a successful online visit and service-worker caching, tools can work offline. First load and updates need a connection; offline availability depends on browser storage.",
     "privacy": "Privacy",
-    "privacyDesc": "Tool inputs are processed in your browser without uploads. The host receives ordinary site requests. Preferences and saved Pipelines use local storage. Sharing a Pipeline puts its input and settings in the URL fragment: anyone with the link can read them. External links leave the app when clicked. No app analytics or tracking cookies.",
+    "privacyDesc": "Tool inputs are processed in your browser without uploads. The host receives ordinary site requests. Preferences and saved Pipelines use local storage. Sharing a Pipeline puts its input and settings in the URL fragment: anyone with the link can read them. External links leave the app when clicked. No tracking cookies; the site operator may enable optional cookie-free page-view counting that records only the route path and referring site, never your inputs.",
     "security": "Security",
     "securityDesc": "Supported modern cryptographic operations use the Web Crypto API. MD5 and CRC are intended for legacy compatibility and checksums. Verify outputs against your application protocol.",
     "techStack": "Tech Stack",

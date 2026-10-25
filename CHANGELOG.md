@@ -4,6 +4,7 @@
 
 - Generate `sitemap.xml` from the tool registry before every build, add `robots.txt`, canonical/Open Graph/Twitter metadata and a 1200×630 share image.
 - Emit a static HTML shell per route after the build so GitHub Pages answers deep links with HTTP 200 and per-page titles/descriptions; the app also sets the document title, description and canonical URL while navigating.
+- Add optional, off-by-default page-view counting through GoatCounter (`VITE_ANALYTICS_*` build variables): one request per route change with the route path and referring site only, no cookies, no third-party script, no query/hash or tool input; honors Do Not Track and Global Privacy Control.
 
 ## 1.3.0 — 2026-10-03
 

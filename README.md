@@ -71,7 +71,7 @@ The [release](https://github.com/401040579/dev-toolbox/releases/tag/v1.3.0) also
 
 ## Privacy, offline use and boundaries
 
-- **Tool inputs are processed in your browser without uploads.** QR preview and SVG downloads are generated locally. The host still receives ordinary site requests. There is no app analytics or tracking-cookie service.
+- **Tool inputs are processed in your browser without uploads.** QR preview and SVG downloads are generated locally. The host still receives ordinary site requests. There are no tracking cookies; page-view counting is optional, off by default and described under [Analytics](#analytics-optional-off-by-default).
 - Preferences, favorites, enabled tool drafts and explicitly saved Pipelines use browser local storage. Share links put configuration in the URL fragment, which is not an ordinary HTTP request payload, but can be read by link recipients and retained in browser history. External links open on explicit click and leave the app.
 - Markdown supports common GFM structures (lists, tables, code and links). Raw HTML displays as text and images display as alt text, preventing automatic resource requests.
 - SVG cleanup supports **static artwork**. Scripts, event handlers, CSS, animation, embedded images and external references are removed from preview **and export**. Local gradients, masks, clips and fragment references are supported. It is a lightweight cleanup tool, not a full SVGO replacement.
@@ -80,6 +80,25 @@ The [release](https://github.com/401040579/dev-toolbox/releases/tag/v1.3.0) also
 - JSON/YAML conversion uses YAML 1.2 core types. TOML requires an object root and does not represent null; unquoted date/time values are rejected, so quote them to preserve text. Both converters reject unsupported types, non-finite numbers and integers outside JavaScript's safe range rather than silently changing data. Limits: 1 MiB input, 4 MiB output, 64 levels, 50,000 values and 100 expanded YAML aliases.
 - Cron tools support five numeric fields with lists, ranges and steps, including Sunday `0`/`7`. Named fields and dialect extensions are rejected. Upcoming runs use your browser's local time zone and search at most 366 days; they do not simulate a particular server's DST handling.
 - Share configurations allow up to 32 steps, 250,000 JSON characters and 8,000 URL characters. The app reports links that exceed those limits. Chromium is the automated browser target; Firefox, Safari and mobile PWA installation are not independently certified.
+
+## Analytics (optional, off by default)
+
+The repository builds without any analytics. A deployment can opt into cookie-free page-view counting through [GoatCounter](https://www.goatcounter.com/) (open source, no cookies, no cross-site tracking) with two build-time variables:
+
+| Variable | Value |
+| --- | --- |
+| `VITE_ANALYTICS_PROVIDER` | `goatcounter` |
+| `VITE_ANALYTICS_GOATCOUNTER_SITE` | the `CODE` in `https://CODE.goatcounter.com` (letters, digits and hyphens; anything else keeps analytics off) |
+
+For a self-hosted GoatCounter, set `VITE_ANALYTICS_ENDPOINT=https://stats.example.com/count` instead of the site code. Enabling it for `app.aiuos.com`: create a site at goatcounter.com (the code appears in page requests, so it is not a secret), add both variables under GitHub → Settings → Secrets and variables → Actions → **Variables**, then push to `main` or run the deploy workflow. Pull-request verification builds never include analytics. Locally, copy `.env.example` to `.env.local`.
+
+What leaves the browser when it is on, once per route change: a single `GET https://CODE.goatcounter.com/count?p=<route>&r=<referrer origin>`, built by [`src/lib/analytics.ts`](src/lib/analytics.ts). No GoatCounter script is loaded.
+
+- `p` is the route only: `/`, `/pipeline`, `/about`, `/tools/<category>` or `/tools/<category>/<tool-id>` of a registered tool; any other path is reported as `/404`. Query strings and URL fragments, where shared Pipeline configurations live, are never included.
+- `r` is the origin of the referring site (for example `https://news.ycombinator.com`), without its path; empty for direct and same-site navigation. The request uses `referrerPolicy: no-referrer`, so the browser does not attach the page URL either.
+- Not sent: cookies, storage identifiers, screen size, document title, tool inputs, drafts, files or Pipeline content.
+- Counting is skipped when the browser sends Do Not Track or Global Privacy Control, under automation (`navigator.webdriver`) and on localhost.
+- As with any HTTP request, GoatCounter's server sees the client IP address and User-Agent header; [its privacy policy](https://www.goatcounter.com/help/privacy) describes how those are handled.
 
 ## Verify and contribute
 

@@ -27,6 +27,11 @@ jobs:
       - run: npm test
       - run: npm audit --audit-level=low
       - run: npm run build
+        env:
+          # Optional analytics (README → Analytics). Repository variables, main builds only;
+          # pull-request verification builds never include analytics.
+          VITE_ANALYTICS_PROVIDER: ${{ github.event_name != 'pull_request' && vars.VITE_ANALYTICS_PROVIDER || '' }}
+          VITE_ANALYTICS_GOATCOUNTER_SITE: ${{ github.event_name != 'pull_request' && vars.VITE_ANALYTICS_GOATCOUNTER_SITE || '' }}
       - run: git diff --exit-code -- public/THIRD_PARTY_NOTICES.txt
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e

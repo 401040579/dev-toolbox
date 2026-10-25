@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Suspense, useState, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { applyPageMeta, describeRoute } from '@/lib/page-meta';
+import { recordPageview } from '@/lib/analytics';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { MobileNav } from './MobileNav';
@@ -24,6 +25,11 @@ export function RootLayout() {
   useEffect(() => {
     applyPageMeta(describeRoute(location.pathname, t));
   }, [location.pathname, t]);
+
+  // Optional cookie-free page-view count; compiled out unless VITE_ANALYTICS_* is set (see README).
+  useEffect(() => {
+    recordPageview(location.pathname);
+  }, [location.pathname]);
 
   // Global keyboard shortcuts
   useKeyboardShortcut({ key: '/', meta: true }, useCallback(() => toggleSidebar(), [toggleSidebar]));

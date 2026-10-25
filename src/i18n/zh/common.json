@@ -1836,7 +1836,7 @@
     "offlineFirst": "离线优先",
     "offlineDesc": "成功在线访问并完成 Service Worker 缓存后，工具可离线使用。首次加载和更新需要联网；离线可用性取决于浏览器存储。",
     "privacy": "隐私保护",
-    "privacyDesc": "工具输入在浏览器处理，不上传。托管服务会收到普通页面请求；偏好与保存的 Pipeline 存于本地。分享 Pipeline 会把输入和设置写入 URL 片段，持有链接的人均可读取。点击外部链接会离开应用。应用不使用分析服务或追踪 Cookie。",
+    "privacyDesc": "工具输入在浏览器处理，不上传。托管服务会收到普通页面请求；偏好与保存的 Pipeline 存于本地。分享 Pipeline 会把输入和设置写入 URL 片段，持有链接的人均可读取。点击外部链接会离开应用。不使用追踪 Cookie；站点运营者可选择开启无 Cookie 的页面访问计数，只记录页面路径和来源站点，不记录任何输入。",
     "security": "安全可靠",
     "securityDesc": "支持的现代加密操作使用 Web Crypto API；MD5、CRC 用于旧系统兼容和校验。请按应用协议核对工具输出。",
     "techStack": "技术栈",
