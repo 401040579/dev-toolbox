@@ -1,6 +1,9 @@
 import { PwaUpdate } from '@/components/pwa-update/PwaUpdate';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { Suspense, useState, useCallback } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Suspense, useState, useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { applyPageMeta, describeRoute } from '@/lib/page-meta';
+import { recordPageview } from '@/lib/analytics';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { MobileNav } from './MobileNav';
@@ -14,7 +17,19 @@ export function RootLayout() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [smartPasteOpen, setSmartPasteOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { t } = useTranslation();
   const toggleSidebar = useAppStore((s) => s.toggleSidebar);
+
+  // Per-route title, description and canonical URL; path only, never query or hash.
+  useEffect(() => {
+    applyPageMeta(describeRoute(location.pathname, t));
+  }, [location.pathname, t]);
+
+  // Optional cookie-free page-view count; compiled out unless VITE_ANALYTICS_* is set (see README).
+  useEffect(() => {
+    recordPageview(location.pathname);
+  }, [location.pathname]);
 
   // Global keyboard shortcuts
   useKeyboardShortcut({ key: '/', meta: true }, useCallback(() => toggleSidebar(), [toggleSidebar]));

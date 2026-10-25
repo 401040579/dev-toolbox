@@ -71,7 +71,7 @@ npm run preview
 
 ## 隐私、离线和功能边界
 
-- **工具输入在浏览器处理，不上传。** 二维码预览与 SVG 下载在本地生成；托管服务仍会收到普通站点请求。应用不接入分析服务或追踪 Cookie。
+- **工具输入在浏览器处理，不上传。** 二维码预览与 SVG 下载在本地生成；托管服务仍会收到普通站点请求。不使用追踪 Cookie；页面访问计数为可选项、默认关闭，详见[访问统计](#访问统计可选默认关闭)。
 - 偏好、收藏、开启恢复的工具草稿和主动保存的 Pipeline 使用浏览器本地存储。分享配置写在 URL 片段中，普通 HTTP 请求不会发送该片段，但接收者可读取，浏览器历史也可能保留。外部链接仅在主动点击时打开，并离开应用。
 - Markdown 支持常见 GFM 结构，包括列表、表格、代码和链接。原始 HTML 按文本展示，图片按替代文本展示，防止自动请求资源。
 - SVG 清理仅支持**静态图形**。预览与导出均移除脚本、事件属性、CSS、动画、嵌入图片及外部引用；支持本地渐变、蒙版、裁剪和片段引用。这是轻量清理工具，不能替代完整 SVGO。
@@ -80,6 +80,25 @@ npm run preview
 - JSON/YAML 转换使用 YAML 1.2 核心类型。TOML 要求根节点为对象，不支持 null；未加引号的日期/时间会被拒绝，保留文本请加引号。两个转换器均明确拒绝不支持的类型、非有限数及超过 JavaScript 安全范围的整数，避免静默改写。限制：输入 1 MiB、输出 4 MiB、64 层、50,000 个值、100 次 YAML 别名展开。
 - Cron 工具支持五个数字字段及列表、范围、步长，星期日可用 `0`/`7`；明确拒绝名称字段和方言扩展。未来执行时间按浏览器本地时区计算，最多查找 366 天，不模拟特定服务器的夏令时处理规则。
 - 分享配置最多支持 32 步、250,000 个 JSON 字符和 8,000 个 URL 字符，超限时显示提示。自动浏览器验证针对 Chromium；Firefox、Safari 和移动端 PWA 安装尚未独立认证。
+
+## 访问统计（可选，默认关闭）
+
+仓库默认构建不带任何统计。部署方可以通过两个构建期变量开启 [GoatCounter](https://www.goatcounter.com/)（开源、无 Cookie、不做跨站追踪）的无 Cookie 页面访问计数：
+
+| 变量 | 取值 |
+| --- | --- |
+| `VITE_ANALYTICS_PROVIDER` | `goatcounter` |
+| `VITE_ANALYTICS_GOATCOUNTER_SITE` | `https://CODE.goatcounter.com` 中的 `CODE`（仅字母、数字、连字符；其他值保持关闭） |
+
+自托管 GoatCounter 时改设 `VITE_ANALYTICS_ENDPOINT=https://stats.example.com/count`。为 `app.aiuos.com` 开启：在 goatcounter.com 创建站点（站点代码会出现在页面请求里，不是机密），到 GitHub → Settings → Secrets and variables → Actions → **Variables** 添加上述两个变量，再推送 `main` 或手动运行部署工作流。Pull request 的验证构建永远不含统计。本地可把 `.env.example` 复制为 `.env.local`。
+
+开启后每次路由变化只发出一个请求：`GET https://CODE.goatcounter.com/count?p=<路由>&r=<来源站点 origin>`，由 [`src/lib/analytics.ts`](src/lib/analytics.ts) 构造，不加载 GoatCounter 脚本。
+
+- `p` 只会是 `/`、`/pipeline`、`/about`、`/tools/<分类>` 或已注册工具的 `/tools/<分类>/<工具 id>`；其他路径一律记为 `/404`。查询串和 URL 片段（分享的 Pipeline 配置就在片段里）永远不会包含在内。
+- `r` 只保留来源站点的 origin（例如 `https://www.v2ex.com`），不含路径；直接访问和站内跳转为空。请求使用 `referrerPolicy: no-referrer`，浏览器也不会附带当前页面地址。
+- 不发送：Cookie、本地存储标识、屏幕尺寸、文档标题、工具输入、草稿、文件或 Pipeline 内容。
+- 浏览器开启 Do Not Track 或 Global Privacy Control、处于自动化环境（`navigator.webdriver`）或访问 localhost 时不计数。
+- 与任何 HTTP 请求一样，GoatCounter 服务器会看到客户端 IP 和 User-Agent；其处理方式见[其隐私政策](https://www.goatcounter.com/help/privacy)。
 
 ## 验证与贡献
 

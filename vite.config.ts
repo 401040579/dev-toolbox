@@ -58,6 +58,8 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,wasm}'],
+        // Share-card image and crawler files are never needed offline.
+        globIgnores: ['og.png', 'sitemap.xml', 'robots.txt'],
         navigateFallbackDenylist: [/\/[^/?]*\.[^/?]+(?:\?.*)?$/],
 
       },
